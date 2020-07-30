@@ -9,7 +9,19 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!").padding()
+        TabView {
+            Text("SwiftUI Only").padding()
+                .tabItem {
+                    Image(systemName: "1.square.fill")
+                    Text("SwiftUI Only")
+                }
+
+            Text("SwiftUI + SCNView").padding()
+                .tabItem {
+                    Image(systemName: "2.square.fill")
+                    Text("SwiftUI + SCNView")
+                }
+        }
     }
 }
 
