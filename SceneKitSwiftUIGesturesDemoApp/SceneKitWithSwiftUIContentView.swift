@@ -12,7 +12,7 @@ import SceneKit
 
 
 struct SceneKitWithSwiftUIContentView: View {
-    
+    @State private var sunlightSwitch   = true
     @State private var magnify          = CGFloat(1.0)
     @State private var doneMagnifying   = false
 
@@ -33,9 +33,9 @@ struct SceneKitWithSwiftUIContentView: View {
 
 
     // The camera node for the scene.
-    var cameraNode: SCNNode? {
+    var pointOfViewNode: SCNNode? {
         get {
-            print("Creating camera node from the cameras in the SCN file.")
+            print("Creating a point of view node from the cameras in the SCN file.")
             var node = SCNNode()
 
             node = aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)!
@@ -74,6 +74,15 @@ struct SceneKitWithSwiftUIContentView: View {
                 return SCNScene()
             }
 
+            let lightNode = scene.rootNode.childNode(withName: "sunlightNode", recursively: true)
+
+            if self.sunlightSwitch == true {
+                lightNode!.light?.intensity      = 2000.0
+            } else {
+                lightNode!.light?.intensity      = 0
+            }
+
+
             print("Created and returned a scene.\n\n")
             return scene
         }
@@ -87,7 +96,7 @@ struct SceneKitWithSwiftUIContentView: View {
 
             SceneView (
                 scene: aircraftScene,
-                pointOfView: cameraNode,
+                pointOfView: pointOfViewNode,
                 options: []
             )
             .background(Color.black)

@@ -9,16 +9,13 @@
 import SwiftUI
 
 struct SunLightButton: View {
-        @Binding var sunlightSwitch: Int
+        @Binding var sunlightSwitch: Bool
 
 
         var body: some View {
             Button(action: {
-                self.sunlightSwitch += 1
+                self.sunlightSwitch.toggle()
 
-                if self.sunlightSwitch == 4 {
-                    self.sunlightSwitch = 0
-                }
                 print("Setting sunlightSwitch: \(self.sunlightSwitch)")
                 }) {
                     Image(systemName: "sun.max.fill")
