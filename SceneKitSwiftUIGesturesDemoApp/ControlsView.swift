@@ -19,11 +19,11 @@ struct ControlsView: View {
     var body: some View {
         VStack {
             HStack {
-                Spacer()
+                //Spacer()
 
                 SunLightButton(sunlightSwitch: $sunlightSwitch)
 
-                Spacer()
+                //Spacer()
 
                 //BuzzFaceLampButton(lightSwitch: $lightSwitch)
 

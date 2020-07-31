@@ -30,8 +30,6 @@ struct SceneKitView: UIViewRepresentable {
     // SceneKit Properties
     let scene = SCNScene(named: "art.scnassets/ship.scn")!
 
-    //var sunlightNode: SCNNode = SCNNode()
-
     var lightTextNode: SKLabelNode = SKLabelNode(fontNamed: "HelveticaNeue")
 
     var overlayScene: SKScene = SKScene()
@@ -52,7 +50,6 @@ struct SceneKitView: UIViewRepresentable {
         // Now, using WorldLight from scn file.
         let sunLight  = scene.rootNode.childNode(withName: "SunLight", recursively: true)!
 
-        
         // This code is needed for placing the overlay text.
         let screenSize: CGSize =  UIScreen.main.bounds.size
 
@@ -107,9 +104,9 @@ struct SceneKitView: UIViewRepresentable {
         // show statistics such as fps and timing information
         scnView.showsStatistics = false
 
-        //toggleBuzzFaceLamp(scnView)
-
         toggleSunlight(scnView)
+
+        //toggleBuzzFaceLamp(scnView)
 
         //toggleBuzzBodyCamera(scnView)
     }
@@ -117,24 +114,24 @@ struct SceneKitView: UIViewRepresentable {
 
     
     func toggleSunlight(_ scnView: SCNView) {
-        guard let worldLight = scnView.scene!.rootNode.childNode(withName: "sunLight", recursively: true) else { return }
+        guard let sunLight = scnView.scene!.rootNode.childNode(withName: "sunLight", recursively: true) else { return }
 
         switch sunlightSwitch {
         case 0:
-            worldLight.light?.type = .directional
-            lightTextNode.text = worldLight.light?.type.rawValue
+            sunLight.light?.type = .directional
+            lightTextNode.text = sunLight.light?.type.rawValue
         case 1:
-            worldLight.light?.type = .spot
-            lightTextNode.text = worldLight.light?.type.rawValue
+            sunLight.light?.type = .spot
+            lightTextNode.text = sunLight.light?.type.rawValue
         case 2:
-            worldLight.light?.type = .omni
-            lightTextNode.text = worldLight.light?.type.rawValue
+            sunLight.light?.type = .omni
+            lightTextNode.text = sunLight.light?.type.rawValue
         case 3:
-            worldLight.light?.type = .ambient
-            lightTextNode.text = worldLight.light?.type.rawValue
+            sunLight.light?.type = .ambient
+            lightTextNode.text = sunLight.light?.type.rawValue
         default:
-            worldLight.light?.type = .directional
-            lightTextNode.text = worldLight.light?.type.rawValue
+            sunLight.light?.type = .directional
+            lightTextNode.text = sunLight.light?.type.rawValue
         }
     }
 
