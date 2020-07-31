@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct SceneKitWithSCNSceneViewContentView: View {
-    @State var lightSwitch: Bool            = false
+    //@State var lightSwitch: Bool            = false
     @State var sunlightSwitch: Int          = 0
-    @State var bodyCameraSwitch: Bool       = false
+    //@State var bodyCameraSwitch: Bool       = false
 
 
     var body: some View {
@@ -23,14 +23,18 @@ struct SceneKitWithSCNSceneViewContentView: View {
 
             Spacer()
 
+            SceneKitView(sunlightSwitch: $sunlightSwitch)
+                .scaleEffect(1.0, anchor: .top)
+
+            /*
             SceneKitView(lightSwitch: $lightSwitch,
                          sunlightSwitch: $sunlightSwitch,
                          bodyCameraSwitch: $bodyCameraSwitch)
                 .scaleEffect(1.0, anchor: .top)
-
+            */
             Spacer()
 
-            ControlsView(lightSwitch: $lightSwitch, sunlightSwitch: $sunlightSwitch, bodyCameraSwitch: $bodyCameraSwitch)
+            ControlsView(sunlightSwitch: $sunlightSwitch)
 
             Spacer(minLength: 50)
         }
