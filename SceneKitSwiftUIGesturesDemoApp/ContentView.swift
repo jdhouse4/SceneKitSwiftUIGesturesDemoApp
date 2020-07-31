@@ -16,7 +16,7 @@ struct ContentView: View {
                     Text("SwiftUI Only")
                 }
 
-            Text("SwiftUI + SCNView").padding()
+            SceneKitWithSCNSceneViewContentView()
                 .tabItem {
                     Image(systemName: "2.square.fill")
                     Text("SwiftUI + SCNView")

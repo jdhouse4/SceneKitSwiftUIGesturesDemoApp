@@ -11,7 +11,7 @@ import SwiftUI
 struct ControlsView: View {
 
     //@Binding var lightSwitch: Bool
-    @Binding var sunlightSwitch: Int
+    @Binding var sunlightSwitch: Bool
     //@Binding var bodyCameraSwitch: Bool
 
 

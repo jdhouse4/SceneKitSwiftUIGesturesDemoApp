@@ -18,26 +18,22 @@ struct SceneKitView: UIViewRepresentable {
 
     func makeCoordinator() -> Coordinator {
         return Coordinator(self, sunlightSwitch: $sunlightSwitch)
-        //return Coordinator(self, lightSwitch: $lightSwitch, sunlightSwitch: $sunlightSwitch)
     }
 
 
     //@Binding var lightSwitch: Bool
-    @Binding var sunlightSwitch: Int
+    @Binding var sunlightSwitch: Bool
     //@Binding var bodyCameraSwitch: Bool
 
 
     // SceneKit Properties
     let scene = SCNScene(named: "art.scnassets/ship.scn")!
 
-    var lightTextNode: SKLabelNode = SKLabelNode(fontNamed: "HelveticaNeue")
-
-    var overlayScene: SKScene = SKScene()
-
 
 
     func makeUIView(context: Context) -> SCNView {
         print("SceneKitView makeUIView")
+
         // retrieve the SCNView
         let scnView = SCNView()
 
@@ -47,44 +43,9 @@ struct SceneKitView: UIViewRepresentable {
         // WorldCamera from scn file.
         scnView.pointOfView = scene.rootNode.childNode(withName: "distantCamera", recursively: true)
 
-        // Now, using WorldLight from scn file.
-        let sunLight  = scene.rootNode.childNode(withName: "SunLight", recursively: true)!
-
-        // This code is needed for placing the overlay text.
-        let screenSize: CGSize =  UIScreen.main.bounds.size
-
-        // Find the center of the screen
-        let screenCenter: CGPoint = CGPoint(x: screenSize.width/2, y: screenSize.height/2)
-
-        // Give the overlayScene property a size.
-        overlayScene.size = CGSize(width: screenSize.width, height: screenSize.height)
-
-
-        // Add-in SKLabelNode for the light currently in use
-        lightTextNode.name = "SunlightTypeTextNode"
-        lightTextNode.text = sunLight.light!.type.rawValue
-        lightTextNode.fontSize = 30
-        lightTextNode.fontColor = .white
-        lightTextNode.position = CGPoint(x: screenCenter.x, y:  50)
-        overlayScene.addChild(lightTextNode)
-
-        scnView.overlaySKScene = overlayScene
-
         // Magnification Gesture to zoom-in and zoom-out.
         let magnificationGestureRecognizer = UIPinchGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.pinchGesture(gestureReconizer:)))
         scnView.addGestureRecognizer(magnificationGestureRecognizer)
-
-        /*
-        // Double-Tap Gesture Recognizer to Reset Orientation of the Model
-        let doubleTapGestureRecognizer = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.triggerDoubleTapAction(gestureReconizer:)))
-        doubleTapGestureRecognizer.numberOfTapsRequired = 2
-        scnView.addGestureRecognizer(doubleTapGestureRecognizer)
-        */
-
-        /*
-        let panGestureRecognizer = UIPanGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.panGesture(_:)))
-        scnView.addGestureRecognizer(panGestureRecognizer)
-        */
 
         return scnView
     }
@@ -105,16 +66,12 @@ struct SceneKitView: UIViewRepresentable {
         scnView.showsStatistics = false
 
         toggleSunlight(scnView)
-
-        //toggleBuzzFaceLamp(scnView)
-
-        //toggleBuzzBodyCamera(scnView)
     }
 
 
     
     func toggleSunlight(_ scnView: SCNView) {
-        guard let sunLight = scnView.scene!.rootNode.childNode(withName: "sunLight", recursively: true) else { return }
+        guard let sunLight = scnView.scene!.rootNode.childNode(withName: "sunlightNode", recursively: true) else { return }
 
         switch sunlightSwitch {
         case 0:

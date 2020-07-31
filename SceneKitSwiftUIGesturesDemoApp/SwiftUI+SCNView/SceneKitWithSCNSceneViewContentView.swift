@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SceneKitWithSCNSceneViewContentView: View {
     //@State var lightSwitch: Bool            = false
-    @State var sunlightSwitch: Int          = 0
+    @State var sunlightSwitch: Bool          = false
     //@State var bodyCameraSwitch: Bool       = false
 
 

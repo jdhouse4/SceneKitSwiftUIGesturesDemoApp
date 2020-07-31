@@ -12,6 +12,7 @@ import SceneKit
 
 
 struct SceneKitWithSwiftUIContentView: View {
+    
     @State private var magnify          = CGFloat(1.0)
     @State private var doneMagnifying   = false
 
