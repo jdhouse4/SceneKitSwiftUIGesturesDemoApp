@@ -111,6 +111,8 @@ struct SceneKitWithSwiftUIContentView: View {
                     .font(.title)
 
                 Spacer(minLength: 300)
+
+                ControlsView(sunlightSwitch: $sunlightSwitch)
             }
         }
         .gesture(magnification)

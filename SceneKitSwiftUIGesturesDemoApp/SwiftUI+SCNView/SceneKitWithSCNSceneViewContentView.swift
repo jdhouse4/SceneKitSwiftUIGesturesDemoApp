@@ -8,21 +8,16 @@
 import SwiftUI
 
 struct SceneKitWithSCNSceneViewContentView: View {
-    @State var sunlightSwitch: Bool          = false
+    @State var sunlightSwitch: Bool          = true
 
 
     var body: some View {
-        VStack(alignment: .center, spacing: 10) {
-            Spacer()
-
-            Text("Buzz In SwiftUI")
-                .fixedSize()
-                .font(.headline)
-
-            Spacer()
+        ZStack {
+            Color.black.edgesIgnoringSafeArea(.all)
 
             SceneKitView(sunlightSwitch: $sunlightSwitch)
-                .scaleEffect(1.0, anchor: .top)
+                .background(Color.black)
+
 
             /*
             SceneKitView(lightSwitch: $lightSwitch,
@@ -30,13 +25,27 @@ struct SceneKitWithSCNSceneViewContentView: View {
                          bodyCameraSwitch: $bodyCameraSwitch)
                 .scaleEffect(1.0, anchor: .top)
             */
-            Spacer()
 
-            ControlsView(sunlightSwitch: $sunlightSwitch)
+            VStack {
+                Text("Hello, SceneKit!").multilineTextAlignment(.leading).padding()
+                    .foregroundColor(Color.gray)
+                    .font(.largeTitle)
 
-            Spacer(minLength: 50)
+
+                Text("(in UIViewRepresentable")
+                    .foregroundColor(Color.gray)
+                    .font(.title3)
+
+                Text("Pinch to zoom.")
+                    .foregroundColor(Color.gray)
+                    .font(.title)
+
+
+                Spacer(minLength: 300)
+
+                ControlsView(sunlightSwitch: $sunlightSwitch)
+            }
         }
-    .padding()
     }
 }
 

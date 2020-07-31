@@ -13,17 +13,14 @@ struct SunLightButton: View {
 
 
         var body: some View {
-            Button(action: {
-                self.sunlightSwitch.toggle()
-
-                print("Setting sunlightSwitch: \(self.sunlightSwitch)")
-                }) {
-                    Image(systemName: "sun.max.fill")
-                        .imageScale(.large)
-                        .accessibility(label: Text("Sunlight"))
-                        .padding()
-                }
-
+            Button( action: {
+                withAnimation{ self.sunlightSwitch.toggle() }
+            }) {
+                Image(systemName: sunlightSwitch ? "lightbulb.fill" : "lightbulb")
+                    .imageScale(.large)
+                    .accessibility(label: Text("Light Switch"))
+                    .padding()
+            }
         }
     }
 
