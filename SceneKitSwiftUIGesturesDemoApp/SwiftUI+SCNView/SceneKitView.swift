@@ -22,9 +22,9 @@ struct SceneKitView: UIViewRepresentable {
     }
 
 
-    @Binding var lightSwitch: Bool
+    //@Binding var lightSwitch: Bool
     @Binding var sunlightSwitch: Int
-    @Binding var bodyCameraSwitch: Bool
+    //@Binding var bodyCameraSwitch: Bool
 
 
     // SceneKit Properties
