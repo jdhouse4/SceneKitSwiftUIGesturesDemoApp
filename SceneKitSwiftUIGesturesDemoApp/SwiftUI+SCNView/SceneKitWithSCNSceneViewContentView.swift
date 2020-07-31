@@ -18,23 +18,15 @@ struct SceneKitWithSCNSceneViewContentView: View {
             SceneKitView(sunlightSwitch: $sunlightSwitch)
                 .background(Color.black)
 
-
-            /*
-            SceneKitView(lightSwitch: $lightSwitch,
-                         sunlightSwitch: $sunlightSwitch,
-                         bodyCameraSwitch: $bodyCameraSwitch)
-                .scaleEffect(1.0, anchor: .top)
-            */
-
             VStack {
-                Text("Hello, SceneKit!").multilineTextAlignment(.leading).padding()
+                Text("Hello, SceneKit!")
                     .foregroundColor(Color.gray)
                     .font(.largeTitle)
 
-
-                Text("(in UIViewRepresentable")
+                Text("(in UIViewRepresentable)")
                     .foregroundColor(Color.gray)
-                    .font(.title3)
+                    .font(.body)
+                    .padding()
 
                 Text("Pinch to zoom.")
                     .foregroundColor(Color.gray)

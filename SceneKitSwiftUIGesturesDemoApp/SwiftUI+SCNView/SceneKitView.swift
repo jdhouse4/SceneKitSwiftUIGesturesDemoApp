@@ -71,8 +71,6 @@ struct SceneKitView: UIViewRepresentable {
     func toggleSunlight(_ scnView: SCNView) {
         guard let sunlightNode = scnView.scene!.rootNode.childNode(withName: "sunlightNode", recursively: true) else { return }
 
-        //let sunlight = sunlightNode.light
-
         if self.sunlightSwitch == true {
             sunlightNode.light?.intensity      = 2000.0
         } else {

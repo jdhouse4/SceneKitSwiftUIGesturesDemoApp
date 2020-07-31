@@ -10,35 +10,15 @@ import SwiftUI
 
 struct ControlsView: View {
 
-    //@Binding var lightSwitch: Bool
     @Binding var sunlightSwitch: Bool
-    //@Binding var bodyCameraSwitch: Bool
 
 
 
     var body: some View {
         VStack {
             HStack {
-                //Spacer()
-
                 SunLightButton(sunlightSwitch: $sunlightSwitch)
-
-                //Spacer()
-
-                //BuzzFaceLampButton(lightSwitch: $lightSwitch)
-
-                //Spacer(minLength: 150)
-
             }
-            /*
-            HStack {
-                Spacer()
-
-                CameraButton(bodyCameraSwitch: $bodyCameraSwitch)
-
-                Spacer()
-            }
-            */
         }
     }
 }

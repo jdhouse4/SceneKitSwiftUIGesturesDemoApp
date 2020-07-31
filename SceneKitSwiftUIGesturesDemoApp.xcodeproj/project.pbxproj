@@ -13,8 +13,6 @@
 		E6FB1CF924D383800086CD4B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6FB1CF824D383800086CD4B /* Preview Assets.xcassets */; };
 		E6FB1D0224D384670086CD4B /* SceneKitWithSwiftUIContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1D0124D384670086CD4B /* SceneKitWithSwiftUIContentView.swift */; };
 		E6FB1D0424D385F80086CD4B /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = E6FB1D0324D385F80086CD4B /* art.scnassets */; };
-		E6FB1D0C24D386990086CD4B /* BuzzFaceLampButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1D0624D386990086CD4B /* BuzzFaceLampButton.swift */; };
-		E6FB1D0D24D386990086CD4B /* CameraButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1D0724D386990086CD4B /* CameraButton.swift */; };
 		E6FB1D0E24D386990086CD4B /* ControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1D0824D386990086CD4B /* ControlsView.swift */; };
 		E6FB1D0F24D386990086CD4B /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1D0924D386990086CD4B /* SceneKitView.swift */; };
 		E6FB1D1024D386990086CD4B /* SunLightButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1D0A24D386990086CD4B /* SunLightButton.swift */; };
@@ -30,8 +28,6 @@
 		E6FB1CFA24D383800086CD4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E6FB1D0124D384670086CD4B /* SceneKitWithSwiftUIContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitWithSwiftUIContentView.swift; sourceTree = "<group>"; };
 		E6FB1D0324D385F80086CD4B /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
-		E6FB1D0624D386990086CD4B /* BuzzFaceLampButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuzzFaceLampButton.swift; sourceTree = "<group>"; };
-		E6FB1D0724D386990086CD4B /* CameraButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraButton.swift; sourceTree = "<group>"; };
 		E6FB1D0824D386990086CD4B /* ControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsView.swift; sourceTree = "<group>"; };
 		E6FB1D0924D386990086CD4B /* SceneKitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
 		E6FB1D0A24D386990086CD4B /* SunLightButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SunLightButton.swift; sourceTree = "<group>"; };
@@ -92,8 +88,6 @@
 			isa = PBXGroup;
 			children = (
 				E6FB1D1224D386C40086CD4B /* SceneKitWithSCNSceneViewContentView.swift */,
-				E6FB1D0624D386990086CD4B /* BuzzFaceLampButton.swift */,
-				E6FB1D0724D386990086CD4B /* CameraButton.swift */,
 				E6FB1D0924D386990086CD4B /* SceneKitView.swift */,
 				E6FB1D0824D386990086CD4B /* ControlsView.swift */,
 				E6FB1D0A24D386990086CD4B /* SunLightButton.swift */,
@@ -175,10 +169,8 @@
 				E6FB1D1024D386990086CD4B /* SunLightButton.swift in Sources */,
 				E6FB1D0224D384670086CD4B /* SceneKitWithSwiftUIContentView.swift in Sources */,
 				E6FB1D0F24D386990086CD4B /* SceneKitView.swift in Sources */,
-				E6FB1D0D24D386990086CD4B /* CameraButton.swift in Sources */,
 				E6FB1CF224D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift in Sources */,
 				E6FB1D0E24D386990086CD4B /* ControlsView.swift in Sources */,
-				E6FB1D0C24D386990086CD4B /* BuzzFaceLampButton.swift in Sources */,
 				E6FB1D1324D386C40086CD4B /* SceneKitWithSCNSceneViewContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

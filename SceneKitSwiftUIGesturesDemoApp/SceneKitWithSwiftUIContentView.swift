@@ -99,6 +99,7 @@ struct SceneKitWithSwiftUIContentView: View {
                 pointOfView: pointOfViewNode,
                 options: []
             )
+            .gesture(magnification)
             .background(Color.black)
 
             VStack() {
@@ -115,7 +116,6 @@ struct SceneKitWithSwiftUIContentView: View {
                 ControlsView(sunlightSwitch: $sunlightSwitch)
             }
         }
-        .gesture(magnification)
         .statusBar(hidden: true)
     }
 }
