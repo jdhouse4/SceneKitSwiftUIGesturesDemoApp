@@ -8,7 +8,6 @@
 
 import SwiftUI
 import SceneKit
-import SpriteKit
 
 
 
