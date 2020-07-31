@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            Text("SwiftUI Only").padding()
+            SceneKitWithSwiftUIContentView()
                 .tabItem {
                     Image(systemName: "1.square.fill")
                     Text("SwiftUI Only")
@@ -25,8 +25,11 @@ struct ContentView: View {
     }
 }
 
+
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
+
