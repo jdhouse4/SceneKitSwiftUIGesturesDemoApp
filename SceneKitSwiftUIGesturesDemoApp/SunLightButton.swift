@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct SunLightButton: View {
-        @Binding var sunlightSwitch: Int
+        @Binding var sunlightSwitch: Bool
+
 
         var body: some View {
             Button(action: {

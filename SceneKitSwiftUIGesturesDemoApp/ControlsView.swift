@@ -10,9 +10,9 @@ import SwiftUI
 
 struct ControlsView: View {
 
-    @Binding var lightSwitch: Bool
+    //@Binding var lightSwitch: Bool
     @Binding var sunlightSwitch: Int
-    @Binding var bodyCameraSwitch: Bool
+    //@Binding var bodyCameraSwitch: Bool
 
 
 
@@ -25,12 +25,12 @@ struct ControlsView: View {
 
                 Spacer()
 
-                BuzzFaceLampButton(lightSwitch: $lightSwitch)
+                //BuzzFaceLampButton(lightSwitch: $lightSwitch)
 
-                Spacer(minLength: 150)
+                //Spacer(minLength: 150)
 
             }
-
+            /*
             HStack {
                 Spacer()
 
@@ -38,6 +38,7 @@ struct ControlsView: View {
 
                 Spacer()
             }
+            */
         }
     }
 }

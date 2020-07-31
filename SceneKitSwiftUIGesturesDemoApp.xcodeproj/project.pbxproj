@@ -72,6 +72,8 @@
 				E6FB1CF324D3837D0086CD4B /* ContentView.swift */,
 				E6FB1D0124D384670086CD4B /* SceneKitWithSwiftUIContentView.swift */,
 				E6FB1D0524D3864B0086CD4B /* SwiftUI+SCNView */,
+				E6FB1D0824D386990086CD4B /* ControlsView.swift */,
+				E6FB1D0A24D386990086CD4B /* SunLightButton.swift */,
 				E6FB1D0324D385F80086CD4B /* art.scnassets */,
 				E6FB1CF524D383800086CD4B /* Assets.xcassets */,
 				E6FB1CFA24D383800086CD4B /* Info.plist */,
@@ -94,8 +96,6 @@
 				E6FB1D1224D386C40086CD4B /* SceneKitWithSCNSceneViewContentView.swift */,
 				E6FB1D0624D386990086CD4B /* BuzzFaceLampButton.swift */,
 				E6FB1D0724D386990086CD4B /* CameraButton.swift */,
-				E6FB1D0824D386990086CD4B /* ControlsView.swift */,
-				E6FB1D0A24D386990086CD4B /* SunLightButton.swift */,
 				E6FB1D0924D386990086CD4B /* SceneKitView.swift */,
 			);
 			path = "SwiftUI+SCNView";

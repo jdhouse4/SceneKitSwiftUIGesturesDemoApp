@@ -17,7 +17,8 @@ struct SceneKitView: UIViewRepresentable {
 
 
     func makeCoordinator() -> Coordinator {
-        return Coordinator(self, lightSwitch: $lightSwitch, sunlightSwitch: $sunlightSwitch)
+        return Coordinator(self, sunlightSwitch: $sunlightSwitch)
+        //return Coordinator(self, lightSwitch: $lightSwitch, sunlightSwitch: $sunlightSwitch)
     }
 
 
@@ -49,7 +50,7 @@ struct SceneKitView: UIViewRepresentable {
         scnView.pointOfView = scene.rootNode.childNode(withName: "distantCamera", recursively: true)
 
         // Now, using WorldLight from scn file.
-        //let worldLight  = scene.rootNode.childNode(withName: "SunLight", recursively: true)!
+        let sunLight  = scene.rootNode.childNode(withName: "SunLight", recursively: true)!
 
         
         // This code is needed for placing the overlay text.
@@ -61,26 +62,32 @@ struct SceneKitView: UIViewRepresentable {
         // Give the overlayScene property a size.
         overlayScene.size = CGSize(width: screenSize.width, height: screenSize.height)
 
-        /*
+
         // Add-in SKLabelNode for the light currently in use
         lightTextNode.name = "SunlightTypeTextNode"
-        lightTextNode.text = worldLight.light!.type.rawValue
+        lightTextNode.text = sunLight.light!.type.rawValue
         lightTextNode.fontSize = 30
         lightTextNode.fontColor = .white
         lightTextNode.position = CGPoint(x: screenCenter.x, y:  50)
         overlayScene.addChild(lightTextNode)
-        */
+
         scnView.overlaySKScene = overlayScene
 
+        // Magnification Gesture to zoom-in and zoom-out.
+        let magnificationGestureRecognizer = UIPinchGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.pinchGesture(gestureReconizer:)))
+        scnView.addGestureRecognizer(magnificationGestureRecognizer)
 
+        /*
         // Double-Tap Gesture Recognizer to Reset Orientation of the Model
         let doubleTapGestureRecognizer = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.triggerDoubleTapAction(gestureReconizer:)))
         doubleTapGestureRecognizer.numberOfTapsRequired = 2
         scnView.addGestureRecognizer(doubleTapGestureRecognizer)
+        */
 
-
+        /*
         let panGestureRecognizer = UIPanGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.panGesture(_:)))
         scnView.addGestureRecognizer(panGestureRecognizer)
+        */
 
         return scnView
     }
@@ -98,28 +105,19 @@ struct SceneKitView: UIViewRepresentable {
         scnView.allowsCameraControl = false
 
         // show statistics such as fps and timing information
-        scnView.showsStatistics = true
+        scnView.showsStatistics = false
 
         //toggleBuzzFaceLamp(scnView)
 
-        //toggleSunlight(scnView)
+        toggleSunlight(scnView)
 
         //toggleBuzzBodyCamera(scnView)
     }
 
 
     
-    func toggleBuzzFaceLamp(_ scnView: SCNView) {
-        guard let lightNode = scnView.scene!.rootNode.childNode(withName: "BuzzFaceLight", recursively: true) else { return }
-
-        lightNode.isHidden = lightSwitch
-    }
-
-
-
     func toggleSunlight(_ scnView: SCNView) {
-        //var sunlightNode = scnView.scene!.rootNode.childNode(withName: "WorldLight", recursively: true)
-        guard let worldLight = scnView.scene!.rootNode.childNode(withName: "SunLight", recursively: true) else { return }
+        guard let worldLight = scnView.scene!.rootNode.childNode(withName: "sunLight", recursively: true) else { return }
 
         switch sunlightSwitch {
         case 0:
@@ -141,7 +139,7 @@ struct SceneKitView: UIViewRepresentable {
     }
 
 
-
+    /*
     func toggleBuzzBodyCamera(_ scnView: SCNView) {
         if bodyCameraSwitch == true {
             scnView.pointOfView = scnView.scene?.rootNode.childNode(withName: "BodyCamera", recursively: true)
@@ -150,25 +148,64 @@ struct SceneKitView: UIViewRepresentable {
             scnView.pointOfView = scnView.scene?.rootNode.childNode(withName: "WorldCamera", recursively: true)
         }
     }
+    */
 
 
 
     
     class Coordinator: NSObject {
 
-        @Binding var lightSwitch: Bool
+        //@Binding var lightSwitch: Bool
         @Binding var sunlightSwitch: Int
 
         var scnView: SceneKitView
 
-        init(_ scnView: SceneKitView, lightSwitch: Binding<Bool>, sunlightSwitch: Binding<Int>) {
+
+        init(_ scnView: SceneKitView, sunlightSwitch: Binding<Int>) {
             self.scnView = scnView
-            self._lightSwitch = lightSwitch
             self._sunlightSwitch = sunlightSwitch
         }
 
+        /*
+         init(_ scnView: SceneKitView, lightSwitch: Binding<Bool>, sunlightSwitch: Binding<Int>) {
+             self.scnView = scnView
+             //self._lightSwitch = lightSwitch
+             self._sunlightSwitch = sunlightSwitch
+         }
+         */
 
 
+        // Magnification Gesture
+        @objc func pinchGesture(gestureReconizer: UIPinchGestureRecognizer) {
+
+            guard let aircraftNode = self.scnView.scene.rootNode.childNode(withName: "ship", recursively: true) else{
+                print("There's no Aircraft Node!")
+                return
+            }
+
+            let scale = gestureReconizer.velocity
+
+            let maximumFOV:CGFloat = 25 //This is what determines the farthest point you can zoom in to
+            let minimumFOV:CGFloat = 90 //This is what determines the farthest point you can zoom out to
+
+            switch gestureReconizer.state {
+            case .began:
+                break
+            case .changed:
+                aircraftNode.camera?.fieldOfView -= CGFloat(scale)
+                if aircraftNode.camera!.fieldOfView <= maximumFOV {
+                    aircraftNode.camera!.fieldOfView = maximumFOV
+                }
+                if aircraftNode.camera!.fieldOfView >= minimumFOV {
+                    aircraftNode.camera!.fieldOfView = minimumFOV
+                }
+                break
+            default: break
+            }
+        }
+
+
+        /*
         // Double-Tap Action
         @objc func triggerDoubleTapAction(gestureReconizer: UITapGestureRecognizer) {
 
@@ -184,9 +221,10 @@ struct SceneKitView: UIViewRepresentable {
 
             buzzNode.pivot = SCNMatrix4Mult(changePivot, currentPivot)
         }
+        */
 
 
-
+        /*
         // Pan Action
         var initialCenter = CGPoint()  // The initial center point of the view.
 
@@ -215,9 +253,10 @@ struct SceneKitView: UIViewRepresentable {
               piece.center = initialCenter
            }
         }
+        */
 
 
-
+        /*
         var totalChangePivot = SCNMatrix4Identity
 
         @objc func panGesture(_ gestureRecognize: UIPanGestureRecognizer){
@@ -254,5 +293,6 @@ struct SceneKitView: UIViewRepresentable {
                 buzzNode.transform = SCNMatrix4Identity
             }
         }
+        */
     }
 }
