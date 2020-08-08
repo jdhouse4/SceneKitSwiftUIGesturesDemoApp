@@ -16,18 +16,8 @@ struct SceneKitWithSwiftUIContentView: View {
     @State private var magnify          = CGFloat(1.0)
     @State private var doneMagnifying   = false
 
-    // 
-    //@GestureState private var magnifyBy = CGFloat(1.0)
+    @GestureState private var magnifyBy = CGFloat(1.0)
 
-    /*
-     Might not want to do this. As Apple states in its State docs,
-
-     You should only access a state property from inside the view’s body, or from methods called by it.
-     For this reason, declare your state properties as private, to prevent clients of your view from accessing them.
-     It is safe to mutate state properties from any thread.
-     */
-
-    /*
     var magnification: some Gesture {
         MagnificationGesture()
             .updating($magnifyBy) { (currentState, gestureState, transaction) in
@@ -40,7 +30,35 @@ struct SceneKitWithSwiftUIContentView: View {
                 self.doneMagnifying = true
             }
     }
-    */
+
+
+
+
+    // Create a scene.
+   var aircraftScene: SCNScene {
+       get {
+           print("Loading Scene Assets.")
+           guard let scene = SCNScene(named: "art.scnassets/ship.scn")
+           else {
+               print("Oopsie, no scene")
+               return SCNScene()
+           }
+
+            /*
+           let lightNode = scene.rootNode.childNode(withName: "sunlightNode", recursively: true)
+
+           if self.sunlightSwitch == true {
+               lightNode!.light?.intensity      = 2000.0
+           } else {
+               lightNode!.light?.intensity      = 0
+           }
+            */
+
+           print("Created and returned a scene.\n\n")
+           return scene
+       }
+   }
+
 
 
     // The camera node for the scene.
@@ -49,6 +67,13 @@ struct SceneKitWithSwiftUIContentView: View {
             print("Creating a point of view node from the cameras in the SCN file.")
             var node = SCNNode()
 
+            node = aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)!
+            print("Current Camera Node: \(String(describing: node.camera?.name))")
+
+            return node
+        }/*
+        set {
+            var node = SCNNode()
             node = aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)!
             print("Current Camera Node: \(String(describing: node.camera?.name))")
 
@@ -69,33 +94,51 @@ struct SceneKitWithSwiftUIContentView: View {
                 node.camera!.fieldOfView = minimumFOV
             }
 
-            return node
+        }*/
+    }
+
+
+    var fieldOfView: CGFloat {
+        get {
+            return (self.pointOfViewNode?.camera!.fieldOfView)!
+        }
+        set {
+            let maximumFOV: CGFloat = 25 // This is what determines the farthest point into which to zoom.
+            let minimumFOV: CGFloat = 90 // This is what determines the farthest point from which to zoom.
+
+            if !doneMagnifying {
+                pointOfViewNode?.camera?.fieldOfView /= magnifyBy
+            } else {
+                pointOfViewNode?.camera?.fieldOfView /= magnify
+            }
+
+            if (pointOfViewNode?.camera!.fieldOfView)! <= maximumFOV {
+                pointOfViewNode?.camera?.fieldOfView = maximumFOV
+            }
+            if (pointOfViewNode?.camera!.fieldOfView)! >= minimumFOV {
+                pointOfViewNode?.camera?.fieldOfView = minimumFOV
+            }
+
+            //pointOfViewNode?.camera?.fieldOfView = newValue
         }
     }
 
 
 
-     // Create a scene.
-    var aircraftScene: SCNScene {
+    var lightNode: SCNNode {
         get {
-            print("Loading Scene Assets.")
-            guard let scene = SCNScene(named: "art.scnassets/ship.scn")
-            else {
-                print("Oopsie, no scene")
-                return SCNScene()
-            }
-
-            let lightNode = scene.rootNode.childNode(withName: "sunlightNode", recursively: true)
-
-            if self.sunlightSwitch == true {
-                lightNode!.light?.intensity      = 2000.0
-            } else {
-                lightNode!.light?.intensity      = 0
-            }
+            return aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)!
+        }
+    }
 
 
-            print("Created and returned a scene.\n\n")
-            return scene
+
+    var lightIntensity: CGFloat {
+        get {
+            return aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)!.light!.intensity
+        }
+        set {
+            aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)!.light!.intensity = newValue
         }
     }
 
@@ -124,7 +167,21 @@ struct SceneKitWithSwiftUIContentView: View {
 
                 Spacer(minLength: 300)
 
-                ControlsView(sunlightSwitch: $sunlightSwitch)
+                Button( action: {
+                    withAnimation{ self.sunlightSwitch.toggle() }
+
+                    //self.sunlightSwitch ? lightIntensity = 2000.0 : self.lightIntensity = 0
+                    if self.sunlightSwitch == false {
+                        lightIntensity = 0.0
+                    }
+                }) {
+                    Image(systemName: sunlightSwitch ? "lightbulb.fill" : "lightbulb")
+                        .imageScale(.large)
+                        .accessibility(label: Text("Light Switch"))
+                        .padding()
+                }
+
+                //ControlsView(sunlightSwitch: $sunlightSwitch)
             }
         }
         .statusBar(hidden: true)
