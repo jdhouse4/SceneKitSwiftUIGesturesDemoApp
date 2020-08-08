@@ -16,8 +16,18 @@ struct SceneKitWithSwiftUIContentView: View {
     @State private var magnify          = CGFloat(1.0)
     @State private var doneMagnifying   = false
 
-    @GestureState var magnifyBy         = CGFloat(1.0)
+    // 
+    //@GestureState private var magnifyBy = CGFloat(1.0)
 
+    /*
+     Might not want to do this. As Apple states in its State docs,
+
+     You should only access a state property from inside the view’s body, or from methods called by it.
+     For this reason, declare your state properties as private, to prevent clients of your view from accessing them.
+     It is safe to mutate state properties from any thread.
+     */
+
+    /*
     var magnification: some Gesture {
         MagnificationGesture()
             .updating($magnifyBy) { (currentState, gestureState, transaction) in
@@ -30,6 +40,7 @@ struct SceneKitWithSwiftUIContentView: View {
                 self.doneMagnifying = true
             }
     }
+    */
 
 
     // The camera node for the scene.
