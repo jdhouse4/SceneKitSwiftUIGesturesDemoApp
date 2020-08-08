@@ -35,6 +35,34 @@ struct SceneKitWithSwiftUIContentView: View {
 
 
 
+
+    // Create a scene.
+    var aircraftScene: SCNScene {
+        get {
+            print("Loading Scene Assets.")
+            guard let scene = SCNScene(named: "art.scnassets/ship.scn")
+            else {
+                print("Oopsie, no scene")
+                return SCNScene()
+            }
+
+            print("Created and returned a scene.\n\n")
+            return scene
+        }
+    }
+
+
+    /*
+    var lightIntensity: CGFloat {
+        get {
+            return (aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light!.intensity)!
+        }
+        set {
+            aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light?.intensity = newValue
+        }
+    }
+    */
+
     // The camera node for the scene.
     var pointOfViewNode: SCNNode? {
         get {
@@ -67,32 +95,6 @@ struct SceneKitWithSwiftUIContentView: View {
 
 
 
-     // Create a scene.
-    var aircraftScene: SCNScene {
-        get {
-            print("Loading Scene Assets.")
-            guard let scene = SCNScene(named: "art.scnassets/ship.scn")
-            else {
-                print("Oopsie, no scene")
-                return SCNScene()
-            }
-
-            let lightNode = scene.rootNode.childNode(withName: "sunlightNode", recursively: true)
-
-            if self.sunlightSwitch == true {
-                lightNode!.light?.intensity      = 2000.0
-            } else {
-                lightNode!.light?.intensity      = 0
-            }
-
-
-            print("Created and returned a scene.\n\n")
-            return scene
-        }
-    }
-
-
-
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
@@ -116,7 +118,25 @@ struct SceneKitWithSwiftUIContentView: View {
 
                 Spacer(minLength: 300)
 
-                ControlsView(sunlightSwitch: $sunlightSwitch)
+
+                Button( action: {
+                    withAnimation{ self.sunlightSwitch.toggle() }
+
+                    if self.sunlightSwitch == true {
+                        //lightIntensity = 2000.0 // Can't do this in a struct!
+                        aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light!.intensity = 2000.0
+                    } else {
+                        //lightIntensity = 0.0  // Can't do this in a struct!
+                        aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light!.intensity = 0.0
+                    }
+                }) {
+                    Image(systemName: sunlightSwitch ? "lightbulb.fill" : "lightbulb")
+                        .imageScale(.large)
+                        .accessibility(label: Text("Light Switch"))
+                        .padding()
+                }
+
+                //ControlsView(sunlightSwitch: $sunlightSwitch)
             }
         }
         .statusBar(hidden: true)
