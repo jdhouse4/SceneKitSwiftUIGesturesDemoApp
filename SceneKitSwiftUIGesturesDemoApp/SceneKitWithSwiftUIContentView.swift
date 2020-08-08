@@ -138,7 +138,8 @@ struct SceneKitWithSwiftUIContentView: View {
             return aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)!.light!.intensity
         }
         set {
-            aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)!.light!.intensity = newValue
+            print("newValue = \(newValue)")
+            //aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)!.light!.intensity = newValue
         }
     }
 
@@ -172,7 +173,10 @@ struct SceneKitWithSwiftUIContentView: View {
 
                     //self.sunlightSwitch ? lightIntensity = 2000.0 : self.lightIntensity = 0
                     if self.sunlightSwitch == false {
-                        lightIntensity = 0.0
+                        self.aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)!.light!.intensity = 0.0
+                    } else {
+                        lightIntensity = 2000.0
+                        aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)!.light!.intensity = 2000.0
                     }
                 }) {
                     Image(systemName: sunlightSwitch ? "lightbulb.fill" : "lightbulb")
