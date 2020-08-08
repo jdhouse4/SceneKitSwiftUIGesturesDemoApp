@@ -52,16 +52,23 @@ struct SceneKitWithSwiftUIContentView: View {
     }
 
 
-    /*
+
     var lightIntensity: CGFloat {
         get {
+            print("Creating a new lightIntensity property.")
             return (aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light!.intensity)!
         }
         set {
-            aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light?.intensity = newValue
+            print("Setting lightIntensity property")
+            if self.sunlightSwitch == true {
+                aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light?.intensity = 2000.0
+            } else {
+                aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light?.intensity = 0.0
+            }
         }
     }
-    */
+
+
 
     // The camera node for the scene.
     var pointOfViewNode: SCNNode? {
@@ -118,25 +125,7 @@ struct SceneKitWithSwiftUIContentView: View {
 
                 Spacer(minLength: 300)
 
-
-                Button( action: {
-                    withAnimation{ self.sunlightSwitch.toggle() }
-
-                    if self.sunlightSwitch == true {
-                        //lightIntensity = 2000.0 // Can't do this in a struct!
-                        aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light!.intensity = 2000.0
-                    } else {
-                        //lightIntensity = 0.0  // Can't do this in a struct!
-                        aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light!.intensity = 0.0
-                    }
-                }) {
-                    Image(systemName: sunlightSwitch ? "lightbulb.fill" : "lightbulb")
-                        .imageScale(.large)
-                        .accessibility(label: Text("Light Switch"))
-                        .padding()
-                }
-
-                //ControlsView(sunlightSwitch: $sunlightSwitch)
+                ControlsView(sunlightSwitch: $sunlightSwitch)
             }
         }
         .statusBar(hidden: true)

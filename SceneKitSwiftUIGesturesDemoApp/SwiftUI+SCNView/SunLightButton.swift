@@ -15,6 +15,7 @@ struct SunLightButton: View {
         var body: some View {
             Button( action: {
                 withAnimation{ self.sunlightSwitch.toggle() }
+                print("SunLightButton hit")
             }) {
                 Image(systemName: sunlightSwitch ? "lightbulb.fill" : "lightbulb")
                     .imageScale(.large)
