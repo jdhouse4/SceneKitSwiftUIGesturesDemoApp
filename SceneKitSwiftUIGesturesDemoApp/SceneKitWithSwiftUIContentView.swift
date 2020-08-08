@@ -44,7 +44,7 @@ struct SceneKitWithSwiftUIContentView: View {
                return SCNScene()
            }
 
-            /*
+
            let lightNode = scene.rootNode.childNode(withName: "sunlightNode", recursively: true)
 
            if self.sunlightSwitch == true {
@@ -52,7 +52,7 @@ struct SceneKitWithSwiftUIContentView: View {
            } else {
                lightNode!.light?.intensity      = 0
            }
-            */
+            
 
            print("Created and returned a scene.\n\n")
            return scene
@@ -71,7 +71,7 @@ struct SceneKitWithSwiftUIContentView: View {
             print("Current Camera Node: \(String(describing: node.camera?.name))")
 
             return node
-        }/*
+        }
         set {
             var node = SCNNode()
             node = aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)!
@@ -94,7 +94,7 @@ struct SceneKitWithSwiftUIContentView: View {
                 node.camera!.fieldOfView = minimumFOV
             }
 
-        }*/
+        }
     }
 
 
