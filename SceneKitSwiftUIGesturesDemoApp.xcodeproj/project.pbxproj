@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E64450EC24DF2B950092F7B7 /* AircraftSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64450EB24DF2B950092F7B7 /* AircraftSceneView.swift */; };
 		E6FB1CF224D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */; };
 		E6FB1CF424D3837D0086CD4B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1CF324D3837D0086CD4B /* ContentView.swift */; };
 		E6FB1CF624D383800086CD4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6FB1CF524D383800086CD4B /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E64450EB24DF2B950092F7B7 /* AircraftSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftSceneView.swift; sourceTree = "<group>"; };
 		E6FB1CEE24D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SceneKitSwiftUIGesturesDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitSwiftUIGesturesDemoAppApp.swift; sourceTree = "<group>"; };
 		E6FB1CF324D3837D0086CD4B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */,
 				E6FB1CF324D3837D0086CD4B /* ContentView.swift */,
 				E6FB1D0124D384670086CD4B /* SceneKitWithSwiftUIContentView.swift */,
+				E64450EB24DF2B950092F7B7 /* AircraftSceneView.swift */,
 				E6FB1D0524D3864B0086CD4B /* SwiftUI+SCNView */,
 				E6FB1D0324D385F80086CD4B /* art.scnassets */,
 				E6FB1CF524D383800086CD4B /* Assets.xcassets */,
@@ -172,6 +175,7 @@
 				E6FB1CF224D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift in Sources */,
 				E6FB1D0E24D386990086CD4B /* ControlsView.swift in Sources */,
 				E6FB1D1324D386C40086CD4B /* SceneKitWithSCNSceneViewContentView.swift in Sources */,
+				E64450EC24DF2B950092F7B7 /* AircraftSceneView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

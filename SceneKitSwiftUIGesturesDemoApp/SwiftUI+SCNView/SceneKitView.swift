@@ -27,7 +27,6 @@ struct SceneKitView: UIViewRepresentable {
     let scene = SCNScene(named: "art.scnassets/ship.scn")!
 
 
-
     func makeUIView(context: Context) -> SCNView {
         print("SceneKitView makeUIView")
 
