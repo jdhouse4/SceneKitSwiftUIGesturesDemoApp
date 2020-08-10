@@ -18,13 +18,25 @@ struct SceneKitWithSwiftUIContentView: View {
     @State private var doneMagnifying   = false
     @State private var aircraftScene    = SCNScene(named: "art.scnassets/ship.scn")
     @State private var pointOfViewNode  = (SCNScene(named: "art.scnassets/ship.scn")?.rootNode.childNode(withName: "distantCameraNode", recursively: true))!
-    @State private var fOV              = (SCNScene(named: "art.scnassets/ship.scn")?.rootNode.childNode(withName: "distantCameraNode", recursively: true))!.camera?.fieldOfView
 
     @GestureState private var magnifyBy = CGFloat(1.0)
 
     var camera: SCNNode {
+        //let node = self.pointOfViewNode
         let node = (SCNScene(named: "art.scnassets/ship.scn")?.rootNode.childNode(withName: "distantCameraNode", recursively: true))!
-        node.camera?.fieldOfView /= magnify
+
+        let maximumFOV: CGFloat = 25 // This is what determines the farthest point into which to zoom.
+        let minimumFOV: CGFloat = 90 // This is what determines the farthest point from which to zoom.
+
+        node.camera?.fieldOfView /= magnifyBy
+
+        if node.camera!.fieldOfView <= maximumFOV {
+            node.camera!.fieldOfView = maximumFOV
+        }
+        if node.camera!.fieldOfView >= minimumFOV {
+            node.camera!.fieldOfView = minimumFOV
+        }
+
         return node
     }
 
@@ -35,34 +47,31 @@ struct SceneKitWithSwiftUIContentView: View {
 
             SceneView (
                 scene: aircraftScene,
-                pointOfView: camera, //pointOfViewNode,
+                pointOfView: camera,
                 options: []
             )
             .background(Color.black)
             .gesture(MagnificationGesture()
-                        /*
                         .updating($magnifyBy) { (currentState, gestureState, transaction) in
-                            print("magnifyBy = \(self.magnifyBy)")
                             gestureState = currentState
-
-
+                            /*
                             let maximumFOV: CGFloat = 25 // This is what determines the farthest point into which to zoom.
                             let minimumFOV: CGFloat = 90 // This is what determines the farthest point from which to zoom.
 
                             self.pointOfViewNode.camera?.fieldOfView /= magnifyBy
-
+                            */
+                            /*
                             if self.pointOfViewNode.camera!.fieldOfView <= maximumFOV {
                                 self.pointOfViewNode.camera!.fieldOfView = maximumFOV
                             }
                             if self.pointOfViewNode.camera!.fieldOfView >= minimumFOV {
                                 self.pointOfViewNode.camera!.fieldOfView = minimumFOV
                             }
+                            */
 
-                            print("While .updating, fieldOfView = \(String(describing: self.pointOfViewNode.camera?.fieldOfView))")
-
-                        } */
+                            print("While .updating, magnifyBy = \(magnifyBy))")
+                        }
                         .onChanged{ (value) in
-
                             print("magnify = \(self.magnify)")
                             self.magnify = value
                             /*
@@ -82,8 +91,14 @@ struct SceneKitWithSwiftUIContentView: View {
 
                             //self.pointOfViewNode.camera?.fieldOfView = fOV
                             */
-                            //self.pointOfViewNode.camera?.fieldOfView = self.magnify
                         }
+                        .onEnded({ (_) in
+                            /*
+                             Changing property of SCNNode does not change the node.
+                             */
+                            //self.pointOfViewNode.position = SCNVector3(20.0, 20.0, 20.0)
+                            //self.pointOfViewNode = (SCNScene(named: "art.scnassets/ship.scn")?.rootNode.childNode(withName: "frontCameraNode", recursively: true))!
+                        })
             )
 
             VStack() {
