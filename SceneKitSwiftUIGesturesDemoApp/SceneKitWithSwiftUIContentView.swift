@@ -13,82 +13,20 @@ import SceneKit
 
 struct SceneKitWithSwiftUIContentView: View {
     @State private var sunlightSwitch   = true
+    @State private var updating         = true
     @State private var magnify          = CGFloat(1.0)
     @State private var doneMagnifying   = false
+    @State private var aircraftScene    = SCNScene(named: "art.scnassets/ship.scn")
+    @State private var pointOfViewNode  = (SCNScene(named: "art.scnassets/ship.scn")?.rootNode.childNode(withName: "distantCameraNode", recursively: true))!
+    @State private var fOV              = (SCNScene(named: "art.scnassets/ship.scn")?.rootNode.childNode(withName: "distantCameraNode", recursively: true))!.camera?.fieldOfView
 
     @GestureState private var magnifyBy = CGFloat(1.0)
 
-    var magnification: some Gesture {
-        MagnificationGesture()
-            .updating($magnifyBy) { (currentState, gestureState, transaction) in
-                gestureState = currentState
-            }
-            .onChanged{ (value) in
-                self.magnify = value
-            }
-            .onEnded { _ in
-                self.doneMagnifying = true
-            }
+    var camera: SCNNode {
+        let node = (SCNScene(named: "art.scnassets/ship.scn")?.rootNode.childNode(withName: "distantCameraNode", recursively: true))!
+        node.camera?.fieldOfView /= magnify
+        return node
     }
-
-
-
-
-    // Create a scene.
-   var aircraftScene: SCNScene {
-       get {
-           print("Loading Scene Assets.")
-           guard let scene = SCNScene(named: "art.scnassets/ship.scn")
-           else {
-               print("Oopsie, no scene")
-               return SCNScene()
-           }
-
-           let lightNode = scene.rootNode.childNode(withName: "sunlightNode", recursively: true)
-
-           if self.sunlightSwitch == true {
-               lightNode!.light?.intensity      = 2000.0
-           } else {
-               lightNode!.light?.intensity      = 0
-           }
-
-           print("Created and returned a scene.\n\n")
-           return scene
-       }
-   }
-
-
-
-    // The camera node for the scene.
-    var pointOfViewNode: SCNNode? {
-        get {
-            print("Creating a point of view node from the cameras in the SCN file.")
-            var node = SCNNode()
-
-            node = aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)!
-            print("Current Camera Node: \(String(describing: node.camera?.name))")
-
-
-            let maximumFOV: CGFloat = 25 // This is what determines the farthest point into which to zoom.
-            let minimumFOV: CGFloat = 90 // This is what determines the farthest point from which to zoom.
-
-            if !doneMagnifying {
-                node.camera?.fieldOfView /= magnifyBy
-            } else {
-                node.camera?.fieldOfView /= magnify
-            }
-
-            if node.camera!.fieldOfView <= maximumFOV {
-                node.camera!.fieldOfView = maximumFOV
-            }
-            if node.camera!.fieldOfView >= minimumFOV {
-                node.camera!.fieldOfView = minimumFOV
-            }
-
-            return node
-        }
-    }
-
 
 
     var body: some View {
@@ -97,11 +35,56 @@ struct SceneKitWithSwiftUIContentView: View {
 
             SceneView (
                 scene: aircraftScene,
-                pointOfView: pointOfViewNode,
+                pointOfView: camera, //pointOfViewNode,
                 options: []
             )
-            .gesture(magnification)
             .background(Color.black)
+            .gesture(MagnificationGesture()
+                        /*
+                        .updating($magnifyBy) { (currentState, gestureState, transaction) in
+                            print("magnifyBy = \(self.magnifyBy)")
+                            gestureState = currentState
+
+
+                            let maximumFOV: CGFloat = 25 // This is what determines the farthest point into which to zoom.
+                            let minimumFOV: CGFloat = 90 // This is what determines the farthest point from which to zoom.
+
+                            self.pointOfViewNode.camera?.fieldOfView /= magnifyBy
+
+                            if self.pointOfViewNode.camera!.fieldOfView <= maximumFOV {
+                                self.pointOfViewNode.camera!.fieldOfView = maximumFOV
+                            }
+                            if self.pointOfViewNode.camera!.fieldOfView >= minimumFOV {
+                                self.pointOfViewNode.camera!.fieldOfView = minimumFOV
+                            }
+
+                            print("While .updating, fieldOfView = \(String(describing: self.pointOfViewNode.camera?.fieldOfView))")
+
+                        } */
+                        .onChanged{ (value) in
+
+                            print("magnify = \(self.magnify)")
+                            self.magnify = value
+                            /*
+                            let maximumFOV: CGFloat = 25 // This is what determines the farthest point into which to zoom.
+                            let minimumFOV: CGFloat = 90 // This is what determines the farthest point from which to zoom.
+
+                            var fOV: CGFloat = self.pointOfViewNode.camera!.fieldOfView
+                            fOV /= self.magnify
+
+                            if fOV <= maximumFOV {
+                                fOV = maximumFOV
+                            }
+                            if fOV >= minimumFOV {
+                                fOV = minimumFOV
+                            }
+                            print("fieldOFView: \(String(describing: fOV))")
+
+                            //self.pointOfViewNode.camera?.fieldOfView = fOV
+                            */
+                            //self.pointOfViewNode.camera?.fieldOfView = self.magnify
+                        }
+            )
 
             VStack() {
                 Text("Hello, SceneKit!").multilineTextAlignment(.leading).padding()
@@ -114,10 +97,42 @@ struct SceneKitWithSwiftUIContentView: View {
 
                 Spacer(minLength: 300)
 
-                ControlsView(sunlightSwitch: $sunlightSwitch)
+                Button( action: {
+                    withAnimation{
+                        self.sunlightSwitch.toggle()
+                    }
+                    if self.sunlightSwitch == true {
+                        self.aircraftScene!.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light?.intensity = 2000.0
+                    } else {
+                        self.aircraftScene!.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light?.intensity = 0.0
+                    }
+                }) {
+                    Image(systemName: sunlightSwitch ? "lightbulb.fill" : "lightbulb")
+                        .imageScale(.large)
+                        .accessibility(label: Text("Light Switch"))
+                        .padding()
+                }
+
+                //ControlsView(sunlightSwitch: $sunlightSwitch)
             }
-        }
+        } 
         .statusBar(hidden: true)
+    }
+
+
+
+    func zoom(magnification: CGFloat) {
+        let maximumFOV: CGFloat = 25 // This is what determines the farthest point into which to zoom.
+        let minimumFOV: CGFloat = 90 // This is what determines the farthest point from which to zoom.
+
+        pointOfViewNode.camera?.fieldOfView /= magnification
+
+        if pointOfViewNode.camera!.fieldOfView <= maximumFOV {
+            pointOfViewNode.camera!.fieldOfView = maximumFOV
+        }
+        if pointOfViewNode.camera!.fieldOfView >= minimumFOV {
+            pointOfViewNode.camera!.fieldOfView = minimumFOV
+        }
     }
 }
 
