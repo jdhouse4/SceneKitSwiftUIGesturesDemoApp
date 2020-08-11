@@ -13,13 +13,16 @@ struct ContentView: View {
             SceneKitWithSwiftUIContentView()
                 .tabItem {
                     Image(systemName: "tortoise.fill")
-                    Text("SwiftUI Only")
+                    Text("Vars Only")
                 }
+
+
+            
 
             SceneKitWithSCNSceneViewContentView()
                 .tabItem {
                     Image(systemName: "hare.fill")
-                    Text("SwiftUI + SCNView")
+                    Text("SCNView")
                 }
         }
     }
