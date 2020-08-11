@@ -12,16 +12,21 @@ struct ContentView: View {
         TabView {
             SceneKitWithSwiftUIContentView()
                 .tabItem {
-                    Image(systemName: "tortoise.fill")
+                    Image(systemName: "hand.thumbsdown.fill")
                     Text("Vars Only")
                 }
 
+            //SwiftUISceneKitUsingVarsContentView()
 
-            
+            SwiftUISceneKitUsingStateVarsContentView()
+                .tabItem {
+                    Image(systemName: "airplane")
+                    Text("State Vars")
+                }
 
             SceneKitWithSCNSceneViewContentView()
                 .tabItem {
-                    Image(systemName: "hare.fill")
+                    Image(systemName: "hand.thumbsup.fill")
                     Text("SCNView")
                 }
         }
