@@ -44,7 +44,6 @@ struct SwiftUISceneKitUsingStateVarsContentView: View {
                             if (self.aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera!.fieldOfView)! >= minimumFOV {
                                 self.aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera?.fieldOfView = minimumFOV
                             }
-
                         }
             )
 

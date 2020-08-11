@@ -103,7 +103,8 @@ struct SceneKitView: UIViewRepresentable {
 
             let aircraftCameraNode = aircraftNode.childNode(withName: "distantCameraNode", recursively: true)
 
-            let scale = gestureReconizer.velocity
+            let velocity = gestureReconizer.velocity // scale doesn't work
+            print("pinch gesture velocity = \(velocity)")
 
             let maximumFOV:CGFloat = 25 //This is what determines the farthest point you can zoom in to
             let minimumFOV:CGFloat = 90 //This is what determines the farthest point you can zoom out to
@@ -112,7 +113,8 @@ struct SceneKitView: UIViewRepresentable {
             case .began:
                 break
             case .changed:
-                aircraftCameraNode!.camera?.fieldOfView -= CGFloat(scale)
+                aircraftCameraNode!.camera?.fieldOfView -= CGFloat(velocity)
+
                 if aircraftCameraNode!.camera!.fieldOfView <= maximumFOV {
                     aircraftCameraNode!.camera!.fieldOfView = maximumFOV
                 }

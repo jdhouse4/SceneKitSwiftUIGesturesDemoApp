@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E65D109124E359B000F1E5E5 /* SwiftUISceneKitUsingVarsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65D109024E359B000F1E5E5 /* SwiftUISceneKitUsingVarsContentView.swift */; };
+		E65D109324E35A4200F1E5E5 /* SwiftUISceneKitUsingVarsAndStateVarsContentView().swift in Sources */ = {isa = PBXBuildFile; fileRef = E65D109224E35A4200F1E5E5 /* SwiftUISceneKitUsingVarsAndStateVarsContentView().swift */; };
 		E6DA768724E257E600BE1969 /* SwiftUISceneKitUsingStateVarsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DA768624E257E600BE1969 /* SwiftUISceneKitUsingStateVarsContentView.swift */; };
 		E6FB1CF224D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */; };
 		E6FB1CF424D3837D0086CD4B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1CF324D3837D0086CD4B /* ContentView.swift */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E65D109024E359B000F1E5E5 /* SwiftUISceneKitUsingVarsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingVarsContentView.swift; sourceTree = "<group>"; };
+		E65D109224E35A4200F1E5E5 /* SwiftUISceneKitUsingVarsAndStateVarsContentView().swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUISceneKitUsingVarsAndStateVarsContentView().swift"; sourceTree = "<group>"; };
 		E6DA768624E257E600BE1969 /* SwiftUISceneKitUsingStateVarsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingStateVarsContentView.swift; sourceTree = "<group>"; };
 		E6FB1CEE24D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SceneKitSwiftUIGesturesDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitSwiftUIGesturesDemoAppApp.swift; sourceTree = "<group>"; };
@@ -69,6 +73,8 @@
 				E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */,
 				E6FB1CF324D3837D0086CD4B /* ContentView.swift */,
 				E6FB1D0124D384670086CD4B /* SceneKitWithSwiftUIContentView.swift */,
+				E65D109024E359B000F1E5E5 /* SwiftUISceneKitUsingVarsContentView.swift */,
+				E65D109224E35A4200F1E5E5 /* SwiftUISceneKitUsingVarsAndStateVarsContentView().swift */,
 				E6DA768624E257E600BE1969 /* SwiftUISceneKitUsingStateVarsContentView.swift */,
 				E6FB1D0524D3864B0086CD4B /* SwiftUI+SCNView */,
 				E6FB1D0324D385F80086CD4B /* art.scnassets */,
@@ -176,6 +182,8 @@
 				E6FB1CF224D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift in Sources */,
 				E6FB1D0E24D386990086CD4B /* ControlsView.swift in Sources */,
 				E6FB1D1324D386C40086CD4B /* SceneKitWithSCNSceneViewContentView.swift in Sources */,
+				E65D109324E35A4200F1E5E5 /* SwiftUISceneKitUsingVarsAndStateVarsContentView().swift in Sources */,
+				E65D109124E359B000F1E5E5 /* SwiftUISceneKitUsingVarsContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
