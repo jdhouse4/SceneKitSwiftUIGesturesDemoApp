@@ -47,19 +47,22 @@ struct SceneKitWithSwiftUIContentView: View {
 
             SceneView (
                 scene: aircraftScene,
-                pointOfView: camera,
+                pointOfView: aircraftScene?.rootNode.childNode(withName: "distantCameraNode", recursively: true),
                 options: []
             )
             .background(Color.black)
             .gesture(MagnificationGesture()
                         .updating($magnifyBy) { (currentState, gestureState, transaction) in
                             gestureState = currentState
-                            /*
+
                             let maximumFOV: CGFloat = 25 // This is what determines the farthest point into which to zoom.
                             let minimumFOV: CGFloat = 90 // This is what determines the farthest point from which to zoom.
 
-                            self.pointOfViewNode.camera?.fieldOfView /= magnifyBy
-                            */
+
+                            //self.pointOfViewNode.camera?.fieldOfView /= magnifyBy
+                            self.aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera?.fieldOfView /= magnifyBy
+
+
                             /*
                             if self.pointOfViewNode.camera!.fieldOfView <= maximumFOV {
                                 self.pointOfViewNode.camera!.fieldOfView = maximumFOV
@@ -68,6 +71,13 @@ struct SceneKitWithSwiftUIContentView: View {
                                 self.pointOfViewNode.camera!.fieldOfView = minimumFOV
                             }
                             */
+
+                            if (self.aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera!.fieldOfView)! <= maximumFOV {
+                                self.aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera?.fieldOfView = maximumFOV
+                            }
+                            if (self.aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera!.fieldOfView)! >= minimumFOV {
+                                self.aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera?.fieldOfView = minimumFOV
+                            }
 
                             print("While .updating, magnifyBy = \(magnifyBy))")
                         }
@@ -93,6 +103,8 @@ struct SceneKitWithSwiftUIContentView: View {
                             */
                         }
                         .onEnded({ (_) in
+                            self.aircraftScene!.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light?.intensity = 0.0
+                            self.aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera?.fieldOfView /= magnify
                             /*
                              Changing property of SCNNode does not change the node.
                              */
