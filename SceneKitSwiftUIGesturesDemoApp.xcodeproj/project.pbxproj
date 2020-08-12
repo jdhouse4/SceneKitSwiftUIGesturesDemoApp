@@ -7,16 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E65D109124E359B000F1E5E5 /* SwiftUISceneKitUsingVarsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65D109024E359B000F1E5E5 /* SwiftUISceneKitUsingVarsContentView.swift */; };
-		E6DA768724E257E600BE1969 /* SwiftUISceneKitUsingStateVarsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DA768624E257E600BE1969 /* SwiftUISceneKitUsingStateVarsContentView.swift */; };
 		E6FA0AAB24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FA0AAA24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift */; };
-		E6FA0AAD24E471D600EC28CB /* SwiftUISceneViewSimpleContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FA0AAC24E471D600EC28CB /* SwiftUISceneViewSimpleContentView.swift */; };
 		E6FA0AAF24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FA0AAE24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift */; };
 		E6FB1CF224D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */; };
 		E6FB1CF424D3837D0086CD4B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1CF324D3837D0086CD4B /* ContentView.swift */; };
 		E6FB1CF624D383800086CD4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6FB1CF524D383800086CD4B /* Assets.xcassets */; };
 		E6FB1CF924D383800086CD4B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6FB1CF824D383800086CD4B /* Preview Assets.xcassets */; };
-		E6FB1D0224D384670086CD4B /* SceneKitWithSwiftUIContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1D0124D384670086CD4B /* SceneKitWithSwiftUIContentView.swift */; };
 		E6FB1D0424D385F80086CD4B /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = E6FB1D0324D385F80086CD4B /* art.scnassets */; };
 		E6FB1D0E24D386990086CD4B /* ControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1D0824D386990086CD4B /* ControlsView.swift */; };
 		E6FB1D0F24D386990086CD4B /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1D0924D386990086CD4B /* SceneKitView.swift */; };
@@ -25,10 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E65D109024E359B000F1E5E5 /* SwiftUISceneKitUsingVarsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingVarsContentView.swift; sourceTree = "<group>"; };
-		E6DA768624E257E600BE1969 /* SwiftUISceneKitUsingStateVarsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingStateVarsContentView.swift; sourceTree = "<group>"; };
 		E6FA0AAA24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingVarsWithCopyContentView.swift; sourceTree = "<group>"; };
-		E6FA0AAC24E471D600EC28CB /* SwiftUISceneViewSimpleContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneViewSimpleContentView.swift; sourceTree = "<group>"; };
 		E6FA0AAE24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingStateObjectVarsContentView.swift; sourceTree = "<group>"; };
 		E6FB1CEE24D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SceneKitSwiftUIGesturesDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitSwiftUIGesturesDemoAppApp.swift; sourceTree = "<group>"; };
@@ -36,7 +29,6 @@
 		E6FB1CF524D383800086CD4B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E6FB1CF824D383800086CD4B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E6FB1CFA24D383800086CD4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E6FB1D0124D384670086CD4B /* SceneKitWithSwiftUIContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitWithSwiftUIContentView.swift; sourceTree = "<group>"; };
 		E6FB1D0324D385F80086CD4B /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		E6FB1D0824D386990086CD4B /* ControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsView.swift; sourceTree = "<group>"; };
 		E6FB1D0924D386990086CD4B /* SceneKitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
@@ -55,17 +47,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E69EC9E424E494750001F969 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-				E6FB1D0124D384670086CD4B /* SceneKitWithSwiftUIContentView.swift */,
-				E6FA0AAC24E471D600EC28CB /* SwiftUISceneViewSimpleContentView.swift */,
-				E65D109024E359B000F1E5E5 /* SwiftUISceneKitUsingVarsContentView.swift */,
-				E6DA768624E257E600BE1969 /* SwiftUISceneKitUsingStateVarsContentView.swift */,
-			);
-			path = "New Group";
-			sourceTree = "<group>";
-		};
 		E6FB1CE524D3837D0086CD4B = {
 			isa = PBXGroup;
 			children = (
@@ -87,7 +68,6 @@
 			children = (
 				E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */,
 				E6FB1CF324D3837D0086CD4B /* ContentView.swift */,
-				E69EC9E424E494750001F969 /* New Group */,
 				E6FA0AAA24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift */,
 				E6FA0AAE24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift */,
 				E6FB1D0524D3864B0086CD4B /* SwiftUI+SCNView */,
@@ -191,15 +171,11 @@
 				E6FB1CF424D3837D0086CD4B /* ContentView.swift in Sources */,
 				E6FB1D1024D386990086CD4B /* SunLightButton.swift in Sources */,
 				E6FA0AAB24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift in Sources */,
-				E6FB1D0224D384670086CD4B /* SceneKitWithSwiftUIContentView.swift in Sources */,
 				E6FB1D0F24D386990086CD4B /* SceneKitView.swift in Sources */,
-				E6DA768724E257E600BE1969 /* SwiftUISceneKitUsingStateVarsContentView.swift in Sources */,
 				E6FB1CF224D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift in Sources */,
 				E6FB1D0E24D386990086CD4B /* ControlsView.swift in Sources */,
 				E6FA0AAF24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift in Sources */,
 				E6FB1D1324D386C40086CD4B /* SceneKitWithSCNSceneViewContentView.swift in Sources */,
-				E65D109124E359B000F1E5E5 /* SwiftUISceneKitUsingVarsContentView.swift in Sources */,
-				E6FA0AAD24E471D600EC28CB /* SwiftUISceneViewSimpleContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
