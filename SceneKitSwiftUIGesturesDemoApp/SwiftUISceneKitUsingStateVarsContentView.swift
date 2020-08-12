@@ -13,7 +13,7 @@ import SceneKit
 struct SwiftUISceneKitUsingStateVarsContentView: View {
     @State private var sunlightSwitch   = true
     @State private var magnify          = CGFloat(1.0)
-    @StateObject var aircraftScene      = SCNScene(named: "art.scnassets/ship.scn")!
+    @State private var aircraftScene    = SCNScene(named: "art.scnassets/ship.scn")!
 
     var body: some View {
         ZStack {
