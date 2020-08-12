@@ -10,6 +10,7 @@
 		E65D109124E359B000F1E5E5 /* SwiftUISceneKitUsingVarsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65D109024E359B000F1E5E5 /* SwiftUISceneKitUsingVarsContentView.swift */; };
 		E65D109324E35A4200F1E5E5 /* SwiftUISceneKitUsingVarsAndStateVarsContentView().swift in Sources */ = {isa = PBXBuildFile; fileRef = E65D109224E35A4200F1E5E5 /* SwiftUISceneKitUsingVarsAndStateVarsContentView().swift */; };
 		E6DA768724E257E600BE1969 /* SwiftUISceneKitUsingStateVarsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DA768624E257E600BE1969 /* SwiftUISceneKitUsingStateVarsContentView.swift */; };
+		E6FA0AAB24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FA0AAA24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift */; };
 		E6FB1CF224D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */; };
 		E6FB1CF424D3837D0086CD4B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1CF324D3837D0086CD4B /* ContentView.swift */; };
 		E6FB1CF624D383800086CD4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6FB1CF524D383800086CD4B /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 		E65D109024E359B000F1E5E5 /* SwiftUISceneKitUsingVarsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingVarsContentView.swift; sourceTree = "<group>"; };
 		E65D109224E35A4200F1E5E5 /* SwiftUISceneKitUsingVarsAndStateVarsContentView().swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUISceneKitUsingVarsAndStateVarsContentView().swift"; sourceTree = "<group>"; };
 		E6DA768624E257E600BE1969 /* SwiftUISceneKitUsingStateVarsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingStateVarsContentView.swift; sourceTree = "<group>"; };
+		E6FA0AAA24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingVarsWithCopyContentView.swift; sourceTree = "<group>"; };
 		E6FB1CEE24D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SceneKitSwiftUIGesturesDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitSwiftUIGesturesDemoAppApp.swift; sourceTree = "<group>"; };
 		E6FB1CF324D3837D0086CD4B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				E6FB1CF324D3837D0086CD4B /* ContentView.swift */,
 				E6FB1D0124D384670086CD4B /* SceneKitWithSwiftUIContentView.swift */,
 				E65D109024E359B000F1E5E5 /* SwiftUISceneKitUsingVarsContentView.swift */,
+				E6FA0AAA24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift */,
 				E65D109224E35A4200F1E5E5 /* SwiftUISceneKitUsingVarsAndStateVarsContentView().swift */,
 				E6DA768624E257E600BE1969 /* SwiftUISceneKitUsingStateVarsContentView.swift */,
 				E6FB1D0524D3864B0086CD4B /* SwiftUI+SCNView */,
@@ -176,6 +179,7 @@
 			files = (
 				E6FB1CF424D3837D0086CD4B /* ContentView.swift in Sources */,
 				E6FB1D1024D386990086CD4B /* SunLightButton.swift in Sources */,
+				E6FA0AAB24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift in Sources */,
 				E6FB1D0224D384670086CD4B /* SceneKitWithSwiftUIContentView.swift in Sources */,
 				E6FB1D0F24D386990086CD4B /* SceneKitView.swift in Sources */,
 				E6DA768724E257E600BE1969 /* SwiftUISceneKitUsingStateVarsContentView.swift in Sources */,

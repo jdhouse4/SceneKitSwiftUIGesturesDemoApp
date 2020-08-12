@@ -1,8 +1,8 @@
 //
-//  SwiftUISceneKitUsingVarsContentView.swift
+//  SwiftUISceneKitUsingVarsWithCopyContentView.swift
 //  SceneKitSwiftUIGesturesDemoApp
 //
-//  Created by James Hillhouse IV on 8/11/20.
+//  Created by James Hillhouse IV on 8/12/20.
 //
 
 import SwiftUI
@@ -11,7 +11,7 @@ import SceneKit
 
 
 
-struct SwiftUISceneKitUsingVarsContentView: View {
+struct SwiftUISceneKitUsingVarsWithCopyContentView: View {
     @State private var sunlightSwitch   = true
     @State private var magnify          = CGFloat(1.0)
 
@@ -107,8 +107,8 @@ struct SwiftUISceneKitUsingVarsContentView: View {
     }
 }
 
-struct SwiftUISceneKitUsingVarsContentView_Previews: PreviewProvider {
+struct SwiftUISceneKitUsingVarsWithCopyContentView_Previews: PreviewProvider {
     static var previews: some View {
-        SwiftUISceneKitUsingVarsContentView()
+        SwiftUISceneKitUsingVarsWithCopyContentView()
     }
 }

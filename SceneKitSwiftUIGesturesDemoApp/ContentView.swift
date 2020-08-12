@@ -10,17 +10,21 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            SwiftUISceneKitUsingVarsContentView()
+            SceneKitWithSwiftUIContentView()
                 .tabItem {
-                    Image(systemName: "hand.thumbsdown.fill")
-                    Text("Just Vars")
+                    Image(systemName: "trash.fill")
+                    Text("Just vars")
                 }
 
-            //SwiftUISceneKitUsingVarsAndStateVarsContentView()
+            SwiftUISceneKitUsingVarsContentView()
+                .tabItem {
+                    Image(systemName: "hand.raised.fill")
+                    Text("Vars with copy")
+                }
 
             SwiftUISceneKitUsingStateVarsContentView()
                 .tabItem {
-                    Image(systemName: "hand.thumbsup.fill")
+                    Image(systemName: "hand.thumb.fill")
                     Text("State Vars")
                 }
 
