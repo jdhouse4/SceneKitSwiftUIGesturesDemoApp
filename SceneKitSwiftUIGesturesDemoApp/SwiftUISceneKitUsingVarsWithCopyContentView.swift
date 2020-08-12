@@ -91,6 +91,10 @@ struct SwiftUISceneKitUsingVarsWithCopyContentView: View {
                     .font(.title3)
                     .padding()
 
+                Text("FOV: \((self._aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera!.fieldOfView)!, specifier: "%.2f")")
+                    .foregroundColor(Color.gray)
+                    .font(.title3)
+
 
                 Spacer(minLength: 300)
 
