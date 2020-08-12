@@ -10,21 +10,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            /*
-            SwiftUISceneViewSimpleContentView()
-                .tabItem {
-                    Image(systemName: "trash")
-                    Text("No vars")
-                }
-
-
-            SwiftUISceneKitUsingVarsContentView()
-                .tabItem {
-                    Image(systemName: "trash.fill")
-                    Text("Just vars")
-                }
-            */
-            SwiftUISceneKitUsingVarsWithCopyContentView()
+           SwiftUISceneKitUsingVarsWithCopyContentView()
                 .tabItem {
                     Image(systemName: "hand.raised.fill")
                     Text("Vars with copy")
@@ -35,13 +21,7 @@ struct ContentView: View {
                     Image(systemName: "tortoise.fill")
                     Text("StateObject vars")
                 }
-            /*
-            SwiftUISceneKitUsingStateVarsContentView()
-                .tabItem {
-                    Image(systemName: "hand.thumbsdown.fill")
-                    Text("State Vars")
-                }
-            */
+            
             SceneKitWithSCNSceneViewContentView()
                 .tabItem {
                     Image(systemName: "hare.fill")
