@@ -1,8 +1,8 @@
 //
-//  SwiftUISceneKitUsingStateVarsContentView.swift
+//  SwiftUISceneKitUsingStateObjectVarsContentView.swift
 //  SceneKitSwiftUIGesturesDemoApp
 //
-//  Created by James Hillhouse IV on 8/10/20.
+//  Created by James Hillhouse IV on 8/12/20.
 //
 
 import SwiftUI
@@ -10,7 +10,15 @@ import SceneKit
 
 
 
-struct SwiftUISceneKitUsingStateVarsContentView: View {
+
+extension SCNScene: ObservableObject {
+}
+
+
+
+
+
+struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
     @State private var sunlightSwitch   = true
     @State private var magnify          = CGFloat(1.0)
     @StateObject var aircraftScene      = SCNScene(named: "art.scnassets/ship.scn")!
@@ -79,9 +87,8 @@ struct SwiftUISceneKitUsingStateVarsContentView: View {
     }
 }
 
-struct SwiftUISceneKitUsingStateVarsContentView_Previews: PreviewProvider {
+struct SwiftUISceneKitUsingStateObjectVarsContentView_Previews: PreviewProvider {
     static var previews: some View {
-        SwiftUISceneKitUsingStateVarsContentView()
+        SwiftUISceneKitUsingStateObjectVarsContentView()
     }
 }
-

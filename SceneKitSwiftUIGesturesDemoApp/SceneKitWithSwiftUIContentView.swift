@@ -11,9 +11,11 @@ import SceneKit
 
 
 
+
 struct SceneKitWithSwiftUIContentView: View {
     @State private var sunlightSwitch   = true
     @State private var magnify          = CGFloat(1.0)
+    
 
     var magnification: some Gesture {
         MagnificationGesture()

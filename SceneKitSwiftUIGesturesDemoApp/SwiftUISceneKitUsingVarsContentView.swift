@@ -15,49 +15,64 @@ struct SwiftUISceneKitUsingVarsContentView: View {
     @State private var sunlightSwitch   = true
     @State private var magnify          = CGFloat(1.0)
 
-    private var _aircraftScene          = SCNScene(named: "art.scnassets/ship.scn")
-
     var magnification: some Gesture {
         MagnificationGesture()
             .onChanged{ (value) in
                 self.magnify = value
                 print("MagnificationGesture .onChanged value = \(value)")
 
+                // Doesn't work because on redraw aircraftScene is defined with default fOV (60).
+                /*
                 let maximumFOV: CGFloat = 25 // This is what determines the farthest point into which to zoom.
                 let minimumFOV: CGFloat = 90 // This is what determines the farthest point from which to zoom.
 
-                self._aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera?.fieldOfView /= magnify
+                self.aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera?.fieldOfView /= magnify
 
-                if (self._aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera!.fieldOfView)! <= maximumFOV {
-                    self._aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera?.fieldOfView = maximumFOV
+                if (self.aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera!.fieldOfView)! <= maximumFOV {
+                    self.aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera?.fieldOfView = maximumFOV
                 }
-                if (self._aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera!.fieldOfView)! >= minimumFOV {
-                    self._aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera?.fieldOfView = minimumFOV
+                if (self.aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera!.fieldOfView)! >= minimumFOV {
+                    self.aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera?.fieldOfView = minimumFOV
                 }
+                */
             }
     }
 
     // Create a scene.
     var aircraftScene: SCNScene {
-        mutating get {
+        get {
             print("Loading Scene Assets.")
-            if !isKnownUniquelyReferenced(&_aircraftScene) {
-                _aircraftScene = (_aircraftScene?.copy() as! SCNScene)
+            guard let scene = SCNScene(named: "art.scnassets/ship.scn")
+            else {
+                print("Oopsie, no scene")
+                return SCNScene()
             }
-            /*
+
+            let lightNode = scene.rootNode.childNode(withName: "sunlightNode", recursively: true)
+
             if self.sunlightSwitch == true {
-                _aircraftScene!.rootNode.childNode(withName: "sunlightNode", recursively: true)!.light?.intensity      = 2000.0
+                lightNode!.light?.intensity      = 2000.0
             } else {
-                _aircraftScene!.rootNode.childNode(withName: "sunlightNode", recursively: true)!.light?.intensity      = 0
+                lightNode!.light?.intensity      = 0
             }
-            */
+
+            let maximumFOV: CGFloat = 25 // This is what determines the farthest point into which to zoom.
+            let minimumFOV: CGFloat = 90 // This is what determines the farthest point from which to zoom.
+
+            scene.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera?.fieldOfView /= magnify
+
+            if (scene.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera!.fieldOfView)! <= maximumFOV {
+                scene.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera?.fieldOfView = maximumFOV
+            }
+            if (scene.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera!.fieldOfView)! >= minimumFOV {
+                scene.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera?.fieldOfView = minimumFOV
+            }
+
             print("Created and returned a scene.\n\n")
-            return _aircraftScene!
-        }
-        set {
-            _aircraftScene = newValue
+            return scene
         }
     }
+
 
 
 
@@ -66,8 +81,8 @@ struct SwiftUISceneKitUsingVarsContentView: View {
             Color.black.edgesIgnoringSafeArea(.all)
 
             SceneView (
-                scene: _aircraftScene,
-                pointOfView: _aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)!,
+                scene: aircraftScene,
+                pointOfView: aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true),
                 options: []
             )
             .background(Color.black)
@@ -84,23 +99,24 @@ struct SwiftUISceneKitUsingVarsContentView: View {
 
                 Spacer(minLength: 300)
 
+                // Doesn't work because on redraw aircraftScene is defined with default light intensity (1000)
+                /*
                 Button( action: {
                     withAnimation{
                         self.sunlightSwitch.toggle()
                     }
                     if self.sunlightSwitch == true {
-                        self._aircraftScene!.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light?.intensity = 2000.0
+                        self.aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light?.intensity = 2000.0
                     } else {
-                        self._aircraftScene!.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light?.intensity = 0.0
+                        self.aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light?.intensity = 0.0
                     }
                 }) {
                     Image(systemName: sunlightSwitch ? "lightbulb.fill" : "lightbulb")
                         .imageScale(.large)
                         .accessibility(label: Text("Light Switch"))
                         .padding()
-                }
-
-                //ControlsView(sunlightSwitch: $sunlightSwitch)
+                }*/
+                ControlsView(sunlightSwitch: $sunlightSwitch)
             }
         }
         .statusBar(hidden: true)

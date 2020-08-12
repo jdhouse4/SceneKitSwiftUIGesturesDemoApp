@@ -44,13 +44,7 @@ struct SwiftUISceneKitUsingVarsWithCopyContentView: View {
             if !isKnownUniquelyReferenced(&_aircraftScene) {
                 _aircraftScene = (_aircraftScene?.copy() as! SCNScene)
             }
-            /*
-            if self.sunlightSwitch == true {
-                _aircraftScene!.rootNode.childNode(withName: "sunlightNode", recursively: true)!.light?.intensity      = 2000.0
-            } else {
-                _aircraftScene!.rootNode.childNode(withName: "sunlightNode", recursively: true)!.light?.intensity      = 0
-            }
-            */
+
             print("Created and returned a scene.\n\n")
             return _aircraftScene!
         }
