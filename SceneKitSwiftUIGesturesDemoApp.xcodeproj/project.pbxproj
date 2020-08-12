@@ -55,6 +55,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E69EC9E424E494750001F969 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				E6FB1D0124D384670086CD4B /* SceneKitWithSwiftUIContentView.swift */,
+				E6FA0AAC24E471D600EC28CB /* SwiftUISceneViewSimpleContentView.swift */,
+				E65D109024E359B000F1E5E5 /* SwiftUISceneKitUsingVarsContentView.swift */,
+				E6DA768624E257E600BE1969 /* SwiftUISceneKitUsingStateVarsContentView.swift */,
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		E6FB1CE524D3837D0086CD4B = {
 			isa = PBXGroup;
 			children = (
@@ -76,11 +87,8 @@
 			children = (
 				E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */,
 				E6FB1CF324D3837D0086CD4B /* ContentView.swift */,
-				E6FB1D0124D384670086CD4B /* SceneKitWithSwiftUIContentView.swift */,
-				E6FA0AAC24E471D600EC28CB /* SwiftUISceneViewSimpleContentView.swift */,
-				E65D109024E359B000F1E5E5 /* SwiftUISceneKitUsingVarsContentView.swift */,
+				E69EC9E424E494750001F969 /* New Group */,
 				E6FA0AAA24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift */,
-				E6DA768624E257E600BE1969 /* SwiftUISceneKitUsingStateVarsContentView.swift */,
 				E6FA0AAE24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift */,
 				E6FB1D0524D3864B0086CD4B /* SwiftUI+SCNView */,
 				E6FB1D0324D385F80086CD4B /* art.scnassets */,
