@@ -37,6 +37,13 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
                             print("magnify = \(self.magnify)")
                             self.magnify = value
 
+                            if self.magnify >= 1.01 {
+                                self.magnify = 1.01
+                            }
+                            if self.magnify <= 0.99 {
+                                self.magnify = 0.99
+                            }
+
                             let camera = self.aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera
 
                             let maximumFOV: CGFloat = 25 // Zoom-in.
@@ -46,10 +53,15 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
 
                             if camera!.fieldOfView <= maximumFOV {
                                 camera!.fieldOfView = maximumFOV
+                                self.magnify        = 1.0
                             }
                             if camera!.fieldOfView >= minimumFOV {
                                 camera!.fieldOfView = minimumFOV
+                                self.magnify        = 1.0
                             }
+                        }
+                        .onEnded{ _ in
+                            print("Ended pinch\n\n")
                         }
             )
 
@@ -61,6 +73,15 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
                 Text("Pinch to zoom.")
                     .foregroundColor(Color.gray)
                     .font(.title)
+
+                Text("Magnification: \(magnify, specifier: "%.2f")")
+                    .foregroundColor(Color.gray)
+                    .font(.title3)
+                    .padding()
+
+                Text("FOV: \((self.aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera!.fieldOfView)!, specifier: "%.2f")")
+                    .foregroundColor(Color.gray)
+                    .font(.title3)
 
                 Spacer(minLength: 300)
 

@@ -23,6 +23,13 @@ struct SwiftUISceneKitUsingVarsWithCopyContentView: View {
                 self.magnify = value
                 print("MagnificationGesture .onChanged value = \(value)")
 
+                if self.magnify >= 1.01 {
+                    self.magnify = 1.01
+                }
+                if self.magnify <= 0.99 {
+                    self.magnify = 0.99
+                }
+
                 let maximumFOV: CGFloat = 25 // This is what determines the farthest point into which to zoom.
                 let minimumFOV: CGFloat = 90 // This is what determines the farthest point from which to zoom.
 
@@ -30,9 +37,11 @@ struct SwiftUISceneKitUsingVarsWithCopyContentView: View {
 
                 if (self._aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera!.fieldOfView)! <= maximumFOV {
                     self._aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera?.fieldOfView = maximumFOV
+                    self.magnify = 1.0
                 }
                 if (self._aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera!.fieldOfView)! >= minimumFOV {
                     self._aircraftScene!.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera?.fieldOfView = minimumFOV
+                    self.magnify = 1.0
                 }
             }
     }
@@ -75,6 +84,13 @@ struct SwiftUISceneKitUsingVarsWithCopyContentView: View {
                 Text("Pinch to zoom.")
                     .foregroundColor(Color.gray)
                     .font(.title)
+
+
+                Text("Magnification: \(magnify, specifier: "%.2f")")
+                    .foregroundColor(Color.gray)
+                    .font(.title3)
+                    .padding()
+
 
                 Spacer(minLength: 300)
 
