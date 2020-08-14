@@ -15,13 +15,22 @@ extension SCNScene: ObservableObject {
 }
 
 
+extension SCNNode: ObservableObject {
+}
+
+
 
 
 
 struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
     @State private var sunlightSwitch   = true
+    @State private var cameraSwitch     = false
     @State private var magnify          = CGFloat(1.0)
     @StateObject var aircraftScene      = SCNScene(named: "art.scnassets/ship.scn")!
+    @StateObject var aircraftCamera     = SCNScene(named: "art.scnassets/ship.scn")!.rootNode.childNode(withName: "distantCameraNode", recursively: true)!
+
+    private var sceneViewCameraOption   = SceneView.Options.allowsCameraControl
+    //var sceneViewJitteringOption        = SceneView.Options.jitteringEnabled
 
     var body: some View {
         ZStack {
@@ -29,10 +38,11 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
 
             SceneView (
                 scene: aircraftScene,
-                pointOfView: aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)
+                pointOfView: aircraftCamera /*aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)*/,
+                options: [/*sceneViewCameraOption*/]
             )
             .background(Color.black)
-            .gesture(MagnificationGesture()
+            /*.gesture(MagnificationGesture()
                         .onChanged{ (value) in
                             print("magnify = \(self.magnify)")
                             self.magnify = value
@@ -63,7 +73,7 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
                         .onEnded{ _ in
                             print("Ended pinch\n\n")
                         }
-            )
+            )*/
 
             VStack() {
                 Text("Hello, SceneKit!").multilineTextAlignment(.leading).padding()
@@ -74,6 +84,7 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
                     .foregroundColor(Color.gray)
                     .font(.title)
 
+                /*
                 Text("Magnification: \(magnify, specifier: "%.2f")")
                     .foregroundColor(Color.gray)
                     .font(.title3)
@@ -82,25 +93,46 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
                 Text("FOV: \((self.aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera!.fieldOfView)!, specifier: "%.2f")")
                     .foregroundColor(Color.gray)
                     .font(.title3)
+                */
 
                 Spacer(minLength: 300)
 
-                Button( action: {
-                    withAnimation{
-                        self.sunlightSwitch.toggle()
-                    }
-                    let sunlight = self.aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light
+                HStack (spacing: 5) {
+                    Button( action: {
+                        withAnimation{
+                            self.sunlightSwitch.toggle()
+                        }
+                        let sunlight = self.aircraftScene.rootNode.childNode(withName: "sunlightNode", recursively: true)?.light
 
-                    if self.sunlightSwitch == true {
-                        sunlight!.intensity = 2000.0
-                    } else {
-                        sunlight!.intensity = 0.0
+                        if self.sunlightSwitch == true {
+                            sunlight!.intensity = 2000.0
+                        } else {
+                            sunlight!.intensity = 0.0
+                        }
+                    }) {
+                        Image(systemName: sunlightSwitch ? "lightbulb.fill" : "lightbulb")
+                            .imageScale(.large)
+                            .accessibility(label: Text("Light Switch"))
+                            .padding()
                     }
-                }) {
-                    Image(systemName: sunlightSwitch ? "lightbulb.fill" : "lightbulb")
-                        .imageScale(.large)
-                        .accessibility(label: Text("Light Switch"))
-                        .padding()
+
+                    Button( action: {
+                        withAnimation {
+                            self.cameraSwitch.toggle()
+                        }
+
+                        if self.cameraSwitch == true {
+                            self.aircraftCamera.childNode(withName: "frontCameraNode", recursively: true)
+                        }
+                        if self.cameraSwitch == false {
+                            self.aircraftCamera.childNode(withName: "distantCameraNode", recursively: true)
+                        }
+                    }) {
+                        Image(systemName: cameraSwitch ? "video.fill" : "video")
+                            .imageScale(.large)
+                            .accessibility(label: Text("Camera Switch"))
+                            .padding()
+                    }
                 }
             }
         }
