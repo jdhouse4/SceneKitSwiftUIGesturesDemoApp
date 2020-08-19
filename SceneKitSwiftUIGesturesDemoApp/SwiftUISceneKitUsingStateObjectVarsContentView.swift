@@ -36,7 +36,7 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
 
             SceneView (
                 scene: aircraftScene,
-                pointOfView: aircraftPOVNode.childNode(withName: povName, recursively: true) /*,
+                pointOfView: aircraftScene.rootNode.childNode(withName: povName, recursively: true) /*,
                 options: [sceneViewCameraOption]*/
             )
             .background(Color.black)
