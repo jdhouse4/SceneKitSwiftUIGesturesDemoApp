@@ -12,32 +12,21 @@ import SceneKit
 
 
 extension SCNScene: ObservableObject {
-}
-
-
-extension SCNNode: ObservableObject {
-    public var wrappedCameraNode: SCNCamera {
-        get {
-            self.camera ?? SCNCamera()
-        }
-        set {
-            camera = newValue
-        }
-    }
+    // Nothing here for now.
 }
 
 
 
 
 struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
-    @State private var sunlightSwitch   = true
-    @State private var cameraSwitch     = true
-    @State private var povName          = "distantCameraNode"
-    @State private var magnify          = CGFloat(1.0)
-    @StateObject var aircraftScene      = SCNScene(named: "art.scnassets/ship.scn")!
-    @StateObject var aircraftPOVNode    = SCNScene(named: "art.scnassets/ship.scn")!.rootNode
+    @State private var sunlightSwitch       = true
+    @State private var cameraSwitch         = true
+    @State private var povName              = "distantCameraNode"
+    @State private var magnify              = CGFloat(1.0)
+    @StateObject private var aircraftScene  = SCNScene(named: "art.scnassets/ship.scn")!
 
-    private var sceneViewCameraOption   = SceneView.Options.allowsCameraControl
+    private var aircraftPOVNode             = SCNScene(named: "art.scnassets/ship.scn")!.rootNode
+    private var sceneViewCameraOption       = SceneView.Options.allowsCameraControl
 
 
 
@@ -47,12 +36,12 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
 
             SceneView (
                 scene: aircraftScene,
-                pointOfView: aircraftPOVNode.childNode(withName: povName, recursively: true),
-                options: [sceneViewCameraOption]
+                pointOfView: aircraftPOVNode.childNode(withName: povName, recursively: true) /*,
+                options: [sceneViewCameraOption]*/
             )
             .background(Color.black)
 
-            /*.gesture(MagnificationGesture()
+            .gesture(MagnificationGesture()
                         .onChanged{ (value) in
                             print("magnify = \(self.magnify)")
                             self.magnify = value
@@ -64,7 +53,8 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
                                 self.magnify = 0.99
                             }
 
-                            let camera = self.aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera
+                            // If this capability is desired, aircraftScene must be extended to conform to ObservableObject.
+                            let camera = self.aircraftScene.rootNode.childNode(withName: povName, recursively: true)?.camera
 
                             let maximumFOV: CGFloat = 25 // Zoom-in.
                             let minimumFOV: CGFloat = 90 // Zoom-out.
@@ -83,7 +73,7 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
                         .onEnded{ _ in
                             print("Ended pinch\n\n")
                         }
-            )*/
+            )
 
             VStack() {
                 Text("Hello, SceneKit!").multilineTextAlignment(.leading).padding()
@@ -94,7 +84,7 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
                     .foregroundColor(Color.gray)
                     .font(.title)
 
-                /*
+
                 Text("Magnification: \(magnify, specifier: "%.2f")")
                     .foregroundColor(Color.gray)
                     .font(.title3)
@@ -103,7 +93,7 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
                 Text("FOV: \((self.aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)?.camera!.fieldOfView)!, specifier: "%.2f")")
                     .foregroundColor(Color.gray)
                     .font(.title3)
-                */
+
 
                 Spacer(minLength: 300)
 
@@ -148,21 +138,6 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
         }
         .statusBar(hidden: true)
     }
-
-    /*
-    mutating func swapCamera() -> SCNNode {
-        if cameraSwitch == false {
-            print("frontCameraNode")
-            self.aircraftPOVNode.wrappedChildNode(withName: "frontCameraNode", recursively: true)
-        }
-        if cameraSwitch == true {
-            print("distantCameraNode")
-            self.aircraftPOVNode.childNode(withName: "distantCameraNode", recursively: true)
-        }
-
-        return self.aircraftPOVNode
-    }
-    */
 }
 
 struct SwiftUISceneKitUsingStateObjectVarsContentView_Previews: PreviewProvider {
