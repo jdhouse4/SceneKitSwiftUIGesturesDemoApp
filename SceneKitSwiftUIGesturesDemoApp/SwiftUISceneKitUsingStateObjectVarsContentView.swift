@@ -63,6 +63,7 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
     @State private var magnify          = CGFloat(1.0)
     @StateObject var aircraftScene      = SCNScene(named: "art.scnassets/ship.scn")!
     //@StateObject var aircraftCamera     = SCNScene(named: "art.scnassets/ship.scn")!.rootNode//.childNode(withName: "distantCameraNode", recursively: true)!
+    @State var aircraftCamera: SCNNode = SCNScene(named: "art.scnassets/ship.scn")!.rootNode.childNode(withName: "distantCameraNode", recursively: true)!
 
     private var sceneViewCameraOption   = SceneView.Options.allowsCameraControl
 
@@ -75,7 +76,7 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
             if cameraSwitch == true {
                 SceneView (
                     scene: aircraftScene,
-                    pointOfView: aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true),
+                    pointOfView: aircraftCamera,
                     options: [sceneViewCameraOption]
                 )
             }
@@ -172,15 +173,15 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
                         withAnimation {
                             self.cameraSwitch.toggle()
                         }
-                        /*
-                        if self.cameraSwitch == true {
-                            print("frontCameraNode")
-                            self.aircraftCamera = self.aircraftScene.rootNode.childNode(withName: "shipCameraNode", recursively: true)!
-                        }
+
                         if self.cameraSwitch == false {
+                            print("frontCameraNode")
+                            self.aircraftCamera = self.aircraftScene.rootNode.childNode(withName: "frontCameraNode", recursively: true)!
+                        }
+                        if self.cameraSwitch == true {
                             print("distantCameraNode")
                             self.aircraftCamera = self.aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true)!
-                        }*/
+                        }
                     }) {
                         Image(systemName: cameraSwitch ? "video.fill" : "video")
                             .imageScale(.large)
