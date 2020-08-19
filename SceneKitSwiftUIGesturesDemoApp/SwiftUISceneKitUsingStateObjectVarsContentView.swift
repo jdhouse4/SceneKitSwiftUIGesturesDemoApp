@@ -12,6 +12,16 @@ import SceneKit
 
 
 extension SCNScene: ObservableObject {
+    /*
+    public var wrappedRootNode: SCNNode {
+
+        get {
+            self.rootNode
+        }
+        set {
+            rootNode = newValue
+        }
+    } */
     /*public var wrappedNode: SCNNode {
         self.rootNode.n ?? SCNNode()
     }
@@ -33,7 +43,7 @@ extension SCNNode: ObservableObject {
 }
 
 
-
+/*
 extension SceneView {
     func changePOV(pointOfView: SCNNode) -> some View {
         let sceneView = SCNView()
@@ -42,20 +52,21 @@ extension SceneView {
         return self
     }
 }
-
+*/
 
 
 
 
 struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
     @State private var sunlightSwitch   = true
-    @State private var cameraSwitch     = false
+    @State private var cameraSwitch     = true
     @State private var magnify          = CGFloat(1.0)
     @StateObject var aircraftScene      = SCNScene(named: "art.scnassets/ship.scn")!
-    @StateObject var aircraftCamera     = SCNScene(named: "art.scnassets/ship.scn")!.rootNode//.childNode(withName: "distantCameraNode", recursively: true)!
+    //@StateObject var aircraftCamera     = SCNScene(named: "art.scnassets/ship.scn")!.rootNode//.childNode(withName: "distantCameraNode", recursively: true)!
 
     private var sceneViewCameraOption   = SceneView.Options.allowsCameraControl
-    //var sceneViewJitteringOption        = SceneView.Options.jitteringEnabled
+
+
 
     var body: some View {
         ZStack {
@@ -64,14 +75,14 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
             if cameraSwitch == true {
                 SceneView (
                     scene: aircraftScene,
-                    pointOfView: aircraftCamera.childNode(withName: "distantCameraNode", recursively: true),
+                    pointOfView: aircraftScene.rootNode.childNode(withName: "distantCameraNode", recursively: true),
                     options: [sceneViewCameraOption]
                 )
             }
             if cameraSwitch == false {
                 SceneView (
                     scene: aircraftScene,
-                    pointOfView: aircraftCamera.childNode(withName: "frontCameraNode", recursively: true),
+                    pointOfView: aircraftScene.rootNode.childNode(withName: "frontCameraNode", recursively: true),
                     options: [sceneViewCameraOption]
                 )
             }
