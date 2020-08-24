@@ -1,8 +1,8 @@
 //
-//  SwiftUISceneKitUsingVarsWithCopyContentView.swift
+//  SwiftUISceneKitUsingAllowsCameraControlContentView.swift
 //  SceneKitSwiftUIGesturesDemoApp
 //
-//  Created by James Hillhouse IV on 8/12/20.
+//  Created by James Hillhouse IV on 8/19/20.
 //
 
 import SwiftUI
@@ -11,53 +11,15 @@ import SceneKit
 
 
 
-struct SwiftUISceneKitUsingVarsWithCopyContentView: View {
+struct SwiftUISceneKitUsingAllowsCameraControlContentView: View {
     @State private var sunlightSwitch       = true
     @State private var cameraSwitch         = true
-    @State private var povName              = "distantCameraNode"
-    @State private var magnify              = CGFloat(1.0)
+    @State private var povName              = "distantCamera"
 
     private var aircraftScene               = SCNScene(named: "art.scnassets/ship.scn")!
 
     // SceneView.Options for affecting the SceneView.
     private var sceneViewCameraOption       = SceneView.Options.allowsCameraControl
-
-
-    var magnification: some Gesture {
-        MagnificationGesture()
-            .onChanged{ (value) in
-                print("magnify = \(self.magnify)")
-                self.magnify = value
-
-                if self.magnify >= 1.01 {
-                    self.magnify = 1.01
-                }
-                if self.magnify <= 0.99 {
-                    self.magnify = 0.99
-                }
-
-                // If this capability is desired, SCNScene must be extended to conform to ObservableObject.
-                let camera = self.aircraftScene.rootNode.childNode(withName: povName, recursively: true)?.camera
-
-                let maximumFOV: CGFloat = 25 // Zoom-in.
-                let minimumFOV: CGFloat = 90 // Zoom-out.
-
-                camera!.fieldOfView /= magnify
-
-                if camera!.fieldOfView <= maximumFOV {
-                    camera!.fieldOfView = maximumFOV
-                    self.magnify        = 1.0
-                }
-                if camera!.fieldOfView >= minimumFOV {
-                    camera!.fieldOfView = minimumFOV
-                    self.magnify        = 1.0
-                }
-            }
-            .onEnded{ _ in
-                print("Ended pinch\n\n")
-            }
-    }
-
 
 
     var body: some View {
@@ -70,18 +32,18 @@ struct SwiftUISceneKitUsingVarsWithCopyContentView: View {
                 options: [sceneViewCameraOption]
             )
             .background(Color.black)
-            .gesture(magnification)
+
 
             VStack() {
                 Text("Hello, SceneKit!").multilineTextAlignment(.leading).padding()
                     .foregroundColor(Color.gray)
                     .font(.largeTitle)
 
-                Text("Pinch to zoom.")
+                Text("Using Allows Camera Control")
                     .foregroundColor(Color.gray)
-                    .font(.title)
+                    .font(.title3)
 
-
+                /*
                 Text("Magnification: \(magnify, specifier: "%.2f")")
                     .foregroundColor(Color.gray)
                     .font(.title3)
@@ -90,7 +52,7 @@ struct SwiftUISceneKitUsingVarsWithCopyContentView: View {
                 Text("FOV: \((aircraftScene.rootNode.childNode(withName: povName, recursively: true)?.camera!.fieldOfView)!, specifier: "%.2f")")
                     .foregroundColor(Color.gray)
                     .font(.title3)
-
+                */
 
                 Spacer(minLength: 300)
 
@@ -121,7 +83,7 @@ struct SwiftUISceneKitUsingVarsWithCopyContentView: View {
                             povName = "shipCamera"
                         }
                         if self.cameraSwitch == true {
-                            povName = "distantCameraNode"
+                            povName = "distantCamera"
                         }
                         print("\(povName)")
                     }) {
@@ -137,8 +99,8 @@ struct SwiftUISceneKitUsingVarsWithCopyContentView: View {
     }
 }
 
-struct SwiftUISceneKitUsingVarsWithCopyContentView_Previews: PreviewProvider {
+struct SwiftUISceneKitUsingAllowsCameraControlContentView_Previews: PreviewProvider {
     static var previews: some View {
-        SwiftUISceneKitUsingVarsWithCopyContentView()
+        SwiftUISceneKitUsingAllowsCameraControlContentView()
     }
 }

@@ -10,10 +10,10 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-           SwiftUISceneKitUsingVarsWithCopyContentView()
+            SwiftUISceneKitUsingAllowsCameraControlContentView()
                 .tabItem {
-                    Image(systemName: "hand.raised.fill")
-                    Text("Vars with copy")
+                    Image(systemName: "airplane")
+                    Text("Camera Control")
                 }
 
             SwiftUISceneKitUsingStateObjectVarsContentView()

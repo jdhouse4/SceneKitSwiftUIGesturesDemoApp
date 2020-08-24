@@ -101,7 +101,7 @@ struct SceneKitView: UIViewRepresentable {
                 return
             }
 
-            let aircraftCameraNode = aircraftNode.childNode(withName: "distantCameraNode", recursively: true)
+            let aircraftCameraNode = aircraftNode.childNode(withName: "distantCamera", recursively: true)
 
             let velocity = gestureReconizer.velocity // scale doesn't work
             print("pinch gesture velocity = \(velocity)")

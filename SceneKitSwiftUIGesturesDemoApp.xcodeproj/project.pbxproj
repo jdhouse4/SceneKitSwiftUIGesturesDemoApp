@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E6AB50E624EDC4CB00F81F13 /* SwiftUISceneKitUsingAllowsCameraControlContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AB50E524EDC4CB00F81F13 /* SwiftUISceneKitUsingAllowsCameraControlContentView.swift */; };
 		E6FA0AAB24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FA0AAA24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift */; };
 		E6FA0AAF24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FA0AAE24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift */; };
 		E6FB1CF224D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E6AB50E524EDC4CB00F81F13 /* SwiftUISceneKitUsingAllowsCameraControlContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingAllowsCameraControlContentView.swift; sourceTree = "<group>"; };
 		E6FA0AAA24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingVarsWithCopyContentView.swift; sourceTree = "<group>"; };
 		E6FA0AAE24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingStateObjectVarsContentView.swift; sourceTree = "<group>"; };
 		E6FB1CEE24D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SceneKitSwiftUIGesturesDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,6 +70,7 @@
 			children = (
 				E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */,
 				E6FB1CF324D3837D0086CD4B /* ContentView.swift */,
+				E6AB50E524EDC4CB00F81F13 /* SwiftUISceneKitUsingAllowsCameraControlContentView.swift */,
 				E6FA0AAA24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift */,
 				E6FA0AAE24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift */,
 				E6FB1D0524D3864B0086CD4B /* SwiftUI+SCNView */,
@@ -172,6 +175,7 @@
 				E6FB1D1024D386990086CD4B /* SunLightButton.swift in Sources */,
 				E6FA0AAB24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift in Sources */,
 				E6FB1D0F24D386990086CD4B /* SceneKitView.swift in Sources */,
+				E6AB50E624EDC4CB00F81F13 /* SwiftUISceneKitUsingAllowsCameraControlContentView.swift in Sources */,
 				E6FB1CF224D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift in Sources */,
 				E6FB1D0E24D386990086CD4B /* ControlsView.swift in Sources */,
 				E6FA0AAF24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift in Sources */,
