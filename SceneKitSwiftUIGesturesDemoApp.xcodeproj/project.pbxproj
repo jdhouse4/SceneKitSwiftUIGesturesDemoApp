@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		E6AB50E624EDC4CB00F81F13 /* SwiftUISceneKitUsingAllowsCameraControlContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AB50E524EDC4CB00F81F13 /* SwiftUISceneKitUsingAllowsCameraControlContentView.swift */; };
+		E6AC39D924F9837400EDA481 /* SwiftUISceneKitUsingGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AC39D824F9837400EDA481 /* SwiftUISceneKitUsingGestures.swift */; };
+		E6AC39DB24F9843600EDA481 /* SwiftUISceneKitUsingGesturesContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AC39DA24F9843600EDA481 /* SwiftUISceneKitUsingGesturesContentView.swift */; };
 		E6FA0AAB24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FA0AAA24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift */; };
 		E6FA0AAF24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FA0AAE24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift */; };
 		E6FB1CF224D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */; };
@@ -23,6 +25,8 @@
 
 /* Begin PBXFileReference section */
 		E6AB50E524EDC4CB00F81F13 /* SwiftUISceneKitUsingAllowsCameraControlContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingAllowsCameraControlContentView.swift; sourceTree = "<group>"; };
+		E6AC39D824F9837400EDA481 /* SwiftUISceneKitUsingGestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingGestures.swift; sourceTree = "<group>"; };
+		E6AC39DA24F9843600EDA481 /* SwiftUISceneKitUsingGesturesContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingGesturesContentView.swift; sourceTree = "<group>"; };
 		E6FA0AAA24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingVarsWithCopyContentView.swift; sourceTree = "<group>"; };
 		E6FA0AAE24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingStateObjectVarsContentView.swift; sourceTree = "<group>"; };
 		E6FB1CEE24D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SceneKitSwiftUIGesturesDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,6 +77,8 @@
 				E6AB50E524EDC4CB00F81F13 /* SwiftUISceneKitUsingAllowsCameraControlContentView.swift */,
 				E6FA0AAA24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift */,
 				E6FA0AAE24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift */,
+				E6AC39D824F9837400EDA481 /* SwiftUISceneKitUsingGestures.swift */,
+				E6AC39DA24F9843600EDA481 /* SwiftUISceneKitUsingGesturesContentView.swift */,
 				E6FB1D0524D3864B0086CD4B /* SwiftUI+SCNView */,
 				E6FB1D0324D385F80086CD4B /* art.scnassets */,
 				E6FB1CF524D383800086CD4B /* Assets.xcassets */,
@@ -176,7 +182,9 @@
 				E6FA0AAB24E44B2B00EC28CB /* SwiftUISceneKitUsingVarsWithCopyContentView.swift in Sources */,
 				E6FB1D0F24D386990086CD4B /* SceneKitView.swift in Sources */,
 				E6AB50E624EDC4CB00F81F13 /* SwiftUISceneKitUsingAllowsCameraControlContentView.swift in Sources */,
+				E6AC39DB24F9843600EDA481 /* SwiftUISceneKitUsingGesturesContentView.swift in Sources */,
 				E6FB1CF224D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift in Sources */,
+				E6AC39D924F9837400EDA481 /* SwiftUISceneKitUsingGestures.swift in Sources */,
 				E6FB1D0E24D386990086CD4B /* ControlsView.swift in Sources */,
 				E6FA0AAF24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift in Sources */,
 				E6FB1D1324D386C40086CD4B /* SceneKitWithSCNSceneViewContentView.swift in Sources */,

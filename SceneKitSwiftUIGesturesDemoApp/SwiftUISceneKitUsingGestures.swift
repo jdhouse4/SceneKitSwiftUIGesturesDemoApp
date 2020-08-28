@@ -1,8 +1,8 @@
 //
-//  SwiftUISceneKitUsingStateObjectVarsContentView.swift
+//  SwiftUISceneKitUsingGestures.swift
 //  SceneKitSwiftUIGesturesDemoApp
 //
-//  Created by James Hillhouse IV on 8/12/20.
+//  Created by James Hillhouse IV on 8/28/20.
 //
 
 import SwiftUI
@@ -10,21 +10,13 @@ import SceneKit
 
 
 
-/*
-extension SCNScene: ObservableObject {
-    // Only here so I can use @StateObject on an instance of SCNScene.
-}
-*/
 
-
-
-struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
+struct SwiftUISceneKitUsingGestures: View {
     @State private var sunlightSwitch       = true
     @State private var cameraSwitch         = true
     @State private var povName              = "distantCamera"
     @State private var magnification        = CGFloat(1.0)
     @State private var isDragging           = true
-    //@StateObject private var aircraftScene  = SCNScene(named: "art.scnassets/ship.scn")!
     private var aircraftScene  = SCNScene(named: "art.scnassets/ship.scn")!
 
     // SceneView.Options for affecting the SceneView.
@@ -89,20 +81,9 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
 
                     .font(.largeTitle)
 
-                Text("Pinch to zoom.")
+                Text("With Gestures Too")
                     .foregroundColor(Color.gray)
                     .font(.title)
-
-                /*
-                Text("Magnification: \(magnify, specifier: "%.2f")")
-                    .foregroundColor(Color.gray)
-                    .font(.title3)
-                    .padding()
-
-                Text("FOV: \((self.aircraftScene.rootNode.childNode(withName: povName, recursively: true)?.camera!.fieldOfView)!, specifier: "%.2f")")
-                    .foregroundColor(Color.gray)
-                    .font(.title3)
-                */
 
                 Spacer(minLength: 300)
 
@@ -145,13 +126,12 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
                 }
             }
         }
-        //.gesture(magnify)
         .statusBar(hidden: true)
     }
 }
 
-struct SwiftUISceneKitUsingStateObjectVarsContentView_Previews: PreviewProvider {
+struct SwiftUISceneKitUsingGestures_Previews: PreviewProvider {
     static var previews: some View {
-        SwiftUISceneKitUsingStateObjectVarsContentView()
+        SwiftUISceneKitUsingGestures()
     }
 }

@@ -1,8 +1,8 @@
 //
-//  SwiftUISceneKitUsingStateObjectVarsContentView.swift
+//  SwiftUISceneKitUsingGesturesContentView.swift
 //  SceneKitSwiftUIGesturesDemoApp
 //
-//  Created by James Hillhouse IV on 8/12/20.
+//  Created by James Hillhouse IV on 8/28/20.
 //
 
 import SwiftUI
@@ -10,22 +10,14 @@ import SceneKit
 
 
 
-/*
-extension SCNScene: ObservableObject {
-    // Only here so I can use @StateObject on an instance of SCNScene.
-}
-*/
 
-
-
-struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
+struct SwiftUISceneKitUsingGesturesContentView: View {
     @State private var sunlightSwitch       = true
     @State private var cameraSwitch         = true
     @State private var povName              = "distantCamera"
     @State private var magnification        = CGFloat(1.0)
     @State private var isDragging           = true
-    //@StateObject private var aircraftScene  = SCNScene(named: "art.scnassets/ship.scn")!
-    private var aircraftScene  = SCNScene(named: "art.scnassets/ship.scn")!
+    private var aircraftScene               = SCNScene(named: "art.scnassets/ship.scn")!
 
     // SceneView.Options for affecting the SceneView.
     //private var sceneViewCameraOption       = SceneView.Options.allowsCameraControl
@@ -43,11 +35,11 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
                 print("magnify = \(self.magnification)")
                 self.magnification = value
 
-                if self.magnification >= 1.05 {
-                    self.magnification = 1.05
+                if self.magnification >= 1.03 {
+                    self.magnification = 1.03
                 }
-                if self.magnification <= 0.95 {
-                    self.magnification = 0.95
+                if self.magnification <= 0.97 {
+                    self.magnification = 0.97
                 }
 
                 // If this capability is desired, SCNScene must be extended to conform to ObservableObject.
@@ -89,20 +81,9 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
 
                     .font(.largeTitle)
 
-                Text("Pinch to zoom.")
+                Text("With Gestures Too")
                     .foregroundColor(Color.gray)
                     .font(.title)
-
-                /*
-                Text("Magnification: \(magnify, specifier: "%.2f")")
-                    .foregroundColor(Color.gray)
-                    .font(.title3)
-                    .padding()
-
-                Text("FOV: \((self.aircraftScene.rootNode.childNode(withName: povName, recursively: true)?.camera!.fieldOfView)!, specifier: "%.2f")")
-                    .foregroundColor(Color.gray)
-                    .font(.title3)
-                */
 
                 Spacer(minLength: 300)
 
@@ -145,13 +126,12 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
                 }
             }
         }
-        //.gesture(magnify)
         .statusBar(hidden: true)
     }
 }
 
-struct SwiftUISceneKitUsingStateObjectVarsContentView_Previews: PreviewProvider {
+struct SwiftUISceneKitUsingGesturesContentView_Previews: PreviewProvider {
     static var previews: some View {
-        SwiftUISceneKitUsingStateObjectVarsContentView()
+        SwiftUISceneKitUsingGesturesContentView()
     }
 }

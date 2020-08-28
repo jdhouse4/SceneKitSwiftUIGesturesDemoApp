@@ -17,9 +17,9 @@ struct ContentView: View {
                     Text("Camera Control")
                 }
 
-            SwiftUISceneKitUsingStateObjectVarsContentView()
+            SwiftUISceneKitUsingGesturesContentView()
                 .tabItem { 
-                    Image(systemName: "tortoise.fill")
+                    Image(systemName: "hand.thumbsup.fill")
                     Text("StateObject vars")
                 }
 
