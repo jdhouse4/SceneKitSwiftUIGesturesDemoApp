@@ -10,11 +10,11 @@ import SceneKit
 
 
 
-
+/*
 extension SCNScene: ObservableObject {
     // Only here so I can use @StateObject on an instance of SCNScene.
 }
-
+*/
 
 
 
@@ -22,23 +22,32 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
     @State private var sunlightSwitch       = true
     @State private var cameraSwitch         = true
     @State private var povName              = "distantCamera"
-    @State private var magnify              = CGFloat(1.0)
-    @StateObject private var aircraftScene  = SCNScene(named: "art.scnassets/ship.scn")!
+    @State private var magnification        = CGFloat(1.0)
+    @State private var isDragging           = true
+    //@StateObject private var aircraftScene  = SCNScene(named: "art.scnassets/ship.scn")!
+    private var aircraftScene  = SCNScene(named: "art.scnassets/ship.scn")!
 
     // SceneView.Options for affecting the SceneView.
-    private var sceneViewCameraOption       = SceneView.Options.allowsCameraControl
+    //private var sceneViewCameraOption       = SceneView.Options.allowsCameraControl
 
-    var magnification: some Gesture {
+    var drag: some Gesture {
+        DragGesture()
+            .onChanged { _ in self.isDragging = true }
+            .onEnded { _ in self.isDragging = false }
+    }
+
+
+    var magnify: some Gesture {
         MagnificationGesture()
             .onChanged{ (value) in
-                print("magnify = \(self.magnify)")
-                self.magnify = value
+                print("magnify = \(self.magnification)")
+                self.magnification = value
 
-                if self.magnify >= 1.01 {
-                    self.magnify = 1.01
+                if self.magnification >= 1.01 {
+                    self.magnification = 1.01
                 }
-                if self.magnify <= 0.99 {
-                    self.magnify = 0.99
+                if self.magnification <= 0.99 {
+                    self.magnification = 0.99
                 }
 
                 // If this capability is desired, SCNScene must be extended to conform to ObservableObject.
@@ -47,19 +56,19 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
                 let maximumFOV: CGFloat = 25 // Zoom-in.
                 let minimumFOV: CGFloat = 90 // Zoom-out.
 
-                camera!.fieldOfView /= magnify
+                camera!.fieldOfView /= magnification
 
                 if camera!.fieldOfView <= maximumFOV {
                     camera!.fieldOfView = maximumFOV
-                    self.magnify        = 1.0
+                    self.magnification        = 1.0
                 }
                 if camera!.fieldOfView >= minimumFOV {
                     camera!.fieldOfView = minimumFOV
-                    self.magnify        = 1.0
+                    self.magnification        = 1.0
                 }
             }
-            .onEnded{ _ in
-                print("Ended pinch\n\n")
+            .onEnded{ value in
+                print("Ended pinch with value \(value)\n\n")
             }
     }
 
@@ -70,23 +79,20 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
 
             SceneView (
                 scene: aircraftScene,
-                pointOfView: aircraftScene.rootNode.childNode(withName: povName, recursively: true) /*,
-                options: [sceneViewCameraOption]*/
+                pointOfView: aircraftScene.rootNode.childNode(withName: povName, recursively: true)
             )
-            .background(Color.black)
-            .gesture(magnification)
-
 
             VStack() {
                 Text("Hello, SceneKit!").multilineTextAlignment(.leading).padding()
                     .foregroundColor(Color.gray)
+
                     .font(.largeTitle)
 
                 Text("Pinch to zoom.")
                     .foregroundColor(Color.gray)
                     .font(.title)
 
-
+                /*
                 Text("Magnification: \(magnify, specifier: "%.2f")")
                     .foregroundColor(Color.gray)
                     .font(.title3)
@@ -95,7 +101,7 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
                 Text("FOV: \((self.aircraftScene.rootNode.childNode(withName: povName, recursively: true)?.camera!.fieldOfView)!, specifier: "%.2f")")
                     .foregroundColor(Color.gray)
                     .font(.title3)
-
+                */
 
                 Spacer(minLength: 300)
 
@@ -138,6 +144,7 @@ struct SwiftUISceneKitUsingStateObjectVarsContentView: View {
                 }
             }
         }
+        .gesture(magnify)
         .statusBar(hidden: true)
     }
 }

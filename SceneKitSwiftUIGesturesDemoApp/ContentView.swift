@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
+            
             SwiftUISceneKitUsingAllowsCameraControlContentView()
                 .tabItem {
                     Image(systemName: "airplane")
@@ -21,12 +22,13 @@ struct ContentView: View {
                     Image(systemName: "tortoise.fill")
                     Text("StateObject vars")
                 }
-            
+
             SceneKitWithSCNSceneViewContentView()
                 .tabItem {
                     Image(systemName: "hare.fill")
                     Text("UIViewRep.")
                 }
+
         }
     }
 }
