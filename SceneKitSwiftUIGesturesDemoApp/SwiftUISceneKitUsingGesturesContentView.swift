@@ -12,34 +12,6 @@ import SceneKit
 
 
 struct SwiftUISceneKitUsingGesturesContentView: View {
-
-    /*
-    enum ExclusiveState {
-            case inactive
-            case dragging(translation: CGSize)
-            case magnifying(zoom: CGFloat)
-
-            var translation: CGSize {
-                switch self {
-                case .dragging(let translation):
-                    return translation
-                default:
-                    return CGSize.zero
-                }
-            }
-
-            var zoom: CGFloat {
-                switch self {
-                    case .magnifying(let zoom):
-                        return zoom
-                    default:
-                        return CGFloat(1.0)
-                }
-            }
-        }
-    */
-
-
     @State private var sunlightSwitch       = true
     @State private var cameraSwitch         = true
     @State private var povName              = "distantCamera"
@@ -87,22 +59,6 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
 
     var exclusiveGesture: some Gesture {
         ExclusiveGesture(drag, magnify)
-            /*.onChanged{ (value) in
-                switch value {
-                    case .first(let dragValue):
-                        print("dragging")
-                    case .second(let magnifyValue):
-                        print("magnifyValue = \(magnifyValue)")
-                }
-            }
-            .onEnded{ value in
-                switch value {
-                    case .first(let dragValue):
-                        print("dragValue = \(dragValue)")
-                    case .second(let magnifyValue):
-                        print("magnifyValue = \(magnifyValue)")
-                }
-            }*/
     }
 
 
