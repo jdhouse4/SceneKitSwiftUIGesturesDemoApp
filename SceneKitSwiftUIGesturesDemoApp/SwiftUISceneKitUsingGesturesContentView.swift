@@ -12,20 +12,54 @@ import SceneKit
 
 
 struct SwiftUISceneKitUsingGesturesContentView: View {
+
+    enum ExclusiveState {
+            case inactive
+            case dragging(translation: CGSize)
+            case magnifying(zoom: CGFloat)
+
+            var translation: CGSize {
+                switch self {
+                case .dragging(let translation):
+                    return translation
+                default:
+                    return CGSize.zero
+                }
+            }
+
+            var zoom: CGFloat {
+                switch self {
+                    case .magnifying(let zoom):
+                        return zoom
+                    default:
+                        return CGFloat(1.0)
+                }
+            }
+        }
+
+
+
     @State private var sunlightSwitch       = true
     @State private var cameraSwitch         = true
     @State private var povName              = "distantCamera"
     @State private var magnification        = CGFloat(1.0)
     @State private var isDragging           = true
     private var aircraftScene               = SCNScene(named: "art.scnassets/ship.scn")!
+    //@GestureState var exclusiveState        = ExclusiveState.inactive
 
     // SceneView.Options for affecting the SceneView.
     //private var sceneViewCameraOption       = SceneView.Options.allowsCameraControl
 
     var drag: some Gesture {
         DragGesture()
-            .onChanged { _ in self.isDragging = true }
-            .onEnded { _ in self.isDragging = false }
+            .onChanged { value in
+                self.isDragging = true
+                print("Dragging...")
+                print("drag velocity = \(value)")
+            }
+            .onEnded { value in
+                self.isDragging = false
+            }
     }
 
 
@@ -35,8 +69,8 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
                 print("magnify = \(self.magnification)")
                 self.magnification = value
 
-                if self.magnification >= 1.03 {
-                    self.magnification = 1.03
+                if self.magnification >= 1.025 {
+                    self.magnification = 1.025
                 }
                 if self.magnification <= 0.97 {
                     self.magnification = 0.97
@@ -65,6 +99,27 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
     }
 
 
+    var exclusiveGesture: some Gesture {
+        ExclusiveGesture(drag, magnify)
+            /*.onChanged{ (value) in
+                switch value {
+                    case .first(let dragValue):
+                        print("dragging")
+                    case .second(let magnifyValue):
+                        print("magnifyValue = \(magnifyValue)")
+                }
+            }
+            .onEnded{ value in
+                switch value {
+                    case .first(let dragValue):
+                        print("dragValue = \(dragValue)")
+                    case .second(let magnifyValue):
+                        print("magnifyValue = \(magnifyValue)")
+                }
+            }*/
+    }
+
+
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
@@ -73,7 +128,8 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
                 scene: aircraftScene,
                 pointOfView: aircraftScene.rootNode.childNode(withName: povName, recursively: true)
             )
-            .gesture(magnify)
+            //.gesture(magnify)
+            .gesture(exclusiveGesture)
 
             VStack() {
                 Text("Hello, SceneKit!").multilineTextAlignment(.leading).padding()
