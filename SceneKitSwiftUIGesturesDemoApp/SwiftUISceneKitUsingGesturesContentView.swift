@@ -13,6 +13,7 @@ import SceneKit
 
 struct SwiftUISceneKitUsingGesturesContentView: View {
 
+    /*
     enum ExclusiveState {
             case inactive
             case dragging(translation: CGSize)
@@ -36,14 +37,16 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
                 }
             }
         }
-
+    */
 
 
     @State private var sunlightSwitch       = true
     @State private var cameraSwitch         = true
     @State private var povName              = "distantCamera"
     @State private var magnification        = CGFloat(1.0)
-    @State private var isDragging           = true
+    @State private var isDragging           = false
+    @State private var totalChangePivot     = SCNMatrix4Identity
+
     private var aircraftScene               = SCNScene(named: "art.scnassets/ship.scn")!
     //@GestureState var exclusiveState        = ExclusiveState.inactive
 
@@ -56,10 +59,40 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
                 self.isDragging = true
                 print("Dragging...")
                 print("drag velocity = \(value)")
+
+                let translation: CGSize = value.translation
+
+                let x = Float(translation.width)
+                let y = Float(-translation.height)
+
+                let anglePan = sqrt(pow(x,2)+pow(y,2)) * (Float)(Double.pi) / 180.0
+
+                var rotationVector = aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.rotation // SCNVector4()
+                rotationVector.x = -y
+                rotationVector.y = x
+                rotationVector.z = 0
+                rotationVector.w = anglePan
+
+                aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.rotation = rotationVector
             }
             .onEnded { value in
                 self.isDragging = false
+
+                let currentPivot = aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.pivot
+                let changePivot = SCNMatrix4Invert( aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.transform)
+
+                totalChangePivot = SCNMatrix4Mult(changePivot, currentPivot)
+
+                aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.pivot = SCNMatrix4Mult(changePivot, currentPivot)
+
+                aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.transform = SCNMatrix4Identity
             }
+    }
+
+
+
+    var tap: some Gesture {
+        TapGesture()
     }
 
 
@@ -128,8 +161,21 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
                 scene: aircraftScene,
                 pointOfView: aircraftScene.rootNode.childNode(withName: povName, recursively: true)
             )
-            //.gesture(magnify)
             .gesture(exclusiveGesture)
+            .onTapGesture(count: 2, perform: {
+                /*
+                let currentPivot    = aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.pivot
+                print("currentPivot: \(currentPivot)")
+
+                let changePivot     = SCNMatrix4Invert( totalChangePivot )
+                print("changePivot = \(changePivot)")
+
+                aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.pivot      = SCNMatrix4Mult(changePivot, currentPivot)
+
+                totalChangePivot    = SCNMatrix4Identity
+                */
+                resetOrientation()
+            })
 
             VStack() {
                 Text("Hello, SceneKit!").multilineTextAlignment(.leading).padding()
@@ -183,6 +229,24 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
             }
         }
         .statusBar(hidden: true)
+    }
+
+
+    private func resetOrientation() {
+        let shipNode = aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)
+
+        let currentPivot    = shipNode!.pivot
+
+        //let currentPivot    = aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.pivot
+        //print("currentPivot: \(currentPivot)")
+
+        let changePivot     = SCNMatrix4Invert( totalChangePivot )
+        //print("changePivot = \(changePivot)")
+
+        shipNode!.pivot = SCNMatrix4Mult(changePivot, currentPivot)
+        aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.pivot = SCNMatrix4Mult(changePivot, currentPivot)
+
+        totalChangePivot    = SCNMatrix4Identity
     }
 }
 
