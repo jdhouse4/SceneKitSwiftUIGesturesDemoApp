@@ -57,9 +57,8 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
         DragGesture()
             .onChanged { value in
                 self.isDragging = true
-                print("Dragging...")
-                print("drag velocity = \(value)")
 
+                /*
                 let translation: CGSize = value.translation
 
                 let x = Float(translation.width)
@@ -74,34 +73,26 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
                 rotationVector.w = anglePan
 
                 aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.rotation = rotationVector
+                */
+                changeOrientation(of: aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!, with: value.translation)
             }
             .onEnded { value in
                 self.isDragging = false
 
-                let currentPivot = aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.pivot
-                let changePivot = SCNMatrix4Invert( aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.transform)
-
-                totalChangePivot = SCNMatrix4Mult(changePivot, currentPivot)
-
-                aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.pivot = SCNMatrix4Mult(changePivot, currentPivot)
-
-                aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.transform = SCNMatrix4Identity
+                updateOrientation(of: aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!)
             }
     }
 
-
-
-    var tap: some Gesture {
-        TapGesture()
-    }
 
 
     var magnify: some Gesture {
         MagnificationGesture()
             .onChanged{ (value) in
                 print("magnify = \(self.magnification)")
+
                 self.magnification = value
 
+                /*
                 if self.magnification >= 1.025 {
                     self.magnification = 1.025
                 }
@@ -125,6 +116,9 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
                     camera!.fieldOfView = minimumFOV
                     self.magnification        = 1.0
                 }
+                */
+                changeCameraFOV(of: (self.aircraftScene.rootNode.childNode(withName: povName, recursively: true)?.camera)!,
+                                value: self.magnification)
             }
             .onEnded{ value in
                 print("Ended pinch with value \(value)\n\n")
@@ -163,18 +157,7 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
             )
             .gesture(exclusiveGesture)
             .onTapGesture(count: 2, perform: {
-                /*
-                let currentPivot    = aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.pivot
-                print("currentPivot: \(currentPivot)")
-
-                let changePivot     = SCNMatrix4Invert( totalChangePivot )
-                print("changePivot = \(changePivot)")
-
-                aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.pivot      = SCNMatrix4Mult(changePivot, currentPivot)
-
-                totalChangePivot    = SCNMatrix4Identity
-                */
-                resetOrientation()
+                resetOrientation(of: aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!)
             })
 
             VStack() {
@@ -232,10 +215,57 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
     }
 
 
-    private func resetOrientation() {
-        let shipNode = aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)
+    private func changeOrientation(of node: SCNNode, with translation: CGSize) {
+        let x = Float(translation.width)
+        let y = Float(-translation.height)
 
-        let currentPivot    = shipNode!.pivot
+        let anglePan = sqrt(pow(x,2)+pow(y,2)) * (Float)(Double.pi) / 180.0
+
+        /*
+        guard let shipNode = aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true) else {
+            print("Sadly, there is no \"shipNode\".")
+            return
+        }
+        */
+        var rotationVector = node.rotation // SCNVector4()
+        //var rotationVector = aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.rotation // SCNVector4()
+        rotationVector.x = -y
+        rotationVector.y = x
+        rotationVector.z = 0
+        rotationVector.w = anglePan
+
+        node.rotation = rotationVector
+        //aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.rotation = rotationVector
+    }
+
+
+
+    private func updateOrientation(of node: SCNNode) {
+        guard let shipNode = aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true) else {
+            print("Sadly, there is no \"shipNode\".")
+            return
+        }
+
+        let currentPivot = shipNode.pivot
+        let changePivot = SCNMatrix4Invert(shipNode.transform)
+
+        totalChangePivot = SCNMatrix4Mult(changePivot, currentPivot)
+
+        shipNode.pivot = SCNMatrix4Mult(changePivot, currentPivot)
+
+        shipNode.transform = SCNMatrix4Identity
+    }
+
+
+
+    private func resetOrientation(of node: SCNNode) {
+        /*
+        guard let shipNode = aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true) else {
+            print("Sadly, there is \"shipNode\".")
+            return
+        }
+        */
+        let currentPivot    = node.pivot
 
         //let currentPivot    = aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.pivot
         //print("currentPivot: \(currentPivot)")
@@ -243,10 +273,37 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
         let changePivot     = SCNMatrix4Invert( totalChangePivot )
         //print("changePivot = \(changePivot)")
 
-        shipNode!.pivot = SCNMatrix4Mult(changePivot, currentPivot)
-        aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!.pivot = SCNMatrix4Mult(changePivot, currentPivot)
+        node.pivot = SCNMatrix4Mult(changePivot, currentPivot)
 
         totalChangePivot    = SCNMatrix4Identity
+    }
+
+
+
+    private func changeCameraFOV(of camera: SCNCamera, value: CGFloat) {
+        if self.magnification >= 1.025 {
+            self.magnification = 1.025
+        }
+        if self.magnification <= 0.97 {
+            self.magnification = 0.97
+        }
+
+        // If this capability is desired, SCNScene must be extended to conform to ObservableObject.
+        //let camera = self.aircraftScene.rootNode.childNode(withName: povName, recursively: true)?.camera
+
+        let maximumFOV: CGFloat = 25 // Zoom-in.
+        let minimumFOV: CGFloat = 90 // Zoom-out.
+
+        camera.fieldOfView /= magnification
+
+        if camera.fieldOfView <= maximumFOV {
+            camera.fieldOfView = maximumFOV
+            self.magnification        = 1.0
+        }
+        if camera.fieldOfView >= minimumFOV {
+            camera.fieldOfView = minimumFOV
+            self.magnification        = 1.0
+        }
     }
 }
 
