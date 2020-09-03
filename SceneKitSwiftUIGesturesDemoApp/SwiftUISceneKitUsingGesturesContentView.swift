@@ -130,6 +130,7 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
     }
 
 
+
     private func changeOrientation(of node: SCNNode, with translation: CGSize) {
         let x = Float(translation.width)
         let y = Float(-translation.height)
@@ -199,6 +200,9 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
         }
     }
 }
+
+
+
 
 struct SwiftUISceneKitUsingGesturesContentView_Previews: PreviewProvider {
     static var previews: some View {
