@@ -12,6 +12,9 @@ import SceneKit
 
 
 struct SwiftUISceneKitUsingGesturesContentView: View {
+    // Needed for controlling the gyro
+    @ObservedObject var motion: MotionManager = MotionManager()
+
     @State private var sunlightSwitch       = true
     @State private var cameraSwitch         = true
     @State private var povName              = "distantCamera"
