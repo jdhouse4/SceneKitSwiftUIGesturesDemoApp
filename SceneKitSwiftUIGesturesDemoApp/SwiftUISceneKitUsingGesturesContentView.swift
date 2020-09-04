@@ -23,10 +23,8 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
     @State private var totalChangePivot     = SCNMatrix4Identity
 
     private var aircraftScene               = SCNScene(named: "art.scnassets/ship.scn")!
-    //@GestureState var exclusiveState        = ExclusiveState.inactive
 
-    // SceneView.Options for affecting the SceneView.
-    //private var sceneViewCameraOption       = SceneView.Options.allowsCameraControl
+
 
     var drag: some Gesture {
         DragGesture()
