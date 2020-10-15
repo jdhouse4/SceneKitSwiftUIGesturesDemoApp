@@ -24,8 +24,6 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
 
     private var aircraftScene               = SCNScene(named: "art.scnassets/ship.scn")!
 
-
-
     var drag: some Gesture {
         DragGesture()
             .onChanged { value in
@@ -39,8 +37,6 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
                 updateOrientation(of: aircraftScene.rootNode.childNode(withName: "shipNode", recursively: true)!)
             }
     }
-
-
 
     var magnify: some Gesture {
         MagnificationGesture()
@@ -57,10 +53,10 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
             }
     }
 
-
     var exclusiveGesture: some Gesture {
         ExclusiveGesture(drag, magnify)
     }
+
 
 
     var body: some View {
@@ -82,13 +78,14 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
 
                     .font(.largeTitle)
 
-                Text("With Gestures Too")
+                Text("With simd_quatf: \(String(describing: motion.motionQuaternion))")
                     .foregroundColor(Color.gray)
-                    .font(.title)
+                    .font(.body)
 
                 Spacer(minLength: 300)
 
                 HStack (spacing: 5) {
+
                     Button( action: {
                         withAnimation{
                             self.sunlightSwitch.toggle()
@@ -100,6 +97,8 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
                         } else {
                             sunlight!.intensity = 0.0
                         }
+
+                        motion.updateAttitude()
                     }) {
                         Image(systemName: sunlightSwitch ? "lightbulb.fill" : "lightbulb")
                             .imageScale(.large)
@@ -118,6 +117,8 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
                             povName = "distantCamera"
                         }
                         print("\(povName)")
+
+                        motion.updateAttitude()
                     }) {
                         Image(systemName: cameraSwitch ? "video.fill" : "video")
                             .imageScale(.large)

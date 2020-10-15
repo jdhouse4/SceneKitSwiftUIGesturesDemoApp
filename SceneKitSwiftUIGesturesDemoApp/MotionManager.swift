@@ -31,7 +31,6 @@ class MotionManager: ObservableObject {
         print("MotionManager initialized")
         self.motionManager = CMMotionManager()
         self.setupDeviceMotion()
-        //self.startDeviceMotion()
     }
 
 
@@ -74,6 +73,7 @@ class MotionManager: ObservableObject {
 
 
     func startDeviceMotion() {
+        print("motion startDeviceMotion()")
         self.motionTimer = Timer(fire: Date(), interval: (1.0 / 60.0), repeats: true,
                                  block: { (motionTimer) in
                                     if self.deviceMotion != nil {
