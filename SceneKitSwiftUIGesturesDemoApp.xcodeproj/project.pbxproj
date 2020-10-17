@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E6051AF5253AA49C0007BDCB /* AircraftScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6051AF4253AA49C0007BDCB /* AircraftScene.swift */; };
+		E6051AF9253AA5DD0007BDCB /* PFMotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6051AF8253AA5DC0007BDCB /* PFMotionManager.swift */; };
 		E655AED52501882D00C92BB9 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E655AED42501882D00C92BB9 /* MotionManager.swift */; };
 		E6AB50E624EDC4CB00F81F13 /* SwiftUISceneKitUsingAllowsCameraControlContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AB50E524EDC4CB00F81F13 /* SwiftUISceneKitUsingAllowsCameraControlContentView.swift */; };
 		E6AC39DB24F9843600EDA481 /* SwiftUISceneKitUsingGesturesContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6AC39DA24F9843600EDA481 /* SwiftUISceneKitUsingGesturesContentView.swift */; };
@@ -24,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E6051AF4253AA49C0007BDCB /* AircraftScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftScene.swift; sourceTree = "<group>"; };
+		E6051AF8253AA5DC0007BDCB /* PFMotionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PFMotionManager.swift; sourceTree = "<group>"; };
 		E655AED42501882D00C92BB9 /* MotionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		E6AB50E524EDC4CB00F81F13 /* SwiftUISceneKitUsingAllowsCameraControlContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingAllowsCameraControlContentView.swift; sourceTree = "<group>"; };
 		E6AC39DA24F9843600EDA481 /* SwiftUISceneKitUsingGesturesContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISceneKitUsingGesturesContentView.swift; sourceTree = "<group>"; };
@@ -79,6 +83,8 @@
 				E6FA0AAE24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift */,
 				E6AC39DA24F9843600EDA481 /* SwiftUISceneKitUsingGesturesContentView.swift */,
 				E655AED42501882D00C92BB9 /* MotionManager.swift */,
+				E6051AF4253AA49C0007BDCB /* AircraftScene.swift */,
+				E6051AF8253AA5DC0007BDCB /* PFMotionManager.swift */,
 				E6FB1D0524D3864B0086CD4B /* SwiftUI+SCNView */,
 				E6FB1D0324D385F80086CD4B /* art.scnassets */,
 				E6FB1CF524D383800086CD4B /* Assets.xcassets */,
@@ -187,6 +193,8 @@
 				E6FB1CF224D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift in Sources */,
 				E6FB1D0E24D386990086CD4B /* ControlsView.swift in Sources */,
 				E6FA0AAF24E491DD00EC28CB /* SwiftUISceneKitUsingStateObjectVarsContentView.swift in Sources */,
+				E6051AF9253AA5DD0007BDCB /* PFMotionManager.swift in Sources */,
+				E6051AF5253AA49C0007BDCB /* AircraftScene.swift in Sources */,
 				E6FB1D1324D386C40086CD4B /* SceneKitWithSCNSceneViewContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
