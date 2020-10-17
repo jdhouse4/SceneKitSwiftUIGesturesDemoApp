@@ -98,7 +98,7 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
                             sunlight!.intensity = 0.0
                         }
 
-                        motion.updateAttitude()
+                        //motion.updateAttitude()
                     }) {
                         Image(systemName: sunlightSwitch ? "lightbulb.fill" : "lightbulb")
                             .imageScale(.large)
@@ -118,7 +118,7 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
                         }
                         print("\(povName)")
 
-                        motion.updateAttitude()
+                        //motion.updateAttitude()
                     }) {
                         Image(systemName: cameraSwitch ? "video.fill" : "video")
                             .imageScale(.large)

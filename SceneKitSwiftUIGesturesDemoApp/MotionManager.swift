@@ -30,7 +30,7 @@ class MotionManager: ObservableObject {
     init() {
         print("MotionManager initialized")
         self.motionManager = CMMotionManager()
-        self.setupDeviceMotion()
+        //self.setupDeviceMotion()
     }
 
 
@@ -82,7 +82,7 @@ class MotionManager: ObservableObject {
                                                                            iz: Float((self.deviceMotion?.attitude.quaternion.z)!),
                                                                            r:  Float((self.deviceMotion?.attitude.quaternion.w)!)).normalized
 
-                                        self.updateAttitude()
+                                        //self.updateAttitude()
                                     }
         })
 
