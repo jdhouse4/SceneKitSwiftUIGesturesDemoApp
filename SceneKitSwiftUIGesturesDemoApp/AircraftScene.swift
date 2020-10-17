@@ -17,6 +17,10 @@ class AircraftScene: SCNScene, SCNSceneRendererDelegate {
     var motionManager: PFMotionManager
     var sceneQuaternion: SCNQuaternion
 
+    var _previousUpdateTime: TimeInterval   = 0.0
+    var _deltaTime: TimeInterval            = 0.0
+
+
 
     /*:
     MARK:- Initializers
@@ -28,8 +32,8 @@ class AircraftScene: SCNScene, SCNSceneRendererDelegate {
         //
         // MARK: Create an instance of PFMotionMangerInstance.
         //
-        self.motionManager      = PFMotionManager.missionOrionSharedMotionMangerInstance
-        self.sceneQuaternion    = self.motionManager.sceneQuaternion
+        self.motionManager      = PFMotionManager.sharedMotionMangerInstance
+        self.sceneQuaternion    = self.motionManager.sceneQuaternion!
 
 
 
@@ -37,5 +41,54 @@ class AircraftScene: SCNScene, SCNSceneRendererDelegate {
 
         aircraft                = SCNScene(named: "art.scnassets/ship.scn")!
         aircraftNode            = rootNode.childNode(withName: "ship", recursively: true)!
+    }
+
+
+
+    required init?(coder: NSCoder) {
+        self.motionManager      = PFMotionManager.sharedMotionMangerInstance
+        self.sceneQuaternion    = self.motionManager.sceneQuaternion!
+
+        super .init(coder: coder)
+    }
+
+
+    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval)
+    {
+
+        // The main input pump for the simulator.
+
+        if _previousUpdateTime == 0.0
+        {
+            _previousUpdateTime     = time
+        }
+
+
+        _deltaTime                  = time - _previousUpdateTime
+        _previousUpdateTime         = time
+
+
+        //
+        // MARK: Update the attitude.quaternion from device manager
+        //
+        motionManager.updateAttitudeQuaternion()
+
+
+        //
+        // MARK: ChaseCamera
+        //
+        /*
+        if aSceneView.pointOfView?.name == CameraType.OrionChaseCamera.rawValue
+        {
+        }
+
+
+        //
+        // MARK: CommanderCamera
+        //
+        if aSceneView.pointOfView?.name == CameraType.OrionCommanderCamera.rawValue
+        {
+        }
+         */
     }
 }

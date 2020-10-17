@@ -23,6 +23,7 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
     @State private var totalChangePivot     = SCNMatrix4Identity
 
     private var aircraftScene               = SCNScene(named: "art.scnassets/ship.scn")!
+    //private var aircraftSceneRendererDelegate   = AircraftSceneRendererDelegate()
 
     var drag: some Gesture {
         DragGesture()
@@ -65,7 +66,8 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
 
             SceneView (
                 scene: aircraftScene,
-                pointOfView: aircraftScene.rootNode.childNode(withName: povName, recursively: true)
+                pointOfView: aircraftScene.rootNode.childNode(withName: povName, recursively: true)/*,
+                delegate: aircraftSceneRendererDelegate*/
             )
             .gesture(exclusiveGesture)
             .onTapGesture(count: 2, perform: {

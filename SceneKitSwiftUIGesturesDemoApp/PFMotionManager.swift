@@ -50,7 +50,7 @@ class PFMotionManager
     //
     // Declare the singleton :)
     //
-    static let missionOrionSharedMotionMangerInstance: PFMotionManager  = PFMotionManager()
+    static let sharedMotionMangerInstance: PFMotionManager  = PFMotionManager()
 
     var motionManager: CMMotionManager    = CMMotionManager()
 
