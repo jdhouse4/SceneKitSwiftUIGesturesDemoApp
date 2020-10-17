@@ -11,11 +11,13 @@ struct ContentView: View {
     var body: some View {
 
         TabView {
+            /*
             SwiftUISceneKitUsingAllowsCameraControlContentView()
                 .tabItem {
                     Image(systemName: "airplane")
                     Text("Camera Control")
                 }
+            */
 
             SwiftUISceneKitUsingGesturesContentView()
                 .tabItem { 

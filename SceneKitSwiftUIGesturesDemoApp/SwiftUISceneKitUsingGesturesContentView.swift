@@ -78,7 +78,7 @@ struct SwiftUISceneKitUsingGesturesContentView: View {
 
                     .font(.largeTitle)
 
-                Text("With simd_quatf: \(String(describing: motion.motionQuaternion))")
+                Text("With gyro support too")
                     .foregroundColor(Color.gray)
                     .font(.body)
 

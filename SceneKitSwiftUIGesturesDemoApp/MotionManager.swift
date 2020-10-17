@@ -64,8 +64,8 @@ class MotionManager: ObservableObject {
                 //print("cycles: \(cycles)") // Usually takes between 1,800 to 2,000 cycles before gyro is available.
             }
         }
-        print("deviceMotion: \(String(describing: self.deviceMotion))")
-        print("referenceFrame: \(String(describing: self.referenceFrame))")
+        //print("deviceMotion: \(String(describing: self.deviceMotion))")
+        //print("referenceFrame: \(String(describing: self.referenceFrame))")
 
         self.startDeviceMotion()
     }
@@ -81,6 +81,8 @@ class MotionManager: ObservableObject {
                                                                            iy: Float((self.deviceMotion?.attitude.quaternion.y)!),
                                                                            iz: Float((self.deviceMotion?.attitude.quaternion.z)!),
                                                                            r:  Float((self.deviceMotion?.attitude.quaternion.w)!)).normalized
+
+                                        self.updateAttitude()
                                     }
         })
 
