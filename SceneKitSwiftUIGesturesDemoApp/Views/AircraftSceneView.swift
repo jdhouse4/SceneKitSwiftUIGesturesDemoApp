@@ -38,68 +38,19 @@ struct AircraftSceneView: View {
         DragGesture()
             .onChanged { value in
                 self.isDragging = true
-                
-                if !aircraftCloudUserDefaults.gyroOrientationControl {
-                    
-                    if aircraftDelegate.aircraftCurrentCamera == AircraftCamera.distantCamera.rawValue {
-                        aircraftCameraState.changeCameraOrientation(of: aircraft.aircraftCurrentCameraNode, with: value.translation)
-                    }
-                    
-                    if aircraftDelegate.aircraftCurrentCamera == AircraftCamera.shipCamera.rawValue {
-                        aircraftCameraState.changeCameraOrientation(of: aircraft.aircraftCurrentCamera, with: value.translation)
-                    }
-                    
+                                    
+                if aircraftDelegate.aircraftCurrentCamera == AircraftCamera.distantCamera.rawValue {
+                    aircraftCameraState.changeCameraOrientation(of: aircraft.aircraftCurrentCameraNode, with: value.translation)
                 }
             }
             .onEnded { value in
                 
                 self.isDragging = false
                 
-                if !aircraftCloudUserDefaults.gyroOrientationControl {
-                    
                     if aircraftDelegate.aircraftCurrentCamera == AircraftCamera.distantCamera.rawValue {
                         aircraftCameraState.updateCameraOrientation(of: aircraft.aircraftCurrentCameraNode)
                     }
-                    
-                    if aircraftDelegate.aircraftCurrentCamera == AircraftCamera.shipCamera.rawValue {
-                        aircraftCameraState.updateCameraOrientation(of: aircraft.aircraftCurrentCamera)
-                    }
-                    
-                }
             }
-    }
-
-
-    // Don't forget to comment this is you are using .allowsCameraControl
-    var magnify: some Gesture {
-        MagnificationGesture()
-            .onChanged{ (magnificationValue) in
-
-                //
-                // Only zoom in/out in the external cameras, at least for now.
-                //
-                if aircraftDelegate.aircraftCurrentCamera == AircraftCamera.distantCamera.rawValue {
-                    
-                    aircraftCameraState.currentCameraMagnification = magnificationValue
-                    //print("magnify = \(aircraftCameraState.currentCameraMagnification)")
-                    
-                    aircraftCameraState.changeCurrentCameraFOV(of: aircraft.aircraftCurrentCamera.camera!, value: aircraftCameraState.currentCameraMagnification)
-                    
-                }
-            }
-            .onEnded{ magnificationValue in
-                
-                //print("Ended pinch with value \(magnificationValue)\n\n")
-                
-            }
-    }
-
-
-    // Don't forget to comment this is you are using .allowsCameraControl
-    var exclusiveGesture: some Gesture {
-        
-        ExclusiveGesture(drag, magnify)
-        
     }
 
 
@@ -110,17 +61,11 @@ struct AircraftSceneView: View {
                 pointOfView: aircraft.aircraftCurrentCamera,
                 delegate: aircraftDelegate
             )
-            .gesture(exclusiveGesture)
+            .gesture(drag)
             .onTapGesture(count: 2, perform: {
-                
-                aircraftCameraState.resetCurrentCameraFOV(of: (self.aircraft.aircraftCurrentCamera.camera)!)
                 
                 if aircraftDelegate.aircraftCurrentCamera == AircraftCamera.distantCamera.rawValue {
                     aircraftCameraState.resetCameraOrientation(of: aircraft.aircraftCurrentCameraNode)
-                }
-                
-                if aircraftDelegate.aircraftCurrentCamera == AircraftCamera.shipCamera.rawValue {
-                    aircraftCameraState.resetCameraOrientation(of: aircraft.aircraftCurrentCamera)
                 }
                 
             })

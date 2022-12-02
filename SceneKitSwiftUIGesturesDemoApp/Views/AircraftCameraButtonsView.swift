@@ -114,12 +114,6 @@ struct AircraftCameraButtonsView: View {
                 self.aircraftDelegate.setCameraName(name: aircraft.aircraftDistantCameraString)
                 self.aircraftDelegate.setCameraNode(node: aircraft.aircraftDistantCameraNode)
             }
-
-            if cameraString == aircraft.aircraftShipCameraString {
-                self.aircraft.aircraftCurrentCamera = self.aircraft.aircraftShipCamera
-                self.aircraftDelegate.setCameraName(name: aircraft.aircraftShipCameraString)
-                self.aircraftDelegate.setCameraNode(node: aircraft.aircraftShipCameraNode)
-            }
         }
     }
 

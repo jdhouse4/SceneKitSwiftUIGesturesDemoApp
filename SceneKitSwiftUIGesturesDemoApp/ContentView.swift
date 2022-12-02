@@ -19,7 +19,6 @@ struct ContentView: View {
     //
     @StateObject var aircraft                   = AircraftSceneKitScene.shared
     @StateObject var aircraftDelegate           = AircraftSceneRendererDelegate()
-    @StateObject var aircraftState              = AircraftState.shared
     @StateObject var aircraftCameraButton       = AircraftCameraButton()
     @StateObject var aircraftCameraState        = AircraftCameraState()
     @StateObject var aircraftAnalyticsButton    = AircraftAnalyticsButton()
@@ -33,11 +32,22 @@ struct ContentView: View {
             
             VStack {
                 
-                AircraftCameraButtonsView()
+                HStack {
+                    
+                    AircraftCameraButtonsView()
+                    
+                    Spacer()
+                    
+                }
                 
                 Spacer()
                 
-                AircraftAnalyticsButtonView()
+                HStack {
+                    
+                    AircraftAnalyticsButtonView()
+                    
+                }
+                .padding(.bottom, aircraftAnalyticsButton.analyticsSwitch ? 140 : 5)
                 
             }
             //.background(Color.white.opacity(0.75))
@@ -55,7 +65,6 @@ struct ContentView: View {
         
         .environmentObject(aircraft)
         .environmentObject(aircraftDelegate)
-        .environmentObject(aircraftState)
         .environmentObject(aircraftCameraButton)
         .environmentObject(aircraftCameraState)
         .environmentObject(aircraftAnalyticsButton)
