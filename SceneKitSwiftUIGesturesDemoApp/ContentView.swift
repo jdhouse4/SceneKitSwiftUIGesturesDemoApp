@@ -17,24 +17,24 @@ struct ContentView: View {
     //
     // @StateObject is a property wrapper type that instantiates an object conforming to ObservableObject.
     //
-    @StateObject var aircraft                   = AircraftSceneKitScene.shared
-    @StateObject var aircraftDelegate           = AircraftSceneRendererDelegate()
-    @StateObject var aircraftCameraButton       = AircraftCameraButton()
-    @StateObject var aircraftCameraState        = AircraftCameraState()
-    @StateObject var aircraftAnalyticsButton    = AircraftAnalyticsButton()
+    @StateObject var spacecraft                   = SpacecraftSceneKitScene.shared
+    @StateObject var spacecraftDelegate           = SpacecraftSceneRendererDelegate()
+    @StateObject var spacecraftCameraButton       = SpacecraftCameraButton()
+    @StateObject var spacecraftCameraState        = SpacecraftCameraState()
+    @StateObject var spacecraftAnalyticsButton    = SpacecraftAnalyticsButton()
     
     
     var body: some View {
         
         ZStack {
             
-            AircraftSceneView()            
+            SpacecraftSceneView()            
             
             VStack {
                 
                 HStack {
                     
-                    AircraftCameraButtonsView()
+                    SpacecraftCameraButtonsView()
                     
                     Spacer()
                     
@@ -44,10 +44,10 @@ struct ContentView: View {
                 
                 HStack {
                     
-                    AircraftAnalyticsButtonView()
+                    SpacecraftAnalyticsButtonView()
                     
                 }
-                .padding(.bottom, aircraftAnalyticsButton.analyticsSwitch ? 140 : 5)
+                .padding(.bottom, spacecraftAnalyticsButton.analyticsSwitch ? 140 : 5)
                 
             }
             //.background(Color.white.opacity(0.75))
@@ -63,11 +63,11 @@ struct ContentView: View {
         .background(Color.black)
         .statusBar(hidden: true)
         
-        .environmentObject(aircraft)
-        .environmentObject(aircraftDelegate)
-        .environmentObject(aircraftCameraButton)
-        .environmentObject(aircraftCameraState)
-        .environmentObject(aircraftAnalyticsButton)
+        .environmentObject(spacecraft)
+        .environmentObject(spacecraftDelegate)
+        .environmentObject(spacecraftCameraButton)
+        .environmentObject(spacecraftCameraState)
+        .environmentObject(spacecraftAnalyticsButton)
     }
 }
 
