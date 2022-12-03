@@ -18,7 +18,7 @@ final class SpacecraftSceneKitScene: SCNScene, ObservableObject {
     
     static let shared                               = SpacecraftSceneKitScene()
 
-    var spacecraftScene                             = SCNScene(named: "Spacecraft.scnassets/Orion_CSM_Assets/Orion_CSM.scn")!
+    var spacecraftScene                             = SCNScene(named: "art.scnassets/Spacecraft/Orion_CSM_Assets/Orion_CSM.scn")!
 
     var spacecraftSceneNode: SCNNode
     

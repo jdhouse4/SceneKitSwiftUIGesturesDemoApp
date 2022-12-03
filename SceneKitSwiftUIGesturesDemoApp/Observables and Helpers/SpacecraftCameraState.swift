@@ -29,7 +29,18 @@ class SpacecraftCameraState: ObservableObject {
     @Published var currentCameraInverseTransform: SCNMatrix4    = SCNMatrix4()
     
     
+    //
+    // This has to do with the camera's magnification, really FOV.
+    //
+    let maximumCurrentCameraFOV: CGFloat                        = 15 // Zoom-in. Was 25.
+    let minimumCurrentCameraFOV: CGFloat                        = 90 // Zoom-out.
+    @Published var currentCameraMagnification: CGFloat          = CGFloat(1.0)
+
     
+    
+    
+    // MARK: -Change Camera Orientation
+
     func changeCameraOrientation(of currentCameraNode: SCNNode, with translation: CGSize) {
         //print("\n\(#function) translation: \(translation)")
         
@@ -105,7 +116,7 @@ class SpacecraftCameraState: ObservableObject {
         
         //print("currentCameraNode.name: \(currentCameraNode.name)")
         
-        if currentCameraNode.name! + "Node" == SpacecraftCamera.shipCamera.rawValue {
+        if currentCameraNode.name! + "Node" == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
             currentCameraNode.pivot = SCNMatrix4Identity
             currentCameraNode.simdPivot.columns.3.y = -0.09
         } else {
@@ -205,4 +216,48 @@ class SpacecraftCameraState: ObservableObject {
         print("\(#function) node.simdOrientation: \(node.simdOrientation)")
     }
      */
+    
+    
+    // MARK: -Change Camera FOV
+
+    func changeCurrentCameraFOV(of camera: SCNCamera, value: CGFloat) {
+        if currentCameraMagnification >= 1.025 {
+            currentCameraMagnification  = 1.025
+        }
+        if currentCameraMagnification <= 0.97 {
+            currentCameraMagnification  = 0.97
+        }
+        
+        //let maximumFOV: CGFloat = 25 // Zoom-in.
+        //let minimumFOV: CGFloat = 90 // Zoom-out.
+        
+        camera.fieldOfView /= currentCameraMagnification
+        
+        if camera.fieldOfView <= maximumCurrentCameraFOV {
+            camera.fieldOfView          = maximumCurrentCameraFOV
+            currentCameraMagnification  = 1.0
+        }
+        if camera.fieldOfView >= minimumCurrentCameraFOV {
+            camera.fieldOfView          = minimumCurrentCameraFOV
+            currentCameraMagnification  = 1.0
+        }
+    }
+    
+    
+    
+    func resetCurrentCameraFOV(of currentCamera: SCNCamera) {
+        print("resetting cameraFOV")
+        print("current camera: \(String(describing: currentCamera.name)) FOV: \(currentCamera.fieldOfView)")
+        
+        if currentCamera.name == SpacecraftCamera.spacecraftChase360Camera.rawValue {
+            print("spacecraftChase360Camera FOV: \(currentCamera.fieldOfView)")
+            currentCamera.fieldOfView = 45
+        }
+        
+        if currentCamera.name == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
+            print("spacecraftCommanderCamera FOV: \(currentCamera.fieldOfView)")
+            currentCamera.fieldOfView = 30
+        }
+    }
+
 }

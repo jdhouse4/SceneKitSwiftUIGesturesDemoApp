@@ -33,27 +33,37 @@ struct SpacecraftSceneView: View {
     //private var sceneViewRenderContinuously = SceneView.Options.rendersContinuously
 
 
-    // Don't forget to comment that you are using .allowsCameraControl
-    var drag: some Gesture {
-        DragGesture()
-            .onChanged { value in
-                self.isDragging = true
-                                    
-                if aircraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.distantCamera.rawValue {
-                    aircraftCameraState.changeCameraOrientation(of: aircraft.spacecraftCurrentCameraNode, with: value.translation)
+    // Need a @State Bool to allow toggling when .allowsCameraControl is an option.
+    var magnify: some Gesture {
+        MagnificationGesture()
+            .onChanged{ (magnificationValue) in
+                
+                //
+                // Only zoom in/out in the external cameras, at least for now.
+                //
+                if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
+                    
+                    spacecraftCameraState.currentCameraMagnification = magnificationValue
+                    //print("magnify = \(spacecraftCameraState.currentCameraMagnification)")
+                    
+                    spacecraftCameraState.changeCurrentCameraFOV(of: spacecraft.spacecraftCurrentCamera.camera!, value: spacecraftCameraState.currentCameraMagnification)
+                    
                 }
             }
-            .onEnded { value in
+            .onEnded{ magnificationValue in
                 
-                self.isDragging = false
+                //print("Ended pinch with value \(magnificationValue)\n")
                 
-                    if aircraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.distantCamera.rawValue {
-                        aircraftCameraState.updateCameraOrientation(of: aircraft.spacecraftCurrentCameraNode)
-                    }
             }
     }
-
-
+    
+    
+    // Don't forget to comment this is you are using .allowsCameraControl
+    var exclusiveGesture: some Gesture {
+        ExclusiveGesture(drag, magnify)
+    }
+    
+    
     var body: some View {
         ZStack {
             SceneView (
@@ -64,7 +74,7 @@ struct SpacecraftSceneView: View {
             .gesture(drag)
             .onTapGesture(count: 2, perform: {
                 
-                if aircraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.distantCamera.rawValue {
+                if aircraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
                     aircraftCameraState.resetCameraOrientation(of: aircraft.spacecraftCurrentCameraNode)
                 }
                 

@@ -31,7 +31,7 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     //
     // For switching cameras in the scene.
     //
-    @Published var spacecraftCurrentCamera: String        = SpacecraftCamera.distantCamera.rawValue
+    @Published var spacecraftCurrentCamera: String        = SpacecraftCamera.spacecraftChase360Camera.rawValue
     @Published var spacecraftCurrentCameraNode: SCNNode   = SCNNode()
 
     
