@@ -27,15 +27,18 @@ final class SpacecraftSceneKitScene: SCNScene, ObservableObject {
     /// Aircraft camera strings (This should be an enum)
     @Published var spacecraftNodeString             = "Orion_CSM_Node"
     @Published var spacecraftDistantCameraString    = SpacecraftCamera.spacecraftChase360Camera.rawValue
+    @Published var spacecraftInteriorCameraString   = SpacecraftCamera.spacecraftCommanderCamera.rawValue
 
     /// Aircraft cameras
     @Published var spacecraftCurrentCamera: SCNNode
     @Published var spacecraftDistantCamera: SCNNode
+    @Published var spacecraftInteriorCamera: SCNNode
 
     /// Aircraft camera nodes
     @Published var spacecraftCurrentCameraNode: SCNNode
     @Published var spacecraftDistantCameraNode: SCNNode
-    
+    @Published var spacecraftInteriorCameraNode: SCNNode
+
     /// Orientation
     @Published var spacecraftQuaternion: simd_quatf = simd_quatf(ix: 0.0, iy: 0.0, iz: 0.0, r: 1.0)
     @Published var deltaQuaternion: simd_quatf      = simd_quatf(ix: 0.0, iy: 0.0, iz: 0.0, r: 1.0)
@@ -54,9 +57,13 @@ final class SpacecraftSceneKitScene: SCNScene, ObservableObject {
         
         self.spacecraftDistantCamera      = spacecraftScene.rootNode.childNode(withName: "OrionChase360Camera", recursively: true)!
         
+        self.spacecraftInteriorCamera     = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCamera", recursively: true)!
+
         self.spacecraftCurrentCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionExteriorCamerasNode", recursively: true)!
         
         self.spacecraftDistantCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
+
+        self.spacecraftInteriorCameraNode = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCameraNode", recursively: true)!
 
         
         super.init()
@@ -73,9 +80,13 @@ final class SpacecraftSceneKitScene: SCNScene, ObservableObject {
         
         self.spacecraftDistantCamera      = spacecraftScene.rootNode.childNode(withName: "OrionChase360Camera", recursively: true)!
         
+        self.spacecraftInteriorCamera     = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCamera", recursively: true)!
+        
         self.spacecraftCurrentCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionExteriorCamerasNode", recursively: true)!
         
         self.spacecraftDistantCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
+        
+        self.spacecraftInteriorCameraNode = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCameraNode", recursively: true)!
 
 
         super.init(coder: coder)

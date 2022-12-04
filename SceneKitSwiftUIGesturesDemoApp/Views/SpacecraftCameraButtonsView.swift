@@ -15,12 +15,12 @@ struct SpacecraftCameraButtonsView: View {
     
     /// @EnvironmentObject is a property wrapper type for an observable object that is
     /// instantiated by @StateObject supplied by a parent or ancestor view.
-    @EnvironmentObject var aircraft: SpacecraftSceneKitScene
-    @EnvironmentObject var aircraftDelegate: SpacecraftSceneRendererDelegate
-    @EnvironmentObject var aircraftCameraButton: SpacecraftCameraButton
+    @EnvironmentObject var spacecraft: SpacecraftSceneKitScene
+    @EnvironmentObject var spacecraftDelegate: SpacecraftSceneRendererDelegate
+    @EnvironmentObject var spacecraftCameraButton: SpacecraftCameraButton
 
-    @State private var distantCamera    = true
-    @State private var shipCamera       = false
+    @State private var spacecraftExteriorCamera = true
+    @State private var spacecraftInteriorCamera = false
 
     
     var body: some View {
@@ -32,10 +32,10 @@ struct SpacecraftCameraButtonsView: View {
                 Button(action: {
                     withAnimation(.ripple(buttonIndex: 2)) {
 
-                        self.aircraftCameraButton.showCameraButtons.toggle()
+                        self.spacecraftCameraButton.showCameraButtons.toggle()
                     }
                 }) {
-                    Image(systemName: aircraftCameraButton.showCameraButtons ? "camera.fill" : "camera")
+                    Image(systemName: spacecraftCameraButton.showCameraButtons ? "camera.fill" : "camera")
                         .imageScale(.large)
                         .accessibility(label: Text("Cameras"))
                 }
@@ -43,12 +43,12 @@ struct SpacecraftCameraButtonsView: View {
                 .frame(
                     width: sizeClass == .compact ? CircleButtonSize.diameterCompact.rawValue : CircleButtonSize.diameter.rawValue,
                     height: sizeClass == .compact ? CircleButtonSize.diameterCompact.rawValue : CircleButtonSize.diameter.rawValue)
-                .background(self.aircraftCameraButton.showCameraButtons ? CircleButtonColor.onWithBackground.rawValue : CircleButtonColor.offWithBackground.rawValue)
+                .background(self.spacecraftCameraButton.showCameraButtons ? CircleButtonColor.onWithBackground.rawValue : CircleButtonColor.offWithBackground.rawValue)
                 .clipShape(Circle())
                 .background(Circle().stroke(Color.blue, lineWidth: 1))
 
 
-                if aircraftCameraButton.showCameraButtons {
+                if spacecraftCameraButton.showCameraButtons {
                     
                     Group {
 
@@ -57,23 +57,23 @@ struct SpacecraftCameraButtonsView: View {
                         //
                         Button( action: {
                             withAnimation {
-                                self.distantCamera  = true
-                                self.aircraftCameraButton.distantCameraButtonPressed.toggle()
+                                self.spacecraftExteriorCamera  = true
+                                self.spacecraftCameraButton.spacecraftExteriorCameraButtonPressed.toggle()
                             }
                             
-                            self.changePOV(cameraString: self.aircraft.spacecraftDistantCameraString)
+                            self.changePOV(cameraString: self.spacecraft.spacecraftDistantCameraString)
                             
                         }) {
                             Image(systemName: "airplane")
                                 .imageScale(.large)
-                                .opacity(self.distantCamera == true ? 1.0 : 0.4)
-                                .accessibility(label: Text("Show Distant Camera"))
+                                .opacity(self.spacecraftExteriorCamera == true ? 1.0 : 0.4)
+                                .accessibility(label: Text("Show Exterior Camera"))
                                 .padding()
                         }
                         .zIndex(2)
                         .frame(width: sizeClass == .compact ? CircleButtonSize.diameterCompact.rawValue : CircleButtonSize.diameter.rawValue,
                                height: sizeClass == .compact ? CircleButtonSize.diameterCompact.rawValue : CircleButtonSize.diameter.rawValue)
-                        .background(distantCamera ? CircleButtonColor.onWithBackground.rawValue : CircleButtonColor.offWithBackground.rawValue)
+                        .background(spacecraftExteriorCamera ? CircleButtonColor.onWithBackground.rawValue : CircleButtonColor.offWithBackground.rawValue)
                         .clipShape(Circle())
                         .background(Circle().stroke(Color.blue, lineWidth: 1))
                         .transition(moveAndFadeRight(buttonIndex: 1))
@@ -81,6 +81,38 @@ struct SpacecraftCameraButtonsView: View {
                             x: sizeClass == .compact ? CircleButtonSize.diameterWithRadialSpacingCompact.rawValue : CircleButtonSize.diameterWithRadialSpacing.rawValue,
                             y: 0)
                         
+                        
+                        
+                        //
+                        // Button for toggling interior camera.
+                        //
+                        Button( action: {
+                            withAnimation {
+                                self.spacecraftInteriorCamera   = true
+                                self.spacecraftExteriorCamera   = false
+                                self.spacecraftCameraButton.spacecraftInteriorCameraButtonPressed.toggle()
+                            }
+                            
+                            self.changePOV(cameraString: self.spacecraft.spacecraftInteriorCameraString)
+                            
+                        }) {
+                            Image(systemName: "person.fill")
+                                .imageScale(.large)
+                                .opacity(spacecraftInteriorCamera == true ? 1.0 : 0.4)
+                                .accessibility(label: Text("Interior Camera"))
+                                .padding()
+                        }
+                        .zIndex(2)
+                        .frame(
+                            width: sizeClass == .compact ? CircleButtonSize.diameterCompact.rawValue : CircleButtonSize.diameter.rawValue,
+                            height: sizeClass == .compact ? CircleButtonSize.diameterCompact.rawValue : CircleButtonSize.diameter.rawValue)
+                        .background(spacecraftInteriorCamera ? CircleButtonColor.onWithBackground.rawValue : CircleButtonColor.offWithBackground.rawValue)
+                        .clipShape(Circle())
+                        .background(Circle().stroke(Color.blue, lineWidth: 1))
+                        .transition(moveAndFadeRight(buttonIndex: 2))
+                        .offset(
+                            x: sizeClass == .compact ? CircleButtonSize.diameterWithRadialSpacingCompact.rawValue * 2 : CircleButtonSize.diameterWithRadialSpacing.rawValue * 2,
+                            y: 0)
                     }
                 }
             }
@@ -109,10 +141,19 @@ struct SpacecraftCameraButtonsView: View {
 
             print("cameraString: \(cameraString)")
 
-            if cameraString == aircraft.spacecraftDistantCameraString {
-                self.aircraft.spacecraftCurrentCamera = self.aircraft.spacecraftDistantCamera
-                self.aircraftDelegate.setCameraName(name: aircraft.spacecraftDistantCameraString)
-                self.aircraftDelegate.setCameraNode(node: aircraft.spacecraftDistantCameraNode)
+            if cameraString == spacecraft.spacecraftDistantCameraString {
+                self.spacecraft.spacecraftCurrentCamera = self.spacecraft.spacecraftDistantCamera
+                self.spacecraft.spacecraftCurrentCamera.camera?.fieldOfView = 45.0
+                self.spacecraftDelegate.setCurrentCameraName(name: spacecraft.spacecraftDistantCameraString)
+                self.spacecraftDelegate.setCurrentCameraNode(node: spacecraft.spacecraftDistantCameraNode)
+            }
+
+
+            if cameraString == spacecraft.spacecraftInteriorCameraString {
+                self.spacecraft.spacecraftCurrentCamera = self.spacecraft.spacecraftInteriorCamera
+                self.spacecraft.spacecraftCurrentCamera.camera?.fieldOfView = 70.0
+                self.spacecraftDelegate.setCurrentCameraName(name: spacecraft.spacecraftInteriorCameraString)
+                self.spacecraftDelegate.setCurrentCameraNode(node: spacecraft.spacecraftInteriorCameraNode)
             }
         }
     }

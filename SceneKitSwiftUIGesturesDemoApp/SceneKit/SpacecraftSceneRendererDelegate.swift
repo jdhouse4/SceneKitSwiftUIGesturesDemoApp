@@ -25,7 +25,7 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     var spacecraftState                         = SpacecraftState.shared
     
     @Published var spacecraftNode: SCNNode      = SCNNode()
-    @Published var spacecraftNodeString: String = "shipNode"
+    @Published var spacecraftNodeString: String = "Orion_CSM_Node"
 
     
     //
@@ -101,17 +101,19 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
             
         }
         
+        
+        
     }
     
     
     
-    func setCameraName(name: String) {
+    func setCurrentCameraName(name: String) {
         spacecraftCurrentCamera = name
     }
     
     
     
-    func setCameraNode(node: SCNNode) {
+    func setCurrentCameraNode(node: SCNNode) {
         spacecraftCurrentCameraNode = node
     }
     

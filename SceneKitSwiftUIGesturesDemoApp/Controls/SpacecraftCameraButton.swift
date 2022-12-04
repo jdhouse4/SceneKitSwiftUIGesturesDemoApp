@@ -11,12 +11,12 @@ import SwiftUI
 
 class SpacecraftCameraButton: ObservableObject {
 
-    @Published var cameraButtonSwitch: Bool         = false
+    @Published var cameraButtonSwitch: Bool = false
     
-    @Published var showCameraButtons: Bool          = false
+    @Published var showCameraButtons: Bool  = false
     
-    @Published var distantCameraButtonPressed: Bool = false
-
+    @Published var spacecraftExteriorCameraButtonPressed: Bool  = false
+    @Published var spacecraftInteriorCameraButtonPressed: Bool  = false
 }
 
 
