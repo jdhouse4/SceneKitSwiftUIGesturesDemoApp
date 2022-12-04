@@ -42,7 +42,7 @@ class SpacecraftCameraState: ObservableObject {
     // MARK: -Change Camera Orientation
 
     func changeCameraOrientation(of currentCameraNode: SCNNode, with translation: CGSize) {
-        //print("\n\(#function) translation: \(translation)")
+        //print("\(#function) translation: \(translation)")
         
         let x = Float(translation.width)
         let y = Float(-translation.height)
@@ -63,7 +63,15 @@ class SpacecraftCameraState: ObservableObject {
         //print("\(#function) currentCameraRotation: \(currentCameraRotation)")
         
         currentCameraNode.rotation = currentCameraRotation
-        //print("\(#function) currentCameraRotation: \(currentCameraRotation)")
+        print("\(#function) currentCameraRotation: \(currentCameraRotation)")
+        
+        //print("\(#function) currentCameraTransform: \(currentCameraNode.transform)")
+
+        
+        let rot = currentCameraNode.rotation
+        let orientation = simd_quaternion(rot.x, rot.y, rot.z, rot.w).normalized
+        let vec4 = simd_make_float4(orientation.axis.x, orientation.axis.y, orientation.axis.z, orientation.angle)
+        //print("\(#function) orientation( x:\(vec4.x), y: \(vec4.y), z: \(vec4.z), w: \(vec4.w)")
         
         //let rotationQuaternion = simd_quatf(ix: y, iy: -x, iz: 0, r: anglePan).normalized
         //print("\(#function) rotationQuaternion: \(rotationQuaternion)\n")
@@ -73,25 +81,23 @@ class SpacecraftCameraState: ObservableObject {
     
     func updateCameraOrientation(of currentCameraNode: SCNNode) {
         
+        //print("\nn\(#function) currentCameraTransform: \(currentCameraNode.transform)")
         print("\n\(#function) currentOrientation: \(currentCameraNode.orientation)")
+        print("\(#function) currentRotation: \(currentCameraNode.rotation)")
         
+        //currentCameraNode.rotation      = currentCameraRotation
+        //print("\(#function) currentRotation: \(currentCameraNode.rotation)")
+
         currentCameraPivot              = currentCameraNode.pivot
         print("currentCameraPivot: \(currentCameraPivot)")
         
         currentCameraTransform          = currentCameraNode.transform
-        //print("currentCameraTransform: \(currentCameraTransform)")
+        print("currentCameraTransform: \(currentCameraTransform)")
         
         currentCameraInverseTransform   = SCNMatrix4Invert(currentCameraTransform)
         //print("currentCameraInverseTransform: \(currentCameraInverseTransform)")
         
-        currentCameraTotalPivot         = SCNMatrix4Mult(
-            currentCameraInverseTransform,
-            currentCameraPivot)
-        //print("currentCameraTotalPivot: \(currentCameraTotalPivot)")
-        
-        currentCameraPivot              = SCNMatrix4Mult(
-            currentCameraInverseTransform,
-            currentCameraPivot)
+        currentCameraPivot              = SCNMatrix4Mult(currentCameraInverseTransform, currentCameraPivot)
         //print("currentCameraPivot: \(currentCameraPivot)")
         
         currentCameraNode.pivot         = currentCameraPivot
@@ -116,6 +122,7 @@ class SpacecraftCameraState: ObservableObject {
         
         //print("currentCameraNode.name: \(currentCameraNode.name)")
         
+        // This resets the "neck" of the spacecraft's interior commander camera
         if currentCameraNode.name! + "Node" == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
             currentCameraNode.pivot = SCNMatrix4Identity
             currentCameraNode.simdPivot.columns.3.y = -0.09
