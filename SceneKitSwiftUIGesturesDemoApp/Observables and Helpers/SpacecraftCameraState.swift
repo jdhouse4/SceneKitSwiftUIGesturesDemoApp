@@ -57,15 +57,12 @@ class SpacecraftCameraState: ObservableObject {
         
         print("\(#function) Starting currentCameraRotation: \(currentCameraRotation)")
         
-        startQuaterion = currentCameraNode.simdOrientation
-        print("\(#function) startQuaternion: \(startQuaterion)")
-
         let x = Float(value.translation.width)
         let y = Float(-value.translation.height)
 
-        let anglePan = ( sqrt(pow(x,2) + pow(y,2)) / 1.0 ) * (Float)(Double.pi) / 180.0
-        print("\(#function) anglePan (in degrees): \(anglePan * 180.0 / .pi)")
-        print("\(#function) anglePan (in radians): \(anglePan)")
+        let anglePan = ( sqrt(pow(x,2) + pow(y,2)) / 3.0 ) * (Float)(Double.pi) / 180.0
+        //print("\(#function) anglePan (in degrees): \(anglePan * 180.0 / .pi)")
+        //print("\(#function) anglePan (in radians): \(anglePan)")
 
         var rotationVector = SCNVector4()
 
@@ -75,6 +72,9 @@ class SpacecraftCameraState: ObservableObject {
         rotationVector.w = anglePan
 
         /*
+        startQuaterion = currentCameraNode.simdOrientation
+        //print("\(#function) startQuaternion: \(startQuaterion)")
+         
         deltaQuaterion      = simd_quatf(ix: rotationVector.x, iy: rotationVector.y, iz: rotationVector.z, r: rotationVector.w).normalized
         print("\(#function) deltaQuaternion: \(deltaQuaterion)")
 
@@ -107,6 +107,7 @@ class SpacecraftCameraState: ObservableObject {
         currentCameraTransform          = currentCameraNode.transform
         //print("currentCameraTransform: \(currentCameraTransform)")
         
+        /*
         currentCameraInverseTransform   = SCNMatrix4Invert(currentCameraTransform)
         //print("currentCameraInverseTransform: \(currentCameraInverseTransform)")
         
@@ -126,15 +127,22 @@ class SpacecraftCameraState: ObservableObject {
         //print("currentCameraTransform: \(currentCameraTransform)")
         
         currentCameraNode.transform     = currentCameraTransform
-
-        /*
+         */
+        
          let changePivot = SCNMatrix4Invert(SCNMatrix4MakeRotation(currentCameraNode.rotation.w,
          currentCameraNode.rotation.x,
          currentCameraNode.rotation.y,
          currentCameraNode.rotation.z))
          
-         currentCameraNode.pivot         = SCNMatrix4Mult(changePivot, currentCameraPivot)
-         */
+         currentCameraPivot         = SCNMatrix4Mult(changePivot, currentCameraPivot)
+        currentCameraNode.pivot     = currentCameraPivot
+        
+        currentCameraTransform      = SCNMatrix4Identity
+        //print("currentCameraTransform: \(currentCameraTransform)")
+        
+        currentCameraNode.transform = currentCameraTransform
+
+         
     }
 
 
