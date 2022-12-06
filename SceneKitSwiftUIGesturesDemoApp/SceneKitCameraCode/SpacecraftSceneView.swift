@@ -33,49 +33,35 @@ struct SpacecraftSceneView: View {
     //private var sceneViewRenderContinuously = SceneView.Options.rendersContinuously
 
 
-
     
     // Need a @State Bool to allow toggling when .allowsCameraControl is an option.
     var drag: some Gesture {
         DragGesture()
             .onChanged { value in
+                
                 self.isDragging = true
                 
-                //let dragValue = value.startLocation
-                
-                //if !spacecraftCloudUserDefaults.gyroOrientationControl {
-                    
                     if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
                         spacecraftCameraState.changeExteriorCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode, with: value)
-                        //spacecraftCameraState.changedCurrentCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode, with: value)
-                        
-                        //spacecraftCameraState.changeCameraNodeTouches(of: spacecraft.spacecraftCurrentCameraNode, with: value)
                     }
                     
                     if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
                         spacecraftCameraState.changeInteriorCameraOrientation(of: spacecraft.spacecraftCurrentCamera, with: value)
                     }
                     
-                //}
             }
             .onEnded { value in
                 
                 self.isDragging = false
                 
-                //if !spacecraftCloudUserDefaults.gyroOrientationControl {
-                    
                     if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
                         spacecraftCameraState.updateCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode)
-                        //spacecraftCameraState.changedCurrentCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode, with: value)
-                        
-                        //spacecraftCameraState.updateCameraNodeTouches(of: spacecraft.spacecraftCurrentCameraNode)
                     }
                     
                     if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
                         spacecraftCameraState.updateCameraOrientation(of: spacecraft.spacecraftCurrentCamera)
                     }
                     
-                //}
             }
     }
     // Need a @State Bool to allow toggling when .allowsCameraControl is an option.
@@ -116,6 +102,7 @@ struct SpacecraftSceneView: View {
             SceneView (
                 scene: spacecraft.spacecraftScene,
                 pointOfView: spacecraft.spacecraftCurrentCamera,
+                /*options: [sceneViewCameraOptions],*/
                 delegate: spacecraftDelegate
             )
             .gesture(exclusiveGesture)
@@ -123,6 +110,10 @@ struct SpacecraftSceneView: View {
                 
                 if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
                     spacecraftCameraState.resetCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode)
+                }
+                
+                if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
+                    spacecraftCameraState.resetCameraOrientation(of: spacecraft.spacecraftCurrentCamera)
                 }
                 
             })

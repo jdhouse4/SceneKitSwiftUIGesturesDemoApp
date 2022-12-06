@@ -75,7 +75,6 @@
 			children = (
 				E60EE4592939BE1400822DC2 /* AircraftAnimationHelpers.swift */,
 				E60EE4512939BBF300822DC2 /* SpacecraftCamera.swift */,
-				E60EE44F2939BBF300822DC2 /* SpacecraftCameraState.swift */,
 				E60EE4502939BBF300822DC2 /* SpacecraftState.swift */,
 				E60EE45A2939BE1400822DC2 /* CircleButtonHelper.swift */,
 				E60EE45B2939BE1400822DC2 /* CircleButtonSize.swift */,
@@ -90,6 +89,26 @@
 				E60EE4672939BED900822DC2 /* SpacecraftCameraButton.swift */,
 			);
 			path = Controls;
+			sourceTree = "<group>";
+		};
+		E6B61C9B293F144100E8662F /* SceneKitCameraCode */ = {
+			isa = PBXGroup;
+			children = (
+				E60EE4552939BC0E00822DC2 /* SpacecraftSceneView.swift */,
+				E60EE44F2939BBF300822DC2 /* SpacecraftCameraState.swift */,
+			);
+			path = SceneKitCameraCode;
+			sourceTree = "<group>";
+		};
+		E6B61C9C293F148C00E8662F /* Demo App Code */ = {
+			isa = PBXGroup;
+			children = (
+				E60EE4572939BC5A00822DC2 /* SceneKit */,
+				E6FB1D0524D3864B0086CD4B /* Views */,
+				E60EE4692939C01E00822DC2 /* Controls */,
+				E60EE4582939BC9500822DC2 /* Observables and Helpers */,
+			);
+			path = "Demo App Code";
 			sourceTree = "<group>";
 		};
 		E6FB1CE524D3837D0086CD4B = {
@@ -113,10 +132,8 @@
 			children = (
 				E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */,
 				E6FB1CF324D3837D0086CD4B /* ContentView.swift */,
-				E60EE4572939BC5A00822DC2 /* SceneKit */,
-				E6FB1D0524D3864B0086CD4B /* Views */,
-				E60EE4692939C01E00822DC2 /* Controls */,
-				E60EE4582939BC9500822DC2 /* Observables and Helpers */,
+				E6B61C9B293F144100E8662F /* SceneKitCameraCode */,
+				E6B61C9C293F148C00E8662F /* Demo App Code */,
 				E6FB1D0324D385F80086CD4B /* art.scnassets */,
 				E6FB1CF524D383800086CD4B /* Assets.xcassets */,
 				E6FB1CFA24D383800086CD4B /* Info.plist */,
@@ -138,7 +155,6 @@
 			children = (
 				E60EE46C2939C0A000822DC2 /* SpacecraftAnalyticsButtonView.swift */,
 				E60EE4612939BEA200822DC2 /* SpacecraftCameraButtonsView.swift */,
-				E60EE4552939BC0E00822DC2 /* SpacecraftSceneView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

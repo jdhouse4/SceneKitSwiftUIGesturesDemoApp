@@ -50,18 +50,13 @@ struct ContentView: View {
                 .padding(.bottom, spacecraftAnalyticsButton.analyticsSwitch ? 140 : 5)
                 
             }
-            //.background(Color.white.opacity(0.75))
-            
-                            
-            
+                        
             Spacer()
                 
-            
-            //.background(Color.blue)
-            
         }
         .background(Color.black)
         .statusBar(hidden: true)
+        
         
         .environmentObject(spacecraft)
         .environmentObject(spacecraftDelegate)

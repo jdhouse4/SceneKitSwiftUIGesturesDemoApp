@@ -122,40 +122,28 @@ struct SpacecraftCameraButtonsView: View {
     }
 
 
-    //
-    // Escaping closure to push change from the AircraftScene function cycleCameras()
-    //
-    // Because of the way SwiftUI works, the call to the SpacecraftSceneRendererDelegate function cycleCamera()
-    // wasn't being 'seen'.
-    //
-    func modifyPOV(closure: @escaping () -> Void) {
-        closure()
-    }
-
-
 
     private func changePOV(cameraString: String) -> Void {
         print("\nContentView changePOV")
-
-        modifyPOV { [self] in
-
-            print("cameraString: \(cameraString)")
-
-            if cameraString == spacecraft.spacecraftDistantCameraString {
-                self.spacecraft.spacecraftCurrentCamera = self.spacecraft.spacecraftDistantCamera
-                self.spacecraft.spacecraftCurrentCamera.camera?.fieldOfView = 45.0
-                self.spacecraftDelegate.setCurrentCameraName(name: spacecraft.spacecraftDistantCameraString)
-                self.spacecraftDelegate.setCurrentCameraNode(node: spacecraft.spacecraftDistantCameraNode)
-            }
-
-
-            if cameraString == spacecraft.spacecraftInteriorCameraString {
-                self.spacecraft.spacecraftCurrentCamera = self.spacecraft.spacecraftInteriorCamera
-                self.spacecraft.spacecraftCurrentCamera.camera?.fieldOfView = 70.0
-                self.spacecraftDelegate.setCurrentCameraName(name: spacecraft.spacecraftInteriorCameraString)
-                self.spacecraftDelegate.setCurrentCameraNode(node: spacecraft.spacecraftInteriorCameraNode)
-            }
+        
+        
+        print("cameraString: \(cameraString)")
+        
+        if cameraString == spacecraft.spacecraftDistantCameraString {
+            self.spacecraft.spacecraftCurrentCamera = self.spacecraft.spacecraftDistantCamera
+            self.spacecraft.spacecraftCurrentCamera.camera?.fieldOfView = 45.0
+            self.spacecraftDelegate.setCurrentCameraName(name: spacecraft.spacecraftDistantCameraString)
+            self.spacecraftDelegate.setCurrentCameraNode(node: spacecraft.spacecraftDistantCameraNode)
         }
+        
+        
+        if cameraString == spacecraft.spacecraftInteriorCameraString {
+            self.spacecraft.spacecraftCurrentCamera = self.spacecraft.spacecraftInteriorCamera
+            self.spacecraft.spacecraftCurrentCamera.camera?.fieldOfView = 70.0
+            self.spacecraftDelegate.setCurrentCameraName(name: spacecraft.spacecraftInteriorCameraString)
+            self.spacecraftDelegate.setCurrentCameraNode(node: spacecraft.spacecraftInteriorCameraNode)
+        }
+        
     }
 
 

@@ -26,14 +26,14 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     
     @Published var spacecraftNode: SCNNode      = SCNNode()
     @Published var spacecraftNodeString: String = "Orion_CSM_Node"
-
+    
     
     //
     // For switching cameras in the scene.
     //
     @Published var spacecraftCurrentCamera: String        = SpacecraftCamera.spacecraftChase360Camera.rawValue
     @Published var spacecraftCurrentCameraNode: SCNNode   = SCNNode()
-
+    
     
     // TODO: Prepare to DELETE
     @Published var nearPoint: SCNVector3    = SCNVector3()
@@ -41,7 +41,7 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     
     
     var changeCamera: Bool      = false
-        
+    
     var showsStatistics: Bool   = false
     
     
@@ -59,12 +59,6 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
         
         super.init()
         
-        ///
-        /// Just making sure here that the aircraftScene and aircraftNode are what I want them to be.
-        ///
-        
-        print("SpacecraftSceneRendererDelegate \(#function) spacecraftScene: \(spacecraftScene)")
-        print("SpacecraftSceneRendererDelegate \(#function) spacecraftNode: \(String(describing: spacecraftNode.name))")
     }
     
     
@@ -89,7 +83,7 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
             
             _previousUpdateTime         = time
             //print("_previousTime: \(_previousUpdateTime)")
-                        
+            
             
             _deltaTime  = 0.0
             //print("_deltaTime: \(_deltaTime)")
@@ -121,12 +115,6 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     
     func setSpacecraftNode(node: SCNNode) {
         spacecraftNode = node
-    }
-    
-    
-    
-    func radians2Degrees(_ number: Float) -> Float {
-        return number * 180.0 / .pi
     }
     
 }
