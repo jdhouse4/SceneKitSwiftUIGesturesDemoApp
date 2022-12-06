@@ -46,12 +46,14 @@ struct SpacecraftSceneView: View {
                 //if !spacecraftCloudUserDefaults.gyroOrientationControl {
                     
                     if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
-                        spacecraftCameraState.changeCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode, with: value.translation)
+                        spacecraftCameraState.changeCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode, with: value)
                         //spacecraftCameraState.changedCurrentCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode, with: value)
+                        
+                        //spacecraftCameraState.beginCameraNodeTouches(of: spacecraft.spacecraftCurrentCameraNode, with: value)
                     }
                     
                     if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
-                        spacecraftCameraState.changeCameraOrientation(of: spacecraft.spacecraftCurrentCamera, with: value.translation)
+                        spacecraftCameraState.changeCameraOrientation(of: spacecraft.spacecraftCurrentCamera, with: value)
                     }
                     
                 //}
@@ -65,6 +67,8 @@ struct SpacecraftSceneView: View {
                     if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
                         spacecraftCameraState.updateCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode)
                         //spacecraftCameraState.changedCurrentCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode, with: value)
+                        
+                        //spacecraftCameraState.changeCameraNodeTouches(of: spacecraft.spacecraftCurrentCameraNode, with: value)
                     }
                     
                     if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftCommanderCamera.rawValue {

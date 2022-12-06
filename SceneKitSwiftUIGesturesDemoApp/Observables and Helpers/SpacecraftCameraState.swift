@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import SwiftUI
 import SceneKit
 import simd
+import GLKit
 
 
 
@@ -24,9 +26,18 @@ class SpacecraftCameraState: ObservableObject {
     //
     @Published var currentCameraPivot: SCNMatrix4               = SCNMatrix4()
     @Published var currentCameraRotation: SCNVector4            = SCNVector4()
+    @Published var currentCameraOrientation: SCNQuaternion      = SCNQuaternion()
     @Published var currentCameraTransform: SCNMatrix4           = SCNMatrix4()
     @Published var currentCameraTotalPivot: SCNMatrix4          = SCNMatrix4()
     @Published var currentCameraInverseTransform: SCNMatrix4    = SCNMatrix4()
+    
+    var quaternion: simd_quatf                                  = simd_quatf(ix: 0.0, iy: 0.0, iz: 0.0, r: 1.0)
+    var startQuaterion: simd_quatf                              = simd_quatf(ix: 0.0, iy: 0.0, iz: 0.0, r: 1.0)
+    var deltaQuaterion: simd_quatf                              = simd_quatf(ix: 0.0, iy: 0.0, iz: 0.0, r: 1.0)
+    var updatedQuaterion: simd_quatf                            = simd_quatf(ix: 0.0, iy: 0.0, iz: 0.0, r: 1.0)
+    var currentTouchPosition: simd_float3                       = simd_float3()
+    var anchorTouchPosition: simd_float3                        = simd_float3()
+    var rotationMatrix: SCNMatrix4                              = SCNMatrix4Identity
     
     
     //
@@ -41,14 +52,20 @@ class SpacecraftCameraState: ObservableObject {
     
     // MARK: -Change Camera Orientation
 
-    func changeCameraOrientation(of currentCameraNode: SCNNode, with translation: CGSize) {
+    func changeCameraOrientation(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
         //print("\(#function) translation: \(translation)")
         
-        let x = Float(translation.width)
-        let y = Float(-translation.height)
+        print("\(#function) Starting currentCameraRotation: \(currentCameraRotation)")
+        
+        startQuaterion = currentCameraNode.simdOrientation
+        print("\(#function) startQuaternion: \(startQuaterion)")
 
-        let anglePan = sqrt(pow(x,2) + pow(y,2)) * (Float)(Double.pi) / 180.0
-        //print("\(#function) anglePan (in degrees): \(anglePan * 180.0 / .pi)")
+        let x = Float(value.translation.width)
+        let y = Float(-value.translation.height)
+
+        let anglePan = ( sqrt(pow(x,2) + pow(y,2)) / 1.0 ) * (Float)(Double.pi) / 180.0
+        print("\(#function) anglePan (in degrees): \(anglePan * 180.0 / .pi)")
+        print("\(#function) anglePan (in radians): \(anglePan)")
 
         var rotationVector = SCNVector4()
 
@@ -57,47 +74,50 @@ class SpacecraftCameraState: ObservableObject {
         rotationVector.z =  0
         rotationVector.w = anglePan
 
-        //node.rotation = rotationVector
+        /*
+        deltaQuaterion      = simd_quatf(ix: rotationVector.x, iy: rotationVector.y, iz: rotationVector.z, r: rotationVector.w).normalized
+        print("\(#function) deltaQuaternion: \(deltaQuaterion)")
+
+        updatedQuaterion    = simd_mul(startQuaterion, deltaQuaterion).normalized
+        print("\(#function) updatedQuaternion: \(updatedQuaterion)")
+
+        //currentCameraNode.simdOrientation = updatedQuaterion
+        print("\(#function) currentCamera.simdOrientation: \(currentCameraNode.simdOrientation)")
+         */
         
         currentCameraRotation = rotationVector
         //print("\(#function) currentCameraRotation: \(currentCameraRotation)")
         
         currentCameraNode.rotation = currentCameraRotation
-        print("\(#function) currentCameraRotation: \(currentCameraRotation)")
+        //print("\(#function) currentCameraRotation: \(currentCameraRotation)")
         
-        //print("\(#function) currentCameraTransform: \(currentCameraNode.transform)")
-
         
-        let rot = currentCameraNode.rotation
-        let orientation = simd_quaternion(rot.x, rot.y, rot.z, rot.w).normalized
-        let vec4 = simd_make_float4(orientation.axis.x, orientation.axis.y, orientation.axis.z, orientation.angle)
-        //print("\(#function) orientation( x:\(vec4.x), y: \(vec4.y), z: \(vec4.z), w: \(vec4.w)")
-        
-        //let rotationQuaternion = simd_quatf(ix: y, iy: -x, iz: 0, r: anglePan).normalized
-        //print("\(#function) rotationQuaternion: \(rotationQuaternion)\n")
+        //print("\n")
     }
     
     
     
     func updateCameraOrientation(of currentCameraNode: SCNNode) {
         
-        //print("\nn\(#function) currentCameraTransform: \(currentCameraNode.transform)")
         print("\n\(#function) currentOrientation: \(currentCameraNode.orientation)")
-        print("\(#function) currentRotation: \(currentCameraNode.rotation)")
         
-        //currentCameraNode.rotation      = currentCameraRotation
-        //print("\(#function) currentRotation: \(currentCameraNode.rotation)")
-
         currentCameraPivot              = currentCameraNode.pivot
         print("currentCameraPivot: \(currentCameraPivot)")
         
         currentCameraTransform          = currentCameraNode.transform
-        print("currentCameraTransform: \(currentCameraTransform)")
+        //print("currentCameraTransform: \(currentCameraTransform)")
         
         currentCameraInverseTransform   = SCNMatrix4Invert(currentCameraTransform)
         //print("currentCameraInverseTransform: \(currentCameraInverseTransform)")
         
-        currentCameraPivot              = SCNMatrix4Mult(currentCameraInverseTransform, currentCameraPivot)
+        currentCameraTotalPivot         = SCNMatrix4Mult(
+            currentCameraInverseTransform,
+            currentCameraPivot)
+        //print("currentCameraTotalPivot: \(currentCameraTotalPivot)")
+        
+        currentCameraPivot              = SCNMatrix4Mult(
+            currentCameraInverseTransform,
+            currentCameraPivot)
         //print("currentCameraPivot: \(currentCameraPivot)")
         
         currentCameraNode.pivot         = currentCameraPivot
@@ -106,6 +126,15 @@ class SpacecraftCameraState: ObservableObject {
         //print("currentCameraTransform: \(currentCameraTransform)")
         
         currentCameraNode.transform     = currentCameraTransform
+
+        /*
+         let changePivot = SCNMatrix4Invert(SCNMatrix4MakeRotation(currentCameraNode.rotation.w,
+         currentCameraNode.rotation.x,
+         currentCameraNode.rotation.y,
+         currentCameraNode.rotation.z))
+         
+         currentCameraNode.pivot         = SCNMatrix4Mult(changePivot, currentCameraPivot)
+         */
     }
 
 
@@ -266,5 +295,220 @@ class SpacecraftCameraState: ObservableObject {
             currentCamera.fieldOfView = 30
         }
     }
+    
+    
+    
+    func beginCameraNodeTouches(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
+        
+        print("\n\(#function)!")
+        
+        anchorTouchPosition     = simd_float3(x: Float(value.location.x),
+                                          y: Float(value.location.y),
+                                          z: 0.0)
+        print("\(#function) anchorTouchPosition: \(anchorTouchPosition)")
+        
+        anchorTouchPosition     = projectCameraRotationOnSurface(of: anchorTouchPosition)
+        print("\(#function) projected rotation on surface anchorTouchPosition: \(anchorTouchPosition)")
 
+        currentTouchPosition    = anchorTouchPosition
+        print("\(#function) currentTouchPosition: \(currentTouchPosition)")
+
+        startQuaterion          = quaternion
+        print("\(#function) startQuaternion: \(quaternion)")
+
+        //currentCameraNode.simdOrientation = startQuaterion
+    }
+    
+    
+    
+    func changeCameraNodeTouches(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
+        
+        let rotationX   = -1.0 * GLKMathDegreesToRadians(Float(value.translation.width) / 2.0)
+        let rotationY   = -1.0 * GLKMathDegreesToRadians(Float(value.translation.height) / 2.0)
+        print("\(#function) rotationX: \(rotationX)")
+        print("\(#function) rotationY: \(rotationY)")
+
+        var glkRotationMatrix           = SCNMatrix4ToGLKMatrix4(rotationMatrix)
+        print("\(#function) glkRotationMatrix: \(glkRotationMatrix)")
+
+        
+        let xAxis: GLKVector3           = GLKMatrix4MultiplyVector3(SCNMatrix4ToGLKMatrix4(SCNMatrix4Invert(rotationMatrix)), GLKVector3Make(1.0, 0.0, 0.0))
+        print("\(#function) xAxis: \(xAxis)")
+
+
+        rotationMatrix  = SCNMatrix4FromGLKMatrix4(GLKMatrix4Rotate(glkRotationMatrix, rotationX, xAxis.x, xAxis.y, xAxis.z))
+        
+        glkRotationMatrix           = SCNMatrix4ToGLKMatrix4(rotationMatrix)
+        
+        let yAxis: GLKVector3       = GLKMatrix4MultiplyVector3(SCNMatrix4ToGLKMatrix4(SCNMatrix4Invert(rotationMatrix)), GLKVector3Make(0.0, 1.0, 0.0))
+        print("\(#function) yAxis: \(yAxis)")
+
+        rotationMatrix  = SCNMatrix4FromGLKMatrix4(GLKMatrix4Rotate(glkRotationMatrix, rotationY, yAxis.x, yAxis.y, yAxis.z))
+        
+        currentTouchPosition    = simd_float3(x: Float(value.location.x), y: Float(value.location.y), z: 0.0)
+        
+        currentTouchPosition    = projectCameraRotationOnSurface(of: currentTouchPosition)
+        print("\(#function) currentTouchPosition: \(currentTouchPosition)")
+
+        quaternion = computeIncremental()
+        print("\(#function) quaternion: \(quaternion)")
+
+        //currentCameraNode.simdOrientation = quaternion
+    }
+    
+    
+    
+    func beginAndChangeCameraNodeTouches(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
+        
+        print("\n\(#function)!")
+        
+        anchorTouchPosition     = simd_float3(x: Float(value.location.x),
+                                              y: Float(value.location.y),
+                                              z: 0.0)
+        print("\(#function) anchorTouchPosition: \(anchorTouchPosition)")
+        
+        anchorTouchPosition     = projectCameraRotationOnSurface(of: anchorTouchPosition)
+        print("\(#function) projected rotation on surface anchorTouchPosition: \(anchorTouchPosition)")
+        
+        currentTouchPosition    = anchorTouchPosition
+        print("\(#function) currentTouchPosition: \(currentTouchPosition)")
+        
+        startQuaterion          = quaternion
+        print("\(#function) startQuaternion: \(quaternion)")
+        
+
+        let rotationX   = -1.0 * GLKMathDegreesToRadians(Float(value.translation.width) / 2.0)
+        let rotationY   = -1.0 * GLKMathDegreesToRadians(Float(value.translation.height) / 2.0)
+        print("\(#function) rotationX: \(rotationX)")
+        print("\(#function) rotationY: \(rotationY)")
+        
+        print("\(#function) rotationMatrix: \(rotationMatrix)")
+
+        //var glkMatrix4                  = GLKMatrix4Identity
+        //print("\(#function) glkMatrix4: \(NSStringFromGLKMatrix4(glkMatrix4))")
+
+        var glkRotationMatrix           = SCNMatrix4ToGLKMatrix4(rotationMatrix)
+        print("\(#function) glkRotationMatrix: \(NSStringFromGLKMatrix4(glkRotationMatrix))")
+        
+        
+        let xAxis: GLKVector3   = GLKMatrix4MultiplyVector3(SCNMatrix4ToGLKMatrix4(SCNMatrix4Invert(rotationMatrix)), GLKVector3Make(1.0, 0.0, 0.0))
+        print("\(#function) xAxis: \(NSStringFromGLKVector3(xAxis))")
+        
+        
+        rotationMatrix          = SCNMatrix4FromGLKMatrix4(GLKMatrix4Rotate(glkRotationMatrix, rotationX, xAxis.x, xAxis.y, xAxis.z))
+        
+        glkRotationMatrix       = SCNMatrix4ToGLKMatrix4(rotationMatrix)
+        
+        let yAxis: GLKVector3   = GLKMatrix4MultiplyVector3(SCNMatrix4ToGLKMatrix4(SCNMatrix4Invert(rotationMatrix)), GLKVector3Make(0.0, 1.0, 0.0))
+        print("\(#function) yAxis: \(NSStringFromGLKVector3(yAxis))")
+        
+        rotationMatrix  = SCNMatrix4FromGLKMatrix4(GLKMatrix4Rotate(glkRotationMatrix, rotationY, yAxis.x, yAxis.y, yAxis.z))
+        
+        currentTouchPosition    = simd_float3(x: Float(value.location.x), y: Float(value.location.y), z: 0.0)
+        print("\(#function) currentTouchPosition: \(currentTouchPosition)")
+
+        currentTouchPosition    = projectCameraRotationOnSurface(of: currentTouchPosition)
+        print("\(#function) currentTouchPosition: \(currentTouchPosition)")
+        
+        quaternion = computeIncremental()
+        print("\(#function) quaternion: \(quaternion)")
+        
+        //currentCameraNode.orientation   = quaternion
+    }
+    
+    
+    
+    func projectCameraRotationOnSurface( of touchPoint: simd_float3) -> simd_float3 {
+        
+        //
+        // CODING NOTE:
+        //
+        // The code for -projectOnSurface: and -computeIncrementalRotation come from Ray Wenderlich's post
+        // "How To Rotate a 3D Object Using Touches with OpenGL", which can be found at the following link,
+        // http://www.raywenderlich.com/12667/how-to-rotate-a-3d-object-using-touches-with-opengl
+        //
+        // I have slightly modified his post's code and will repost it at some later time.
+        //
+        // I want to thank Ray for helping me.
+        //
+        
+        let width   = UIScreen.main.bounds.size.width
+        let height  = UIScreen.main.bounds.size.height
+        let diag    = sqrt(pow(width, 2) + pow(height, 2))
+        
+        let radius: Float       = Float(diag / 3.0)
+        let center: simd_float3 = simd_float3(Float(width / 2.0), Float(height / 2.0), 0.0)
+        
+        var pixelCoordinateVector   = touchPoint - center // This is why I love simd!
+        
+        // Inverting pixelCoordinateVector's y-coord because the y-axis on the screen is negative.
+        pixelCoordinateVector.y     *= -1
+        
+        let radiusSquared: Float    = pow(radius, 2)
+        let lengthSquared: Float    = pow(pixelCoordinateVector.x, 2) + pow(pixelCoordinateVector.y, 2)
+        
+        if lengthSquared <= radiusSquared {
+            pixelCoordinateVector.z = sqrtf( radiusSquared - lengthSquared )
+        } else {
+            // One way...
+            /*
+             pixelCoordinateVector.x *= radius / sqrtf(lengthSquared)
+             pixelCoordinateVector.y *= radius / sqrtf(lengthSquared)
+             pixelCoordinateVector.z =  0.0
+             */
+            
+            // Another way.
+            pixelCoordinateVector.z = radiusSquared / ( 2.0 * sqrtf(lengthSquared) )
+            let length: Float       = sqrtf(lengthSquared + pow(pixelCoordinateVector.z, 2))
+            pixelCoordinateVector   = simd_make_float3(pixelCoordinateVector.x / length,
+                                                       pixelCoordinateVector.y / length,
+                                                       pixelCoordinateVector.z / length)
+        }
+        
+        return simd_normalize(pixelCoordinateVector)
+        
+    }
+
+    
+    
+    func computeIncremental() -> simd_quatf {
+        
+        //
+        // CODING NOTE:
+        //
+        // The code for -projectOnSurface: and -computeIncrementalRotation come from Ray Wenderlich's post
+        // "How To Rotate a 3D Object Using Touches with OpenGL", which can be found at the following link,
+        // http://www.raywenderlich.com/12667/how-to-rotate-a-3d-object-using-touches-with-opengl
+        //
+        // I have slightly modified his post's code and will repost it at some later time.
+        //
+        // I want to thank Ray for helping me.
+        //
+        print("\(#function) anchorTouchPosition: \(anchorTouchPosition)")
+        print("\(#function) currentTouchPosition: \(currentTouchPosition)")
+
+        let axis   = simd_cross(anchorTouchPosition, currentTouchPosition)
+        //let axis               = anchorTouchPosition * currentTouchPosition
+        print("\(#function) axis: \(axis)")
+
+        let dotProduct   = simd_dot(anchorTouchPosition, currentTouchPosition)
+        print("\(#function) dotProduct: \(dotProduct)")
+
+        let angle        = acosf(dotProduct)
+        print("\(#function) angle: \(angle)")
+
+        
+        let rotationQuaternion  = simd_quatf(angle: angle, axis: axis).normalized
+        print("\(#function) rotationQuaternion: \(rotationQuaternion)")
+
+     
+        let tempQuaternion              = simd_mul(rotationQuaternion, startQuaterion)
+        print("\(#function) tempQuaternion: \(tempQuaternion)")
+
+        return simd_mul(rotationQuaternion, startQuaterion)
+    }
+    
+    
+    
+    
 }
