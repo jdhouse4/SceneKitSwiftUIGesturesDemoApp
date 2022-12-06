@@ -52,7 +52,7 @@ class SpacecraftCameraState: ObservableObject {
     
     // MARK: -Change Camera Orientation
 
-    func changeCameraOrientation(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
+    func changeExteriorCameraOrientation(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
         //print("\(#function) translation: \(translation)")
         
         print("\(#function) Starting currentCameraRotation: \(currentCameraRotation)")
@@ -60,15 +60,15 @@ class SpacecraftCameraState: ObservableObject {
         let x = Float(value.translation.width)
         let y = Float(-value.translation.height)
 
-        let anglePan = ( sqrt(pow(x,2) + pow(y,2)) / 3.0 ) * (Float)(Double.pi) / 180.0
+        let anglePan = ( sqrt(pow(x,2) + pow(y,2)) / 4.0 ) * (Float)(Double.pi) / 180.0
         //print("\(#function) anglePan (in degrees): \(anglePan * 180.0 / .pi)")
         //print("\(#function) anglePan (in radians): \(anglePan)")
 
         var rotationVector = SCNVector4()
 
-        rotationVector.x =  y
+        rotationVector.x =  0
         rotationVector.y = -x
-        rotationVector.z =  0
+        rotationVector.z = -y
         rotationVector.w = anglePan
 
         /*
@@ -83,6 +83,51 @@ class SpacecraftCameraState: ObservableObject {
 
         //currentCameraNode.simdOrientation = updatedQuaterion
         print("\(#function) currentCamera.simdOrientation: \(currentCameraNode.simdOrientation)")
+         */
+        
+        currentCameraRotation = rotationVector
+        //print("\(#function) currentCameraRotation: \(currentCameraRotation)")
+        
+        currentCameraNode.rotation = currentCameraRotation
+        //print("\(#function) currentCameraRotation: \(currentCameraRotation)")
+        
+        
+        //print("\n")
+    }
+    
+    
+    
+    func changeInteriorCameraOrientation(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
+        //print("\(#function) translation: \(translation)")
+        
+        print("\(#function) Starting currentCameraRotation: \(currentCameraRotation)")
+        
+        let x = Float(value.translation.width)
+        let y = Float(-value.translation.height)
+        
+        let anglePan = ( sqrt(pow(x,2) + pow(y,2)) / 4.0 ) * (Float)(Double.pi) / 180.0
+        //print("\(#function) anglePan (in degrees): \(anglePan * 180.0 / .pi)")
+        //print("\(#function) anglePan (in radians): \(anglePan)")
+        
+        var rotationVector = SCNVector4()
+        
+        rotationVector.x =  y
+        rotationVector.y = -x
+        rotationVector.z =  0
+        rotationVector.w = anglePan
+        
+        /*
+         startQuaterion = currentCameraNode.simdOrientation
+         //print("\(#function) startQuaternion: \(startQuaterion)")
+         
+         deltaQuaterion      = simd_quatf(ix: rotationVector.x, iy: rotationVector.y, iz: rotationVector.z, r: rotationVector.w).normalized
+         print("\(#function) deltaQuaternion: \(deltaQuaterion)")
+         
+         updatedQuaterion    = simd_mul(startQuaterion, deltaQuaterion).normalized
+         print("\(#function) updatedQuaternion: \(updatedQuaterion)")
+         
+         //currentCameraNode.simdOrientation = updatedQuaterion
+         print("\(#function) currentCamera.simdOrientation: \(currentCameraNode.simdOrientation)")
          */
         
         currentCameraRotation = rotationVector
@@ -328,7 +373,7 @@ class SpacecraftCameraState: ObservableObject {
     }
     
     
-    
+    /*
     func changeCameraNodeTouches(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
         
         let rotationX   = -1.0 * GLKMathDegreesToRadians(Float(value.translation.width) / 2.0)
@@ -363,45 +408,59 @@ class SpacecraftCameraState: ObservableObject {
 
         //currentCameraNode.simdOrientation = quaternion
     }
+    */
     
     
-    
-    func beginAndChangeCameraNodeTouches(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
+    func changeCameraNodeTouches(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
         
         print("\n\(#function)!")
         
-        anchorTouchPosition     = simd_float3(x: Float(value.location.x),
-                                              y: Float(value.location.y),
+        anchorTouchPosition     = simd_float3(x: Float(value.startLocation.x),
+                                              y: Float(value.startLocation.y),
                                               z: 0.0)
         print("\(#function) anchorTouchPosition: \(anchorTouchPosition)")
         
         anchorTouchPosition     = projectCameraRotationOnSurface(of: anchorTouchPosition)
         print("\(#function) projected rotation on surface anchorTouchPosition: \(anchorTouchPosition)")
         
-        currentTouchPosition    = anchorTouchPosition
-        print("\(#function) currentTouchPosition: \(currentTouchPosition)")
-        
         startQuaterion          = quaternion
         print("\(#function) startQuaternion: \(quaternion)")
         
+        let startTouchLocation  = simd_float3(x: Float(value.startLocation.x),
+                                              y: Float(value.startLocation.y),
+                                              z: 0.0)
 
-        let rotationX   = -1.0 * GLKMathDegreesToRadians(Float(value.translation.width) / 2.0)
-        let rotationY   = -1.0 * GLKMathDegreesToRadians(Float(value.translation.height) / 2.0)
+        //currentTouchPosition    = anchorTouchPosition
+        currentTouchPosition    = simd_float3(x: Float(value.location.x),
+                                              y: Float(value.location.y),
+                                              z: 0.0)
+        print("\(#function) currentTouchPosition: \(currentTouchPosition)")
+        
+        /*
+        let difference = CGPointMake(CGFloat(currentTouchPosition.x - startTouchLocation.x),
+                                     CGFloat(currentTouchPosition.y - startTouchLocation.y))
+        print("\(#function) difference of anchor and current touch points: \(difference)")
+        
+        let differenceX = currentTouchPosition.x - startTouchLocation.x
+        print("\(#function) differenceX of anchor and current touch points: \(differenceX)")
+
+        print("\(#function) value.translation: \(value.translation)")
+         */
+        
+
+        let rotationX   = -1.0 * GLKMathDegreesToRadians(Float(value.translation.width) / 2.0) / 10.0
+        let rotationY   = 1.0 * GLKMathDegreesToRadians(Float(value.translation.height) / 2.0) / 10.0
         print("\(#function) rotationX: \(rotationX)")
         print("\(#function) rotationY: \(rotationY)")
-        
-        print("\(#function) rotationMatrix: \(rotationMatrix)")
+        //print("\(#function) rotationMatrix: \(rotationMatrix)")
 
-        //var glkMatrix4                  = GLKMatrix4Identity
-        //print("\(#function) glkMatrix4: \(NSStringFromGLKMatrix4(glkMatrix4))")
 
         var glkRotationMatrix           = SCNMatrix4ToGLKMatrix4(rotationMatrix)
         print("\(#function) glkRotationMatrix: \(NSStringFromGLKMatrix4(glkRotationMatrix))")
-        
+
         
         let xAxis: GLKVector3   = GLKMatrix4MultiplyVector3(SCNMatrix4ToGLKMatrix4(SCNMatrix4Invert(rotationMatrix)), GLKVector3Make(1.0, 0.0, 0.0))
         print("\(#function) xAxis: \(NSStringFromGLKVector3(xAxis))")
-        
         
         rotationMatrix          = SCNMatrix4FromGLKMatrix4(GLKMatrix4Rotate(glkRotationMatrix, rotationX, xAxis.x, xAxis.y, xAxis.z))
         
@@ -412,16 +471,31 @@ class SpacecraftCameraState: ObservableObject {
         
         rotationMatrix  = SCNMatrix4FromGLKMatrix4(GLKMatrix4Rotate(glkRotationMatrix, rotationY, yAxis.x, yAxis.y, yAxis.z))
         
-        currentTouchPosition    = simd_float3(x: Float(value.location.x), y: Float(value.location.y), z: 0.0)
-        print("\(#function) currentTouchPosition: \(currentTouchPosition)")
+        //currentTouchPosition    = simd_float3(x: Float(value.location.x), y: Float(value.location.y), z: 0.0)
+        //print("\(#function) currentTouchPosition: \(currentTouchPosition)")
 
         currentTouchPosition    = projectCameraRotationOnSurface(of: currentTouchPosition)
         print("\(#function) currentTouchPosition: \(currentTouchPosition)")
         
-        quaternion = computeIncremental()
+        quaternion = computeIncremental().normalized
         print("\(#function) quaternion: \(quaternion)")
         
+        quaternion = simd_quatf(ix: 0.0, iy: quaternion.axis.y, iz: quaternion.axis.x, r: quaternion.angle)
+        
         //currentCameraNode.orientation   = quaternion
+        currentCameraNode.simdOrientation   = quaternion.normalized
+    }
+    
+    
+    
+    func updateCameraNodeTouches(of currentCameraNode: SCNNode) {
+        let rotationMatrix = GLKMatrix4MakeWithQuaternion(GLKQuaternionMake(quaternion.axis.x, quaternion.axis.y, quaternion.axis.z, quaternion.angle))
+        
+        currentCameraTransform = currentCameraNode.transform
+        
+        var modelMatrix = SCNMatrix4ToGLKMatrix4(currentCameraTransform)
+        modelMatrix     = GLKMatrix4Multiply(modelMatrix, rotationMatrix)
+        //currentCameraTransform = SCNMatrix4FromGLKMatrix4(modelMatrix)
     }
     
     
