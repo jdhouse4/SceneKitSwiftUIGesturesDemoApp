@@ -2,7 +2,7 @@
 //  SpacecraftSceneRendererDelegate.swift
 //  SceneKitSwiftUIGesturesDemoApp
 //
-//  Created by James Hillhouse IV on 10/17/20.
+//  Created by James Hillhouse IV on 12/01/22.
 //
 import SceneKit
 

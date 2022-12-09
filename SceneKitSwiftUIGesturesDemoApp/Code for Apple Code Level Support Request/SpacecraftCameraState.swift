@@ -1,8 +1,8 @@
 //
 //  SpacecraftCameraState.swift
-//  SwiftUISceneKitCoreMotionDemo
+//  SceneKitSwiftUIGesturesDemoApp
 //
-//  Created by James Hillhouse IV on 8/7/22.
+//  Created by James Hillhouse IV on 12/01/22.
 //
 
 import Foundation
@@ -102,6 +102,7 @@ class SpacecraftCameraState: ObservableObject {
         
         currentCameraPivot              = currentCameraNode.pivot
         print("currentCameraPivot: \(currentCameraPivot)")
+        print("currentCamera FOV: \(String(describing: currentCameraNode.camera?.fieldOfView))")
         
         currentCameraTransform          = currentCameraNode.transform
         //print("currentCameraTransform: \(currentCameraTransform)")

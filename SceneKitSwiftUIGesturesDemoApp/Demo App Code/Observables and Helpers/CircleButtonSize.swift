@@ -1,8 +1,8 @@
 //
 //  CircleButton.swift
-//  FourCornersUIWithSwiftUI
+//  SceneKitSwiftUIGesturesDemoApp
 //
-//  Created by James Hillhouse IV on 4/30/21.
+//  Created by James Hillhouse IV on 12/01/22.
 //
 import SwiftUI
 import CoreGraphics

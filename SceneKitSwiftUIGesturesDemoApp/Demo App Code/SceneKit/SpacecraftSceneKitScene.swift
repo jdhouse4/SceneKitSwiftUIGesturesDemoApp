@@ -1,8 +1,8 @@
 //
 //  SpacecraftSceneKitScene.swift
-//  SwiftUISceneKitCoreMotionDemo
+//  SceneKitSwiftUIGesturesDemoApp
 //
-//  Created by James Hillhouse IV on 10/18/20.
+//  Created by James Hillhouse IV on 12/01/22.
 //
 
 import Foundation
@@ -67,6 +67,9 @@ final class SpacecraftSceneKitScene: SCNScene, ObservableObject {
 
         
         super.init()
+        
+        // This defines the "neck" of the commander for the camera.
+        self.spacecraftInteriorCamera.simdPivot.columns.3.y = -0.09
     }
 
     
@@ -90,5 +93,8 @@ final class SpacecraftSceneKitScene: SCNScene, ObservableObject {
 
 
         super.init(coder: coder)
+        
+        // This defines the "neck" of the commander for the camera.
+        self.spacecraftInteriorCamera.simdPivot.columns.3.y = -0.09
     }
 }

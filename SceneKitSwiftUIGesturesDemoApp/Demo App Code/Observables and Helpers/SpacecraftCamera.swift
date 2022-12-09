@@ -1,8 +1,8 @@
 //
 //  SpacecraftCamera.swift
-//  SwiftUISceneKitCoreMotionDemo
+//  SceneKitSwiftUIGesturesDemoApp
 //
-//  Created by James Hillhouse IV on 3/30/21.
+//  Created by James Hillhouse IV on 12/01/22.
 //
 
 

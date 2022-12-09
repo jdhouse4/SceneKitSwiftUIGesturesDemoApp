@@ -1,8 +1,8 @@
 //
 //  SpacecraftSceneView.swift
-//  SwiftUISceneKitCoreMotionDemo
+//  ScenKitSwiftUIGestureDemoApp
 //
-//  Created by James Hillhouse IV on 3/30/21.
+//  Created by James Hillhouse IV on 12/01/22.
 //
 
 import SwiftUI
@@ -107,6 +107,8 @@ struct SpacecraftSceneView: View {
             )
             .gesture(exclusiveGesture)
             .onTapGesture(count: 2, perform: {
+                
+                spacecraftCameraState.resetCurrentCameraFOV(of: spacecraft.spacecraftCurrentCamera.camera!)
                 
                 if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
                     spacecraftCameraState.resetCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode)

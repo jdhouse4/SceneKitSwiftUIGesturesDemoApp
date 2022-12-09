@@ -13,7 +13,7 @@
 		E60EE4532939BBF300822DC2 /* SpacecraftState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60EE4502939BBF300822DC2 /* SpacecraftState.swift */; };
 		E60EE4542939BBF300822DC2 /* SpacecraftCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60EE4512939BBF300822DC2 /* SpacecraftCamera.swift */; };
 		E60EE4562939BC0E00822DC2 /* SpacecraftSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60EE4552939BC0E00822DC2 /* SpacecraftSceneView.swift */; };
-		E60EE45C2939BE1400822DC2 /* AircraftAnimationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60EE4592939BE1400822DC2 /* AircraftAnimationHelpers.swift */; };
+		E60EE45C2939BE1400822DC2 /* SpacecraftAnimationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60EE4592939BE1400822DC2 /* SpacecraftAnimationHelpers.swift */; };
 		E60EE45D2939BE1400822DC2 /* CircleButtonHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60EE45A2939BE1400822DC2 /* CircleButtonHelper.swift */; };
 		E60EE45E2939BE1400822DC2 /* CircleButtonSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60EE45B2939BE1400822DC2 /* CircleButtonSize.swift */; };
 		E60EE4652939BEA200822DC2 /* SpacecraftCameraButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60EE4612939BEA200822DC2 /* SpacecraftCameraButtonsView.swift */; };
@@ -34,7 +34,7 @@
 		E60EE4502939BBF300822DC2 /* SpacecraftState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpacecraftState.swift; sourceTree = "<group>"; };
 		E60EE4512939BBF300822DC2 /* SpacecraftCamera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpacecraftCamera.swift; sourceTree = "<group>"; };
 		E60EE4552939BC0E00822DC2 /* SpacecraftSceneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpacecraftSceneView.swift; sourceTree = "<group>"; };
-		E60EE4592939BE1400822DC2 /* AircraftAnimationHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftAnimationHelpers.swift; sourceTree = "<group>"; };
+		E60EE4592939BE1400822DC2 /* SpacecraftAnimationHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpacecraftAnimationHelpers.swift; sourceTree = "<group>"; };
 		E60EE45A2939BE1400822DC2 /* CircleButtonHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleButtonHelper.swift; sourceTree = "<group>"; };
 		E60EE45B2939BE1400822DC2 /* CircleButtonSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleButtonSize.swift; sourceTree = "<group>"; };
 		E60EE4612939BEA200822DC2 /* SpacecraftCameraButtonsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpacecraftCameraButtonsView.swift; sourceTree = "<group>"; };
@@ -73,7 +73,7 @@
 		E60EE4582939BC9500822DC2 /* Observables and Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				E60EE4592939BE1400822DC2 /* AircraftAnimationHelpers.swift */,
+				E60EE4592939BE1400822DC2 /* SpacecraftAnimationHelpers.swift */,
 				E60EE4512939BBF300822DC2 /* SpacecraftCamera.swift */,
 				E60EE4502939BBF300822DC2 /* SpacecraftState.swift */,
 				E60EE45A2939BE1400822DC2 /* CircleButtonHelper.swift */,
@@ -91,13 +91,13 @@
 			path = Controls;
 			sourceTree = "<group>";
 		};
-		E6B61C9B293F144100E8662F /* SceneKitCameraCode */ = {
+		E6B61C9B293F144100E8662F /* Code for Apple Code Level Support Request */ = {
 			isa = PBXGroup;
 			children = (
 				E60EE4552939BC0E00822DC2 /* SpacecraftSceneView.swift */,
 				E60EE44F2939BBF300822DC2 /* SpacecraftCameraState.swift */,
 			);
-			path = SceneKitCameraCode;
+			path = "Code for Apple Code Level Support Request";
 			sourceTree = "<group>";
 		};
 		E6B61C9C293F148C00E8662F /* Demo App Code */ = {
@@ -132,7 +132,7 @@
 			children = (
 				E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */,
 				E6FB1CF324D3837D0086CD4B /* ContentView.swift */,
-				E6B61C9B293F144100E8662F /* SceneKitCameraCode */,
+				E6B61C9B293F144100E8662F /* Code for Apple Code Level Support Request */,
 				E6B61C9C293F148C00E8662F /* Demo App Code */,
 				E6FB1D0324D385F80086CD4B /* art.scnassets */,
 				E6FB1CF524D383800086CD4B /* Assets.xcassets */,
@@ -238,7 +238,7 @@
 				E60EE4682939BED900822DC2 /* SpacecraftCameraButton.swift in Sources */,
 				E60EE46B2939C05200822DC2 /* SpacecraftAnalyticsButton.swift in Sources */,
 				E60EE4522939BBF300822DC2 /* SpacecraftCameraState.swift in Sources */,
-				E60EE45C2939BE1400822DC2 /* AircraftAnimationHelpers.swift in Sources */,
+				E60EE45C2939BE1400822DC2 /* SpacecraftAnimationHelpers.swift in Sources */,
 				E6FB1CF224D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift in Sources */,
 				E60EE4562939BC0E00822DC2 /* SpacecraftSceneView.swift in Sources */,
 				E60EE45D2939BE1400822DC2 /* CircleButtonHelper.swift in Sources */,
@@ -383,6 +383,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.portablefrontier.SceneKitSwiftUIGesturesDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -405,6 +408,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.portablefrontier.SceneKitSwiftUIGesturesDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

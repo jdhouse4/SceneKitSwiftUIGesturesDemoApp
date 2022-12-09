@@ -1,8 +1,8 @@
 //
 //  SpacecraftCameraButtonsView.swift
-//  SwiftUISceneKitCoreMotionDemo
+//  SceneKitSwiftUIGesturesDemoApp
 //
-//  Created by James Hillhouse IV on 5/25/21.
+//  Created by James Hillhouse IV on 12/01/22.
 //
 
 import SwiftUI
@@ -58,6 +58,7 @@ struct SpacecraftCameraButtonsView: View {
                         Button( action: {
                             withAnimation {
                                 self.spacecraftExteriorCamera  = true
+                                self.spacecraftInteriorCamera   = false
                                 self.spacecraftCameraButton.spacecraftExteriorCameraButtonPressed.toggle()
                             }
                             
@@ -139,7 +140,7 @@ struct SpacecraftCameraButtonsView: View {
         
         if cameraString == spacecraft.spacecraftInteriorCameraString {
             self.spacecraft.spacecraftCurrentCamera = self.spacecraft.spacecraftInteriorCamera
-            self.spacecraft.spacecraftCurrentCamera.camera?.fieldOfView = 70.0
+            self.spacecraft.spacecraftCurrentCamera.camera?.fieldOfView = 30.0
             self.spacecraftDelegate.setCurrentCameraName(name: spacecraft.spacecraftInteriorCameraString)
             self.spacecraftDelegate.setCurrentCameraNode(node: spacecraft.spacecraftInteriorCameraNode)
         }

@@ -1,8 +1,8 @@
 //
 //  SpacecraftCameraButton.swift
-//  SwiftUISceneKitCoreMotionDemo
+//  SceneKitSwiftUIGesturesDemoApp
 //
-//  Created by James Hillhouse IV on 5/25/21.
+//  Created by James Hillhouse IV on 12/01/22.
 //
 import SwiftUI
 
