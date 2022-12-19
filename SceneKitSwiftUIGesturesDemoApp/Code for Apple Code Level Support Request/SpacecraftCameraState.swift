@@ -26,11 +26,13 @@ class SpacecraftCameraState: ObservableObject {
     //
     @Published var currentCameraPivot: SCNMatrix4               = SCNMatrix4()
     @Published var currentCameraRotation: SCNVector4            = SCNVector4()
+    @Published var currentCameraQuaternion: simd_quatf          = simd_quatf()
     @Published var currentCameraOrientation: SCNQuaternion      = SCNQuaternion()
     @Published var currentCameraTransform: SCNMatrix4           = SCNMatrix4()
     @Published var currentCameraTotalPivot: SCNMatrix4          = SCNMatrix4()
     @Published var currentCameraInverseTransform: SCNMatrix4    = SCNMatrix4()
     
+    var cameraOnChangeQuaternion: simd_quatf                    = simd_quatf()
         
     //
     // This has to do with the camera's magnification, really FOV.
@@ -46,26 +48,81 @@ class SpacecraftCameraState: ObservableObject {
     
     func changeExteriorCameraOrientation(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
         
-        let x = Float(value.translation.width)
-        let y = Float(-value.translation.height)
+        let xTranslation    = Float(value.translation.width)
+        let yTranslation    = Float(value.translation.height)
+        print("\(#function) xTranslation: \(xTranslation)")
+        print("\(#function) yTranslation: \(yTranslation)")
         
-        let anglePan = ( sqrt(pow(x,2) + pow(y,2)) / 4.0 ) * (Float)(Double.pi) / 180.0
-        //print("\(#function) anglePan (in degrees): \(anglePan * 180.0 / .pi)")
-        //print("\(#function) anglePan (in radians): \(anglePan)")
+        /*
+        //let xScaled         = xTranslation / 100.0
+        //let yScaled         = yTranslation / 100.0
+        
+        //let squaredTranslation  = pow(xTranslation,2) + pow(yTranslation,2)
+        
+        //let xNormalized         = xTranslation / squaredTranslation
+        //let yNormalized         = yTranslation / squaredTranslation
+
+        let hypotnuse   = sqrt(pow(xTranslation,2) + pow(yTranslation,2))
+        let anglePan    = acos(xTranslation / hypotnuse) * 2.0
+        print("\(#function) anglePan (in degrees): \(anglePan * 180.0 / .pi)")
+        print("\(#function) anglePan (in radians): \(anglePan)")
         
         var rotationVector = SCNVector4()
         
         rotationVector.x =  0
-        rotationVector.y = -x
-        rotationVector.z = -y
-        rotationVector.w = anglePan
+        rotationVector.y =  yTranslation
+        rotationVector.z =  xTranslation
+        rotationVector.w = 0
+         
+        cameraOnChangeQuaternion            = simd_quatf(ix: rotationVector.x, iy: rotationVector.y, iz: rotationVector.z, r: rotationVector.w).normalized
+        print("\(#function) Change Angle: \(cameraOnChangeQuaternion.angle * 180.0 / .pi)")
+        */
         
+        var simdTranslationVector           = simd_float3()
+        simdTranslationVector.x             = xTranslation
+        simdTranslationVector.y             = yTranslation
+        simdTranslationVector.z             = 0.0
+        
+        var simdTranslationVectorNormalized = simd_normalize(simdTranslationVector)
+        print("\(#function) simdTranslationVectorNormalized: \(simdTranslationVectorNormalized)")
+    
+        var simdTranslationVectorLength     = simd_length(simdTranslationVectorNormalized)
+        print("\(#function) simdTranslationVectorLength: \(simdTranslationVectorLength)")
+        
+        var xNormalized                     = simdTranslationVectorNormalized.x
+        var yNormalized                     = simdTranslationVectorNormalized.y
+        var zNormalized                     = simdTranslationVectorNormalized.z
+        
+        
+        //var anglePan                        = atan2(yNormalized, xNormalized)
+        
+        var anglePan                        = acos(xNormalized / simdTranslationVectorLength)
+        
+        let anchorPosition                  = simd_float3(x: 0.0, y: 0.0, z: 0.0)
+        anglePan                            = acos(simd_dot(anchorPosition, simdTranslationVectorNormalized)) / 100.0
+        print("\(#function) anglePan: \(anglePan) radians")
+        print("\(#function) anglePan: \(anglePan * 180.0 / .pi)°")
+
+        
+        simdTranslationVectorNormalized.x   = xNormalized
+        simdTranslationVectorNormalized.y   = 0.0//xNormalized
+        simdTranslationVectorNormalized.z   = 0.0//yNormalized
+
+        //cameraOnChangeQuaternion            = simd_normalize(simd_quatf(ix: xNormalized, iy: yNormalized, iz: zNormalized, r: anglePan))
+        cameraOnChangeQuaternion            = simd_normalize(simd_quatf(ix: 0.0,
+                                                                        iy: simdTranslationVectorNormalized.x,
+                                                                        iz: simdTranslationVectorNormalized.y,
+                                                                        r: anglePan))
+        
+        currentCameraNode.simdOrientation   = cameraOnChangeQuaternion
+        
+        /*
         currentCameraRotation = rotationVector
         //print("\(#function) currentCameraRotation: \(currentCameraRotation)")
         
         currentCameraNode.rotation = currentCameraRotation
         //print("\(#function) currentCameraRotation: \(currentCameraRotation)")
-        
+        */
     }
     
     
@@ -86,12 +143,13 @@ class SpacecraftCameraState: ObservableObject {
         rotationVector.z =  0
         rotationVector.w = anglePan
         
+        /*
         currentCameraRotation = rotationVector
         //print("\(#function) currentCameraRotation: \(currentCameraRotation)")
         
         currentCameraNode.rotation = currentCameraRotation
         //print("\(#function) currentCameraRotation: \(currentCameraRotation)")
-        
+        */
     }
     
     
@@ -100,6 +158,9 @@ class SpacecraftCameraState: ObservableObject {
         
         print("\n\(#function) currentOrientation: \(currentCameraNode.orientation)")
         
+        //currentCameraNode.simdOrientation   = simd_quatf(ix: 0.0, iy: 0.0, iz: 0.0, r: 1.0)
+        
+        /*
         currentCameraPivot              = currentCameraNode.pivot
         print("currentCameraPivot: \(currentCameraPivot)")
         print("currentCamera FOV: \(String(describing: currentCameraNode.camera?.fieldOfView))")
@@ -119,7 +180,7 @@ class SpacecraftCameraState: ObservableObject {
         //print("currentCameraTransform: \(currentCameraTransform)")
         
         currentCameraNode.transform = currentCameraTransform
-        
+        */
         
     }
     
