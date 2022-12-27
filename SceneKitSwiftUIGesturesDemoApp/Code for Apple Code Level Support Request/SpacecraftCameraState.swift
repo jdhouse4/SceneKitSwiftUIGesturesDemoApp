@@ -65,13 +65,15 @@ class SpacecraftCameraState: ObservableObject {
         
         currentCameraNode.rotation = currentCameraRotation
         print("\(#function) currentCameraNode.rotation: \(currentCameraNode.rotation)")
+        
         //let currentEulers = currentCameraNode.eulerAngles
+        print("\(#function) euler angles: \(currentCameraNode.eulerAngles)")
         
-        //currentCameraNode.eulerAngles = SCNVector3(x: -currentEulers.x, y: currentEulers.y, z: currentEulers.z)
+        print("\(#function) currentCamera orientation: \(currentCameraNode.orientation)")
+
+
+        print("\(#function) currentCamera Transform: \(currentCameraNode.transform)")
         
-        print("\(#function) currentCameraRotation: \(currentCameraRotation)")
-        
-        //print("\(#function) euler angles: \(currentCameraNode.eulerAngles)")
     }
     
     
