@@ -41,26 +41,26 @@ struct SpacecraftSceneView: View {
                 
                 self.isDragging = true
                 
-                    if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
-                        spacecraftCameraState.changeExteriorCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode, with: value)
-                    }
-                    
-                    if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
-                        spacecraftCameraState.changeInteriorCameraOrientation(of: spacecraft.spacecraftCurrentCamera, with: value)
-                    }
+                if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
+                    spacecraftCameraState.changeExteriorCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode, with: value)
+                }
+                
+                if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
+                    spacecraftCameraState.changeInteriorCameraOrientation(of: spacecraft.spacecraftCurrentCamera, with: value)
+                }
                     
             }
             .onEnded { value in
                 
                 self.isDragging = false
                 
-                    if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
-                        spacecraftCameraState.updateCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode)
-                    }
-                    
-                    if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
-                        spacecraftCameraState.updateCameraOrientation(of: spacecraft.spacecraftCurrentCamera)
-                    }
+                if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
+                    spacecraftCameraState.updateCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode)
+                }
+                
+                if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
+                    spacecraftCameraState.updateCameraOrientation(of: spacecraft.spacecraftCurrentCamera)
+                }
                     
             }
     }
