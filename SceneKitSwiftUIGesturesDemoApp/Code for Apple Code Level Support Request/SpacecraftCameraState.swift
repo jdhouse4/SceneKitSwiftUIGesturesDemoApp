@@ -170,7 +170,7 @@ class SpacecraftCameraState: ObservableObject {
         quaternion = computeIncremental(between: anchorTouchPosition, and: currentTouchPosition, around: startQuaterion).normalized
         print("\(#function) quaternion: \(quaternion)")
         
-        let tempAxis = simd_float3(x: 0.0/*quaternion.axis.z*/, y: -quaternion.axis.y, z: quaternion.axis.x)
+        let tempAxis = simd_float3(x: -quaternion.axis.z, y: -quaternion.axis.y, z: quaternion.axis.x)
         
         quaternion = simd_quatf(angle: quaternion.angle, axis: tempAxis).normalized
         print("\(#function) revised quaternion: \(quaternion)")
