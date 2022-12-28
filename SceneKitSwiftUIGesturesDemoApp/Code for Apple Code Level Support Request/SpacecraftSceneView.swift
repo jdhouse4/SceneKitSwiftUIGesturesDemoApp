@@ -55,10 +55,14 @@ struct SpacecraftSceneView: View {
                 self.isDragging = false
                 
                     if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
+                        //print("\(#function) Current Camera Node is: \(spacecraft.spacecraftCurrentCamera)")
+
                         spacecraftCameraState.updateCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode)
                     }
                     
                     if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
+                        //print("\(#function) Current Camera Node is: \(spacecraft.spacecraftCurrentCamera)")
+
                         spacecraftCameraState.updateCameraOrientation(of: spacecraft.spacecraftCurrentCamera)
                     }
                     
