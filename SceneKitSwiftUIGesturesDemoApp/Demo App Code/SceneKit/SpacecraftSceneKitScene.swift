@@ -59,7 +59,6 @@ final class SpacecraftSceneKitScene: SCNScene, ObservableObject {
         
         self.spacecraftInteriorCamera     = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCamera", recursively: true)!
 
-        //self.spacecraftCurrentCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionExteriorCamerasNode", recursively: true)!
         self.spacecraftCurrentCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
 
         self.spacecraftDistantCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
@@ -86,7 +85,6 @@ final class SpacecraftSceneKitScene: SCNScene, ObservableObject {
         
         self.spacecraftInteriorCamera     = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCamera", recursively: true)!
         
-        //self.spacecraftCurrentCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionExteriorCamerasNode", recursively: true)!
         self.spacecraftCurrentCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
 
         self.spacecraftDistantCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
