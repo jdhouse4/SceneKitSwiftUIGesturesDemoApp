@@ -58,6 +58,10 @@ class SpacecraftCameraState: ObservableObject {
         let translationX = Float(value.translation.width)
         let translationY = Float(-value.translation.height)
         
+        /*
+        //
+        // Rotation Matrix
+        //
         let anglePan = ( sqrt(pow(translationX,2) + pow(translationY,2)) / 4.0 ) * (Float)(Double.pi) / 180.0
         //print("\(#function) anglePan (in degrees): \(anglePan * 180.0 / .pi)")
         //print("\(#function) anglePan (in radians): \(anglePan)")
@@ -72,17 +76,22 @@ class SpacecraftCameraState: ObservableObject {
         currentCameraRotation = rotationVector
         //print("\(#function) currentCameraRotation: \(currentCameraRotation)")
         
-        //currentCameraNode.rotation = currentCameraRotation
+        currentCameraNode.rotation = currentCameraRotation
         print("\(#function) currentCameraNode.rotation: \(currentCameraNode.rotation)")
+        */
+         
         
+        //
+        // Euler Angles
+        //
         let translationWidthRatio   = translationX / Float(UIScreen.main.bounds.width)
         let translationHeightRatio  = translationY / Float(UIScreen.main.bounds.height)
         
         let cameraEulerX    = Float(-2 * Double.pi) * translationWidthRatio
         let cameraEulerY    = Float(-Double.pi) * translationHeightRatio
         
-        currentCameraNode.eulerAngles.y = cameraEulerX
-        currentCameraNode.eulerAngles.z = cameraEulerY
+        currentCameraNode.eulerAngles.y = cameraEulerX + totalEulerAngles.y
+        currentCameraNode.eulerAngles.z = cameraEulerY + totalEulerAngles.z
         
         currentEulerAngles = currentCameraNode.simdEulerAngles
         print("\(#function) euler angles: \(currentCameraNode.eulerAngles)")
@@ -128,44 +137,65 @@ class SpacecraftCameraState: ObservableObject {
         
         //print("\n\(#function) currentOrientation: \(currentCameraNode.orientation)")
         
-        print("\(#function) currentCamera Rotation: \(String(describing: currentCameraNode.rotation))")
         
-        currentCameraPivot              = currentCameraNode.pivot
-        print("\(#function) currentCameraPivot: \(currentCameraPivot)")
-
-        currentCameraTransform          = currentCameraNode.transform
-        print("\(#function) currentCameraTransform: \(currentCameraTransform)")
-        
-        let changePivot     = SCNMatrix4Invert(SCNMatrix4MakeRotation(currentCameraNode.rotation.w,
-                                                                      currentCameraNode.rotation.x,
-                                                                      currentCameraNode.rotation.y,
-                                                                      currentCameraNode.rotation.z))
-        
-        currentCameraPivot  = SCNMatrix4Mult(changePivot, currentCameraPivot)
-        //currentCameraPivot  = SCNMatrix4Mult(currentCameraPivot, changePivot)
-
-        //print("\(#function) Updated currentCameraPivot: \(currentCameraPivot)")
-        currentCameraNode.pivot     = currentCameraPivot
-        
+        //
+        // Using Euler Angles
+        //
         //currentEulerAngles  = currentCameraNode.simdEulerAngles
-        print("\(#function) CurrentCamera Eulers: \(String(describing: currentCameraNode.simdEulerAngles))")
-
-        //totalEulerAngles    = totalEulerAngles + currentEulerAngles
+        totalEulerAngles    = currentCameraNode.simdEulerAngles
+        print("\(#function) Current Eulers: \(String(describing: currentCameraNode.simdEulerAngles))")
         print("\(#function) Total Eulers: \(String(describing: totalEulerAngles))")
 
-        //currentCameraNode.simdEulerAngles = totalEulerAngles
+        //totalEulerAngles    = totalEulerAngles + currentEulerAngles
+        print("\(#function) Total Eulers after adding: \(String(describing: totalEulerAngles))")
+        
+        currentCameraNode.simdEulerAngles = totalEulerAngles
+        
+        //currentCameraNode.pivot = SCNMatrix4Identity
+        
+        
+
+        //print("\(#function) currentCamera Rotation: \(String(describing: currentCameraNode.rotation))")
+        let changeRotation     = SCNMatrix4Invert(SCNMatrix4MakeRotation(currentCameraNode.rotation.w,
+                                                                      currentCameraNode.rotation.x,
+                                                                      currentCameraNode.rotation.y,
+                                                                    currentCameraNode.rotation.z))
+        
+        /*
+        //
+        // Using Pivot
+        //
+        currentCameraPivot      = currentCameraNode.pivot
+        print("\(#function) currentCameraPivot: \(currentCameraPivot)")
+        
+        currentCameraPivot    = SCNMatrix4Mult(changeRotation, currentCameraPivot)
+        //currentCameraPivot  = SCNMatrix4Mult(currentCameraPivot, changeRotation) // Don't do this!
+
+        //print("\(#function) Updated currentCameraPivot: \(currentCameraPivot)")
+        currentCameraNode.pivot = currentCameraPivot
         
         print("\(#function) Updated currentCamera Rotation: \(String(describing: currentCameraNode.rotation))")
         
-        //currentCameraTransform  = SCNMatrix4Mult(changePivot, currentCameraTransform)
-        currentCameraTransform  = SCNMatrix4Mult(currentCameraTransform, changePivot)
-
-        //currentCameraTransform      = SCNMatrix4Identity
+        currentCameraTransform  = SCNMatrix4Identity
         print("\(#function) currentCameraTransform: \(currentCameraTransform)")
         
         currentCameraNode.transform = currentCameraTransform
-
+         */
         
+        /*
+        //
+        // Using Transform
+        //
+        currentCameraTransform          = currentCameraNode.transform
+        print("\(#function) currentCameraTransform: \(currentCameraTransform)")
+        
+        currentCameraTransform  = SCNMatrix4Mult(changeRotation, currentCameraTransform)
+        //currentCameraTransform  = SCNMatrix4Mult(currentCameraTransform, changeRotation)
+        
+        currentCameraNode.transform = currentCameraTransform
+        print("\(#function) currentCameraTransform: \(currentCameraTransform)")
+        */
+         
     }
     
     
