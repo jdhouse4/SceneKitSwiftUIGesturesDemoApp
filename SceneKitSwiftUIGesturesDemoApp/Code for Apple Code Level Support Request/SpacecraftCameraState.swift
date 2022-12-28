@@ -24,14 +24,14 @@ class SpacecraftCameraState: ObservableObject {
     //
     // These have to do with the camera's orientation, etc.
     //
-    @Published var currentCameraPivot: SCNMatrix4               = SCNMatrix4()
-    @Published var currentCameraRotation: SCNVector4            = SCNVector4()
-    @Published var currentCameraOrientation: SCNQuaternion      = SCNQuaternion()
+    //@Published var currentCameraPivot: SCNMatrix4               = SCNMatrix4()
+    //@Published var currentCameraRotation: SCNVector4            = SCNVector4()
+    //@Published var currentCameraOrientation: SCNQuaternion      = SCNQuaternion()
     @Published var currentEulerAngles: simd_float3              = simd_float3()
     @Published var totalEulerAngles: simd_float3                = simd_float3()
     @Published var currentCameraTransform: SCNMatrix4           = SCNMatrix4()
-    @Published var currentCameraTotalPivot: SCNMatrix4          = SCNMatrix4()
-    @Published var currentCameraInverseTransform: SCNMatrix4    = SCNMatrix4()
+    //@Published var currentCameraTotalPivot: SCNMatrix4          = SCNMatrix4()
+    //@Published var currentCameraInverseTransform: SCNMatrix4    = SCNMatrix4()
     
         
     //
@@ -97,11 +97,6 @@ class SpacecraftCameraState: ObservableObject {
         print("\(#function) euler angles: \(currentCameraNode.eulerAngles)")
         print("\(#function) simdEulerAngles: \(currentCameraNode.simdEulerAngles)")
         print("\(#function) rotation: \(currentCameraNode.rotation)")
-
-        
-        //print("\(#function) currentCamera orientation: \(currentCameraNode.orientation)")
-
-        //print("\(#function) currentCamera Transform: \(currentCameraNode.transform)")
         
     }
     
@@ -109,17 +104,21 @@ class SpacecraftCameraState: ObservableObject {
     
     func changeInteriorCameraOrientation(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
         
-        let x = Float(value.translation.width)
-        let y = Float(-value.translation.height)
+        let translationX = Float(value.translation.width)
+        let translationY = Float(-value.translation.height)
         
-        let anglePan = ( sqrt(pow(x,2) + pow(y,2)) / 4.0 ) * (Float)(Double.pi) / 180.0
+        /*
+        //
+        // Rotation
+        //
+        let anglePan = ( sqrt(pow(translationX,2) + pow(translationY,2)) / 4.0 ) * (Float)(Double.pi) / 180.0
         //print("\(#function) anglePan (in degrees): \(anglePan * 180.0 / .pi)")
         //print("\(#function) anglePan (in radians): \(anglePan)")
         
         var rotationVector = SCNVector4()
         
-        rotationVector.x =  y
-        rotationVector.y = -x
+        rotationVector.x =  translationY
+        rotationVector.y = -translationX
         rotationVector.z =  0
         rotationVector.w = anglePan
         
@@ -128,7 +127,26 @@ class SpacecraftCameraState: ObservableObject {
         
         currentCameraNode.rotation = currentCameraRotation
         //print("\(#function) currentCameraRotation: \(currentCameraRotation)")
+        */
         
+        
+        //
+        // Euler Angles
+        //
+        let translationWidthRatio   = translationX / Float(UIScreen.main.bounds.width)
+        let translationHeightRatio  = translationY / Float(UIScreen.main.bounds.height)
+        
+        let cameraEulerX    = Float(-2 * Double.pi) * translationWidthRatio
+        let cameraEulerY    = Float(-Double.pi) * translationHeightRatio
+        
+        currentCameraNode.eulerAngles.y = cameraEulerX + totalEulerAngles.x
+        currentCameraNode.eulerAngles.x = -( cameraEulerY + totalEulerAngles.y )
+        
+        currentEulerAngles = currentCameraNode.simdEulerAngles
+        print("\(#function) euler angles: \(currentCameraNode.eulerAngles)")
+        print("\(#function) simdEulerAngles: \(currentCameraNode.simdEulerAngles)")
+        print("\(#function) rotation: \(currentCameraNode.rotation)")
+
     }
     
     
@@ -141,25 +159,21 @@ class SpacecraftCameraState: ObservableObject {
         //
         // Using Euler Angles
         //
-        //currentEulerAngles  = currentCameraNode.simdEulerAngles
         totalEulerAngles    = currentCameraNode.simdEulerAngles
-        print("\(#function) Current Eulers: \(String(describing: currentCameraNode.simdEulerAngles))")
-        print("\(#function) Total Eulers: \(String(describing: totalEulerAngles))")
+        //print("\(#function) Current Eulers: \(String(describing: currentCameraNode.simdEulerAngles))")
+        //print("\(#function) Total Eulers: \(String(describing: totalEulerAngles))")
 
-        //totalEulerAngles    = totalEulerAngles + currentEulerAngles
         print("\(#function) Total Eulers after adding: \(String(describing: totalEulerAngles))")
         
         currentCameraNode.simdEulerAngles = totalEulerAngles
         
-        //currentCameraNode.pivot = SCNMatrix4Identity
-        
-        
 
         //print("\(#function) currentCamera Rotation: \(String(describing: currentCameraNode.rotation))")
-        let changeRotation     = SCNMatrix4Invert(SCNMatrix4MakeRotation(currentCameraNode.rotation.w,
+        /*let changeRotation     = SCNMatrix4Invert(SCNMatrix4MakeRotation(currentCameraNode.rotation.w,
                                                                       currentCameraNode.rotation.x,
                                                                       currentCameraNode.rotation.y,
                                                                     currentCameraNode.rotation.z))
+        */
         
         /*
         //
@@ -208,19 +222,19 @@ class SpacecraftCameraState: ObservableObject {
     func resetCameraOrientation(of currentCameraNode: SCNNode) {
         print("\n\n")
         
-        currentCameraNode.pivot = SCNMatrix4Identity
+        currentCameraNode.transform = SCNMatrix4Identity
         
         //print("currentCameraNode.name: \(currentCameraNode.name)")
         
         // This resets the "neck" of the spacecraft's interior commander camera
         if currentCameraNode.name! + "Node" == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
-            currentCameraNode.pivot = SCNMatrix4Identity
+            currentCameraNode.transform = SCNMatrix4Identity
             currentCameraNode.simdPivot.columns.3.y = -0.09
         } else {
-            currentCameraNode.pivot = SCNMatrix4Identity
+            currentCameraNode.transform = SCNMatrix4Identity
         }
         
-        currentCameraTotalPivot = SCNMatrix4Identity
+        //currentCameraTotalPivot = SCNMatrix4Identity
     }
     
     
