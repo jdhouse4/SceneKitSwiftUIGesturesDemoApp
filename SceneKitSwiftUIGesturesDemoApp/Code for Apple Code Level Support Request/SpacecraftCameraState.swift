@@ -62,7 +62,7 @@ class SpacecraftCameraState: ObservableObject {
         //print("\(#function) Beginning of DragGesture .onChanged of \(currentCameraNode.name!) Total simdEulerAngles: \(totalChase360CameraEulerAngles)")
 
         let translationWidthRatio   = translationX / Float(UIScreen.main.bounds.width)
-        let translationHeightRatio  = translationY / Float(UIScreen.main.bounds.height)
+        let translationHeightRatio  = translationY / ( Float(UIScreen.main.bounds.height) * 2.0 ) // This is to slow-down pitch, which can be a pain when also yawing.
         
         let cameraEulerX    = Float(-2 * Double.pi) * translationWidthRatio
         let cameraEulerY    = Float(-Double.pi) * translationHeightRatio
