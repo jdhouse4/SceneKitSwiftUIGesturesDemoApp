@@ -71,7 +71,7 @@ class SpacecraftCameraState: ObservableObject {
         
         if abs(cameraEulerY + totalChase360CameraEulerAngles.z) > abs(Float(Double.pi / 2.0)) {
 
-            print("\(#function) Ooopsie! Angle too high.")
+            //print("\(#function) Ooopsie! Angle too high.")
             
             if cameraEulerY + totalChase360CameraEulerAngles.z > 0 {
                 
@@ -89,7 +89,7 @@ class SpacecraftCameraState: ObservableObject {
             
         }
         
-        print("\(#function) End of DragGesture .onChanged simdEulerAngles: \(currentCameraNode.simdEulerAngles)")
+        //print("\(#function) End of DragGesture .onChanged simdEulerAngles: \(currentCameraNode.simdEulerAngles)")
         //print("\(#function) End of DragGesture .onChanged of \(currentCameraNode.name!) Total simdEulerAngles: \(totalChase360CameraEulerAngles)")
         
     }
@@ -162,11 +162,6 @@ class SpacecraftCameraState: ObservableObject {
     
     
     
-    ///
-    /// MotionManager.swift's resetReferenceFrame resets the `attitude simd_Quatertian` to the current attitude.
-    /// I'm hoping that for gestures, that will be a quaterion of (0,0,0,1).
-    /// :-/
-    ///
     func resetCameraOrientation(of currentCameraNode: SCNNode) {
         print("\n")
         
