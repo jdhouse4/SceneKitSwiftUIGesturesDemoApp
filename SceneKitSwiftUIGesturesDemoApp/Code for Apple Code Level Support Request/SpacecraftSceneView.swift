@@ -106,7 +106,7 @@ struct SpacecraftSceneView: View {
     
     
     var body: some View {
-        ZStack {
+        //ZStack {
             SceneView (
                 scene: spacecraft.spacecraftScene,
                 pointOfView: spacecraft.spacecraftCurrentCamera,
@@ -128,7 +128,7 @@ struct SpacecraftSceneView: View {
                 
             })
 
-        }
+        //}
         .onAppear {
             
             spacecraftDelegate.spacecraftCurrentCameraNode = spacecraft.spacecraftDistantCameraNode

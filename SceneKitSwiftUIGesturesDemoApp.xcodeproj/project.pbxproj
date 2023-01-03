@@ -20,6 +20,8 @@
 		E60EE4682939BED900822DC2 /* SpacecraftCameraButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60EE4672939BED900822DC2 /* SpacecraftCameraButton.swift */; };
 		E60EE46B2939C05200822DC2 /* SpacecraftAnalyticsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60EE46A2939C05200822DC2 /* SpacecraftAnalyticsButton.swift */; };
 		E60EE46D2939C0A000822DC2 /* SpacecraftAnalyticsButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60EE46C2939C0A000822DC2 /* SpacecraftAnalyticsButtonView.swift */; };
+		E6CCC2C229639B9700DBE7B0 /* SpacecraftFDAISceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CCC2C129639B9700DBE7B0 /* SpacecraftFDAISceneView.swift */; };
+		E6CCC2C429639C5400DBE7B0 /* SpacecraftFDAISceneKitScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CCC2C329639C5400DBE7B0 /* SpacecraftFDAISceneKitScene.swift */; };
 		E6FB1CF224D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */; };
 		E6FB1CF424D3837D0086CD4B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FB1CF324D3837D0086CD4B /* ContentView.swift */; };
 		E6FB1CF624D383800086CD4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6FB1CF524D383800086CD4B /* Assets.xcassets */; };
@@ -41,6 +43,8 @@
 		E60EE4672939BED900822DC2 /* SpacecraftCameraButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpacecraftCameraButton.swift; sourceTree = "<group>"; };
 		E60EE46A2939C05200822DC2 /* SpacecraftAnalyticsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpacecraftAnalyticsButton.swift; sourceTree = "<group>"; };
 		E60EE46C2939C0A000822DC2 /* SpacecraftAnalyticsButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpacecraftAnalyticsButtonView.swift; sourceTree = "<group>"; };
+		E6CCC2C129639B9700DBE7B0 /* SpacecraftFDAISceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacecraftFDAISceneView.swift; sourceTree = "<group>"; };
+		E6CCC2C329639C5400DBE7B0 /* SpacecraftFDAISceneKitScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacecraftFDAISceneKitScene.swift; sourceTree = "<group>"; };
 		E6FB1CEE24D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SceneKitSwiftUIGesturesDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6FB1CF124D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitSwiftUIGesturesDemoAppApp.swift; sourceTree = "<group>"; };
 		E6FB1CF324D3837D0086CD4B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -65,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				E60EE44B2939BB8B00822DC2 /* SpacecraftSceneKitScene.swift */,
+				E6CCC2C329639C5400DBE7B0 /* SpacecraftFDAISceneKitScene.swift */,
 				E60EE44C2939BB8B00822DC2 /* SpacecraftSceneRendererDelegate.swift */,
 			);
 			path = SceneKit;
@@ -155,6 +160,7 @@
 			children = (
 				E60EE46C2939C0A000822DC2 /* SpacecraftAnalyticsButtonView.swift */,
 				E60EE4612939BEA200822DC2 /* SpacecraftCameraButtonsView.swift */,
+				E6CCC2C129639B9700DBE7B0 /* SpacecraftFDAISceneView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -230,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E60EE44D2939BB8B00822DC2 /* SpacecraftSceneKitScene.swift in Sources */,
+				E6CCC2C229639B9700DBE7B0 /* SpacecraftFDAISceneView.swift in Sources */,
 				E60EE46D2939C0A000822DC2 /* SpacecraftAnalyticsButtonView.swift in Sources */,
 				E6FB1CF424D3837D0086CD4B /* ContentView.swift in Sources */,
 				E60EE44E2939BB8B00822DC2 /* SpacecraftSceneRendererDelegate.swift in Sources */,
@@ -238,6 +245,7 @@
 				E60EE4682939BED900822DC2 /* SpacecraftCameraButton.swift in Sources */,
 				E60EE46B2939C05200822DC2 /* SpacecraftAnalyticsButton.swift in Sources */,
 				E60EE4522939BBF300822DC2 /* SpacecraftCameraState.swift in Sources */,
+				E6CCC2C429639C5400DBE7B0 /* SpacecraftFDAISceneKitScene.swift in Sources */,
 				E60EE45C2939BE1400822DC2 /* SpacecraftAnimationHelpers.swift in Sources */,
 				E6FB1CF224D3837D0086CD4B /* SceneKitSwiftUIGesturesDemoAppApp.swift in Sources */,
 				E60EE4562939BC0E00822DC2 /* SpacecraftSceneView.swift in Sources */,
