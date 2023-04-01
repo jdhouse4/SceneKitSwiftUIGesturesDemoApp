@@ -163,7 +163,9 @@ class SpacecraftCameraState: ObservableObject {
     }
     
     
-    
+    // MARK: Calculate delta between initial and final translation from touch
+    // Determine if the user's gesture was sufficient to indicate that there should be some camera inertia
+    // after the user lifts their finger.
     fileprivate func calculatePredictedAndEndTranslationDelta(_ value: DragGesture.Value) {
         //
         // Record the DragGesture.Value parameters at the end of the swipe.
@@ -191,14 +193,15 @@ class SpacecraftCameraState: ObservableObject {
     
     
     //
+    // MARK: Determine if a DragGesture was of sufficient velocity to enable inertia
     // This fuction determines if a DragGesture was of sufficient velocity to enable inertia, and if so
     // then calculates other things needed for inertia.
     //
     func chase360CameraInertia(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
         
-        print("\n\(#function) Determine whether the inertial is needed and, if so, set the state of SpacecraftCameraState to true.")
+        //print("\n\(#function) Determine whether the inertial is needed and, if so, set the state of SpacecraftCameraState to true.")
         
-        print("\(#function) deltaTranslationLength: \(deltaTranslationLength)")
+        //print("\(#function) deltaTranslationLength: \(deltaTranslationLength)")
         
         print("\(#function) deltaTranslationLength > 50: \(deltaTranslationLength > 50 ? "true" : "false")")
         
@@ -232,7 +235,8 @@ class SpacecraftCameraState: ObservableObject {
     }
     
     
-
+    // MARK: Calculate current camera euler angles
+    // This will be needed in determining the dampening.
     fileprivate func calculateCameraEulerAngles() {
         //print("\(#function) Calculating the Chase360CameraInertia.")
         
@@ -260,7 +264,7 @@ class SpacecraftCameraState: ObservableObject {
     }
     
     
-    
+    // MARK: Update the camera for the euler angles instilled from inertia.
     func updateChase360CameraForInertia(of currentCameraNode: SCNNode, with cameraInertialEulerX: Float, and cameraInertialEulerY: Float) {
         print("\(#function)")
         
@@ -270,14 +274,11 @@ class SpacecraftCameraState: ObservableObject {
         //
         // Assign yaw.
         currentCameraNode.eulerAngles.y = cameraInertialEulerX + self.totalChase360CameraEulerAngles.y
-        print("\(#function) Chase360Camera euler.y: \(currentCameraNode.eulerAngles.y)")
+        //print("\(#function) Chase360Camera euler.y: \(currentCameraNode.eulerAngles.y)")
         
         //
         // Deal with pitch exceeding ± 90°
         //
-        
-        //currentCameraNode.eulerAngles.x =
-        
         if abs(cameraInertialEulerY + self.totalChase360CameraEulerAngles.z) > abs(Float(Double.pi / 2.0)) {
             
             //print("\(#function) Ooopsie! Angle too high.")
@@ -303,11 +304,11 @@ class SpacecraftCameraState: ObservableObject {
     }
     
     
-    
+    // MARK: Update the final camera orientation.
     func updateCameraOrientation(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
-        print("\n")
+        //print("\n")
         
-        print("\(#function)")
+        //print("\(#function)")
         
         //
         // Using Euler Angles
@@ -321,12 +322,11 @@ class SpacecraftCameraState: ObservableObject {
         //
         if currentCameraNode.name! + "Node" == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
             
-            print("\(#function) Current Camera Node is: \(currentCameraNode.name!)")
+            //print("\(#function) Current Camera Node is: \(currentCameraNode.name!)")
             
             totalCommanderCameraEulerAngles     = currentCameraNode.simdEulerAngles
             
             //print("\(#function) Total Interior Eulers after adding: \(String(describing: totalCommanderCameraEulerAngles))")
-            
             
         }
         if currentCameraNode.name! == SpacecraftCamera.spacecraftChase360Camera.rawValue {
@@ -334,49 +334,15 @@ class SpacecraftCameraState: ObservableObject {
             //print("\(#function) Current Camera Node is: \(currentCameraNode.name!)")
             
             totalChase360CameraEulerAngles      = currentCameraNode.simdEulerAngles
-            print("\(#function) totalChase360CameraEulerAngles: \(totalChase360CameraEulerAngles)")
-            
+            //print("\(#function) totalChase360CameraEulerAngles: \(totalChase360CameraEulerAngles)")
             
             calculatePredictedAndEndTranslationDelta(value)
-            
             
             //print("\(#function) Total Eulers after adding: \(String(describing: totalChase360CameraEulerAngles))")
             
         }
         
     }
-    
-    
-    
-    /*func updateCameraOrientation(of currentCameraNode: SCNNode) {
-     
-     
-     //
-     // Determine the camera node for which to set the total euler angles.
-     //
-     if currentCameraNode.name! + "Node" == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
-     
-     print("\(#function) Current Camera Node is: \(currentCameraNode.name!)")
-     
-     totalCommanderCameraEulerAngles     = currentCameraNode.simdEulerAngles
-     
-     //print("\(#function) Total Interior Eulers after adding: \(String(describing: totalCommanderCameraEulerAngles))")
-     
-     
-     }
-     if currentCameraNode.name! == SpacecraftCamera.spacecraftChase360Camera.rawValue {
-     
-     //print("\(#function) Current Camera Node is: \(currentCameraNode.name!)")
-     
-     totalChase360CameraEulerAngles      = currentCameraNode.simdEulerAngles
-     print("\(#function) totalChase360CameraEulerAngles: \(totalChase360CameraEulerAngles)")
-     
-     //print("\(#function) Total Eulers after adding: \(String(describing: totalChase360CameraEulerAngles))")
-     
-     }
-     
-     
-     }*/
     
     
     
