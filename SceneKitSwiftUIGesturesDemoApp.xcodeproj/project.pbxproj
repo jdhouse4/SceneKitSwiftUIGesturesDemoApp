@@ -73,9 +73,9 @@
 		E60EE4582939BC9500822DC2 /* Observables and Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				E60EE4502939BBF300822DC2 /* SpacecraftState.swift */,
 				E60EE4592939BE1400822DC2 /* SpacecraftAnimationHelpers.swift */,
 				E60EE4512939BBF300822DC2 /* SpacecraftCamera.swift */,
-				E60EE4502939BBF300822DC2 /* SpacecraftState.swift */,
 				E60EE45A2939BE1400822DC2 /* CircleButtonHelper.swift */,
 				E60EE45B2939BE1400822DC2 /* CircleButtonSize.swift */,
 			);

@@ -45,13 +45,13 @@ struct SpacecraftSceneView: View {
                 
                     if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
                         
-                        spacecraftCameraState.changeExteriorCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode, with: value)
+                        spacecraftCameraState.changeChase360CameraOrientation(of: spacecraft.spacecraftCurrentCameraNode, with: value)
                         
                     }
                     
                     if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
                         
-                        spacecraftCameraState.changeInteriorCameraOrientation(of: spacecraft.spacecraftCurrentCamera, with: value)
+                        spacecraftCameraState.changeCommanderCameraOrientation(of: spacecraft.spacecraftCurrentCamera, with: value)
                         
                     }
                     

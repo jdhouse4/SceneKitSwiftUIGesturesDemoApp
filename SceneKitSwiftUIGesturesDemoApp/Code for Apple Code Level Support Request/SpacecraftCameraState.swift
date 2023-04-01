@@ -60,7 +60,7 @@ class SpacecraftCameraState: ObservableObject {
     
     // MARK: -Change Camera Orientation
     
-    func changeExteriorCameraOrientation(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
+    func changeChase360CameraOrientation(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
         
         print("\(#function) Beginning Drag Locations: \(value.startLocation)")
         
@@ -133,7 +133,7 @@ class SpacecraftCameraState: ObservableObject {
     
     
     
-    func changeInteriorCameraOrientation(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
+    func changeCommanderCameraOrientation(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
         
         //print("\n")
         
