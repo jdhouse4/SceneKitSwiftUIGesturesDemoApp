@@ -17,11 +17,12 @@ struct ContentView: View {
     //
     // @StateObject is a property wrapper type that instantiates an object conforming to ObservableObject.
     //
-    @StateObject var spacecraft                   = SpacecraftSceneKitScene.shared
-    @StateObject var spacecraftDelegate           = SpacecraftSceneRendererDelegate()
-    @StateObject var spacecraftCameraButton       = SpacecraftCameraButton()
-    @StateObject var spacecraftCameraState        = SpacecraftCameraState()
-    @StateObject var spacecraftAnalyticsButton    = SpacecraftAnalyticsButton()
+    @StateObject var spacecraft                 = SpacecraftSceneKitScene.shared
+    @StateObject var spacecraftDelegate         = SpacecraftSceneRendererDelegate()
+    @StateObject var spacecraftState            = SpacecraftState.shared
+    @StateObject var spacecraftCameraButton     = SpacecraftCameraButton()
+    @StateObject var spacecraftCameraState      = SpacecraftCameraState()
+    @StateObject var spacecraftAnalyticsButton  = SpacecraftAnalyticsButton()
     
     
     var body: some View {
@@ -60,6 +61,7 @@ struct ContentView: View {
         
         .environmentObject(spacecraft)
         .environmentObject(spacecraftDelegate)
+        .environmentObject(spacecraftState)
         .environmentObject(spacecraftCameraButton)
         .environmentObject(spacecraftCameraState)
         .environmentObject(spacecraftAnalyticsButton)

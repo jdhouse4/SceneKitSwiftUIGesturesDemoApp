@@ -58,11 +58,6 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     @Published var spacecraftCurrentCameraNode: SCNNode     = SCNNode()
     @Published var spacecraftEngineNode: SCNNode            = SCNNode()
     
-    // TODO: Prepare to DELETE
-    //@Published var nearPoint: SCNVector3            = SCNVector3()
-    //@Published var farPoint: SCNVector3             = SCNVector3()
-    
-    
     var changeCamera: Bool                          = false
     
     var engineThrottle: Double?

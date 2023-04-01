@@ -121,8 +121,6 @@ class SpacecraftCameraState: ObservableObject {
         }
         
         
-        
-        
         //print("\n\(#function) End of DragGesture .onChanged end translation \(value.translation)")
         //print("\(#function) End of DragGesture .onChanged predicted end translation \(value.predictedEndTranslation)")
         
