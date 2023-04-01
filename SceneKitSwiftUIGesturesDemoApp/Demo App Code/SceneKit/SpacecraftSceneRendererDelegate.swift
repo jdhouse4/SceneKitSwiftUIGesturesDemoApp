@@ -99,7 +99,7 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
 
         }
         
-        
+        //print("\(#function) chase360CameraEulersInertiallyDampen = \(SpacecraftCameraState.shared.chase360CameraEulersInertiallyDampen)")
         if SpacecraftCameraState.shared.chase360CameraEulersInertiallyDampen == true {
             
             print("\(#function) Need to add inertia to camera.")

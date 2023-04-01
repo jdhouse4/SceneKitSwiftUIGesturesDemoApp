@@ -51,7 +51,7 @@ final class SpacecraftSceneKitScene: SCNScene, ObservableObject {
         print("SpacecraftScenekitScene private override initialized")
         self.spacecraftSceneNode          = spacecraftScene.rootNode.childNode(withName: "Orion_CSM_Scene_Node", recursively: true)!
         
-        self.spacecraftNode               = spacecraftScene.rootNode.childNode(withName: "Orion_CSM_Node", recursively: true)!
+        //self.spacecraftNode               = spacecraftScene.rootNode.childNode(withName: "Orion_CSM_Node", recursively: true)!
         
         self.spacecraftCurrentCamera      = spacecraftScene.rootNode.childNode(withName: "OrionChase360Camera", recursively: true)!
         
@@ -77,7 +77,7 @@ final class SpacecraftSceneKitScene: SCNScene, ObservableObject {
         print("SpacecraftScenekitScene required initializer")
         self.spacecraftSceneNode          = spacecraftScene.rootNode.childNode(withName: "Orion_CSM_Scene_Node", recursively: true)!
         
-        self.spacecraftNode               = spacecraftScene.rootNode.childNode(withName: "Orion_CSM_Node", recursively: true)!
+        //self.spacecraftNode               = spacecraftScene.rootNode.childNode(withName: "Orion_CSM_Node", recursively: true)!
         
         self.spacecraftCurrentCamera      = spacecraftScene.rootNode.childNode(withName: "OrionChase360Camera", recursively: true)!
         
