@@ -20,8 +20,8 @@ struct ContentView: View {
     @StateObject var spacecraft                 = SpacecraftSceneKitScene.shared
     @StateObject var spacecraftDelegate         = SpacecraftSceneRendererDelegate()
     @StateObject var spacecraftState            = SpacecraftState.shared
+    @StateObject var spacecraftCameraState      = SpacecraftCameraState.shared
     @StateObject var spacecraftCameraButton     = SpacecraftCameraButton()
-    @StateObject var spacecraftCameraState      = SpacecraftCameraState()
     @StateObject var spacecraftAnalyticsButton  = SpacecraftAnalyticsButton()
     
     
@@ -62,8 +62,8 @@ struct ContentView: View {
         .environmentObject(spacecraft)
         .environmentObject(spacecraftDelegate)
         .environmentObject(spacecraftState)
-        .environmentObject(spacecraftCameraButton)
         .environmentObject(spacecraftCameraState)
+        .environmentObject(spacecraftCameraButton)
         .environmentObject(spacecraftAnalyticsButton)
     }
 }

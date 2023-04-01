@@ -42,7 +42,7 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     //
     // Orientation properties
     //
-    @Published var spacecraftDeltaQuaternion: simd_quatf    = simd_quatf()
+    //@Published var spacecraftDeltaQuaternion: simd_quatf    = simd_quatf()
     @Published var spacecraftOrientation: simd_quatf        = simd_quatf()
     @Published var spacecraftEulerAngles: SIMD3<Float>      = simd_float3()
     var spacecraftPreviousEulerAngles: SIMD3<Float>         = simd_float3()
@@ -147,6 +147,7 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
             inertialCameraRotation()
             
         } else {
+
             
             inertialElapsedTime = 0.0
             
@@ -170,13 +171,13 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
 
     }
     
-    
+    /*
     func updateSpacecraftSceneNodeOrientation() -> Void {
         
         // MARK: This is where the spacecraft's orientation changes are realized
         self.spacecraftSceneNode.simdOrientation   = simd_mul(spacecraftSceneNode.simdOrientation, spacecraftDeltaQuaternion).normalized
     }
-    
+    */
     
     
     func radians2Degrees(_ number: Float) -> Float {
