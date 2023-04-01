@@ -10,45 +10,56 @@ import SceneKit
 import simd
 
 
+@MainActor
 class SpacecraftState: ObservableObject {
     
     static let shared = SpacecraftState()
     
+    @Published var spacecraftLoaded: Bool   = false
     
+    /*
     /// This is a place where the position, velocity, orientation, delta-orientation, and translation data is stored and managed.
-    let deltaOrientationAngle: Float    = 0.0078125 * .pi / 180.0 // This results in a 0.5°/s attitude change. 0.015625 = 1°/s
+    let deltaOrientationAngle: Float    = 0.00415 * .pi / 180.0 // This results in a 0.25°/s attitude change.
+    
+    
+    // MARK: These orientation impulse UInt counters keep track of the number of impulses.
+    // -X is an impulse in the negative direction and +X is in the positive.
+    var yawImpulseCounter: Int      = 0
+    var rollImpulseCounter: Int     = 0
+    var pitchImpulseCounter: Int    = 0
+    */
     
     ///
-    /// The scene for the aircraft scn
-    @Published var aircraftScene: SCNScene         = SpacecraftSceneKitScene.shared
-
+    /// The scene for the spacecraft scn
+    //@Published var spacecraftScene: SCNScene         = SpacecraftSceneKitScene.shared
+    
     ///
-    /// The scene node for the aircraft itself
-    @Published var aircraftNode: SCNNode
+    /// The scene node for the spacecraft itself
+    //@Published var spacecraftNode: SCNNode
     
     
-    /// Aircraft Position
+    /// Spacecraft Position
     ///
-    /// Aircraft Velocity
+    /// Spacecraft Velocity
     ///
-    /// Aircraft Orientation
-    @Published var aircraftOrientation: simd_quatf  // Do this as a computed property
+    /// Spacecraft Orientation
+    @Published var spacecraftOrientation: simd_quatf  // Do this as a computed property
     
-    @Published var aircraftDeltaQuaternion: simd_quatf
+    //@Published var spacecraftDeltaQuaternion: simd_quatf
     
-    @Published var aircraftEulerAngles: SIMD3<Float>
+    //@Published var spacecraftEulerAngles: SIMD3<Float>
     
-    var aircraftRollAngle: Float = 0.0
+    var spacecraftRollAngle: Float = 0.0
     
     private init() {
         print("SpacecraftState \(#function)")
-        self.aircraftOrientation        = simd_quatf(ix: 0.0, iy: 0.0, iz: 0.0, r: 1.0)
+        self.spacecraftOrientation        = simd_quatf(ix: 0.0, iy: 0.0, iz: 0.0, r: 1.0)
         
-        self.aircraftDeltaQuaternion    = simd_quatf(ix: 0.0, iy: 0.0, iz: 0.0, r: 1.0)
+        //self.spacecraftDeltaQuaternion    = simd_quatf(ix: 0.0, iy: 0.0, iz: 0.0, r: 1.0)
         
-        self.aircraftNode               = SpacecraftSceneKitScene.shared.spacecraftNode
+        //self.spacecraftNode               = SpacecraftSceneKitScene.shared.spacecraftNode
         
-        self.aircraftEulerAngles        = simd_float3(x: 0.0, y: 0.0, z: 0.0)
+        //self.spacecraftEulerAngles        = simd_float3(x: 0.0, y: 0.0, z: 0.0)
     }
     
     
@@ -61,78 +72,6 @@ class SpacecraftState: ObservableObject {
     
     func radians2Degrees(_ number: Float) -> Float {
         return number * 180.0 / .pi
-    }
-
-    
-    
-    func singleImpulseRollStarboard() -> simd_quatf {
-        print("SpacecraftState singleImpulseStarboard()")
-        let rollStarboardQuaternion: simd_quatf = simd_quatf(angle: deltaOrientationAngle,
-                                                             axis: simd_float3(x: 0.0, y: 0.0, z: 1.0)).normalized
-        
-        aircraftDeltaQuaternion = simd_mul(aircraftDeltaQuaternion, rollStarboardQuaternion)
-        //print("\(#function): aircraftDeltaQuaternion: \(aircraftDeltaQuaternion.debugDescription)")
-        
-        return aircraftDeltaQuaternion
-    }
-    
-    
-    
-    func doubleImpulseRollStarboard() -> simd_quatf {
-        print("SpacecraftState singleImpulseStarboard()")
-        let rollStarboardQuaternion: simd_quatf = simd_quatf(angle: deltaOrientationAngle * 2.0,
-                                                             axis: simd_float3(x: 0.0, y: 0.0, z: 1.0)).normalized
-        
-        aircraftDeltaQuaternion = simd_mul(aircraftDeltaQuaternion, rollStarboardQuaternion)
-        //print("\(#function): aircraftDeltaQuaternion: \(aircraftDeltaQuaternion.debugDescription)")
-        
-        return aircraftDeltaQuaternion
-    }
-    
-    
-    
-    func singleImpulseRollPort() -> simd_quatf {
-        print("SpacecraftState singleImpulsePort()")
-        let rollPortQuaternion: simd_quatf = simd_quatf(angle: deltaOrientationAngle,
-                                                        axis: simd_float3(x: 0.0, y: 0.0, z: -1.0)).normalized
-        
-        aircraftDeltaQuaternion = simd_mul(aircraftDeltaQuaternion, rollPortQuaternion)
-        //print("\(#function): aircraftDeltaQuaternion: \(aircraftDeltaQuaternion.debugDescription)")
-        
-        return aircraftDeltaQuaternion
-    }
-
-    
-    
-    func doubleImpulseRollPort() -> simd_quatf {
-        print("SpacecraftState singleImpulsePort()")
-        let rollPortQuaternion: simd_quatf = simd_quatf(angle: deltaOrientationAngle * 2.0,
-                                                        axis: simd_float3(x: 0.0, y: 0.0, z: -1.0)).normalized
-        
-        aircraftDeltaQuaternion = simd_mul(aircraftDeltaQuaternion, rollPortQuaternion)
-        //print("\(#function): aircraftDeltaQuaternion: \(aircraftDeltaQuaternion.debugDescription)")
-        
-        return aircraftDeltaQuaternion
-    }
-
-    
-    
-   func aircraftEulerAngles(from quaternion: simd_quatf) {
-        print("SpacecraftState \(#function)")
-        
-        ///
-        /// Thanks go to Thilo (https://stackoverflow.com/users/11655730/thilo) for this simple way of obtaining Euler angles
-        /// of a node.
-        ///
-        /// for his post on Stack Overflow, (https://stackoverflow.com/a/71344720/1518544)
-        ///
-        let node = SCNNode()
-        node.simdOrientation    = quaternion
-        self.aircraftEulerAngles = node.simdEulerAngles
-        
-        //spacecraftNode.simdOrientation = quaternion
-        
-        //return spacecraftNode.simdEulerAngles
     }
     
     

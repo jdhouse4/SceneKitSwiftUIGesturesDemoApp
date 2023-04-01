@@ -19,25 +19,27 @@ final class SpacecraftSceneKitScene: SCNScene, ObservableObject {
     static let shared                               = SpacecraftSceneKitScene()
 
     var spacecraftScene                             = SCNScene(named: "art.scnassets/Spacecraft/Orion_CSM_Assets/Orion_CSM.scn")!
-
     var spacecraftSceneNode: SCNNode
     
-    var spacecraftNode                              = SCNNode()
+    //var spacecraftNode                              = SCNNode()
 
     /// Aircraft camera strings (This should be an enum)
     @Published var spacecraftNodeString             = "Orion_CSM_Node"
-    @Published var spacecraftDistantCameraString    = SpacecraftCamera.spacecraftChase360Camera.rawValue
-    @Published var spacecraftInteriorCameraString   = SpacecraftCamera.spacecraftCommanderCamera.rawValue
+    @Published var spacecraftChase360CameraString   = SpacecraftCamera.spacecraftChase360Camera.rawValue
+    @Published var spacecraftCommanderCameraString  = SpacecraftCamera.spacecraftCommanderCamera.rawValue
 
-    /// Aircraft cameras
+    /// Spacecraft cameras
     @Published var spacecraftCurrentCamera: SCNNode
-    @Published var spacecraftDistantCamera: SCNNode
-    @Published var spacecraftInteriorCamera: SCNNode
-
-    /// Aircraft camera nodes
+    
+    @Published var spacecraftChase360Camera: SCNNode
+    @Published var spacecraftCommanderCamera: SCNNode
+    
+    /// Spacecraft camera nodes
     @Published var spacecraftCurrentCameraNode: SCNNode
-    @Published var spacecraftDistantCameraNode: SCNNode
-    @Published var spacecraftInteriorCameraNode: SCNNode
+    
+    @Published var spacecraftChase360CameraNode: SCNNode
+    @Published var spacecraftCommanderCameraNode: SCNNode
+    
 
     /// Orientation
     @Published var spacecraftQuaternion: simd_quatf = simd_quatf(ix: 0.0, iy: 0.0, iz: 0.0, r: 1.0)
@@ -53,23 +55,23 @@ final class SpacecraftSceneKitScene: SCNScene, ObservableObject {
         
         //self.spacecraftNode               = spacecraftScene.rootNode.childNode(withName: "Orion_CSM_Node", recursively: true)!
         
-        self.spacecraftCurrentCamera      = spacecraftScene.rootNode.childNode(withName: "OrionChase360Camera", recursively: true)!
+        self.spacecraftCurrentCamera        = spacecraftScene.rootNode.childNode(withName: "OrionChase360Camera", recursively: true)!
         
-        self.spacecraftDistantCamera      = spacecraftScene.rootNode.childNode(withName: "OrionChase360Camera", recursively: true)!
+        self.spacecraftChase360Camera       = spacecraftScene.rootNode.childNode(withName: "OrionChase360Camera", recursively: true)!
         
-        self.spacecraftInteriorCamera     = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCamera", recursively: true)!
-
-        self.spacecraftCurrentCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
-
-        self.spacecraftDistantCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
-
-        self.spacecraftInteriorCameraNode = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCameraNode", recursively: true)!
+        self.spacecraftCommanderCamera      = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCamera", recursively: true)!
+        
+        self.spacecraftCurrentCameraNode    = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
+        
+        self.spacecraftChase360CameraNode   = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
+        
+        self.spacecraftCommanderCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCameraNode", recursively: true)!
 
         
         super.init()
         
         // This defines the "neck" of the commander for the camera.
-        self.spacecraftInteriorCamera.simdPivot.columns.3.y = -0.09
+        self.spacecraftCommanderCamera.simdPivot.columns.3.y = -0.09
     }
 
     
@@ -79,22 +81,22 @@ final class SpacecraftSceneKitScene: SCNScene, ObservableObject {
         
         //self.spacecraftNode               = spacecraftScene.rootNode.childNode(withName: "Orion_CSM_Node", recursively: true)!
         
-        self.spacecraftCurrentCamera      = spacecraftScene.rootNode.childNode(withName: "OrionChase360Camera", recursively: true)!
+        self.spacecraftCurrentCamera        = spacecraftScene.rootNode.childNode(withName: "OrionChase360Camera", recursively: true)!
         
-        self.spacecraftDistantCamera      = spacecraftScene.rootNode.childNode(withName: "OrionChase360Camera", recursively: true)!
+        self.spacecraftChase360Camera       = spacecraftScene.rootNode.childNode(withName: "OrionChase360Camera", recursively: true)!
         
-        self.spacecraftInteriorCamera     = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCamera", recursively: true)!
+        self.spacecraftCommanderCamera      = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCamera", recursively: true)!
         
-        self.spacecraftCurrentCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
-
-        self.spacecraftDistantCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
+        self.spacecraftCurrentCameraNode    = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
         
-        self.spacecraftInteriorCameraNode = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCameraNode", recursively: true)!
+        self.spacecraftChase360CameraNode   = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
+        
+        self.spacecraftCommanderCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCameraNode", recursively: true)!
 
 
         super.init(coder: coder)
         
         // This defines the "neck" of the commander for the camera.
-        self.spacecraftInteriorCamera.simdPivot.columns.3.y = -0.09
+        self.spacecraftCommanderCamera.simdPivot.columns.3.y = -0.09
     }
 }

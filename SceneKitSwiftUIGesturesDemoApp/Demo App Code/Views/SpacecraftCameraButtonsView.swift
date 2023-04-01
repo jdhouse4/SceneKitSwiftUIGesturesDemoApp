@@ -62,7 +62,7 @@ struct SpacecraftCameraButtonsView: View {
                                 self.spacecraftCameraButton.spacecraftExteriorCameraButtonPressed.toggle()
                             }
                             
-                            self.changePOV(cameraString: self.spacecraft.spacecraftDistantCameraString)
+                            self.changePOV(cameraString: self.spacecraft.spacecraftChase360CameraString)
                             
                         }) {
                             Image(systemName: "airplane")
@@ -94,7 +94,7 @@ struct SpacecraftCameraButtonsView: View {
                                 self.spacecraftCameraButton.spacecraftInteriorCameraButtonPressed.toggle()
                             }
                             
-                            self.changePOV(cameraString: self.spacecraft.spacecraftInteriorCameraString)
+                            self.changePOV(cameraString: self.spacecraft.spacecraftCommanderCameraString)
                             
                         }) {
                             Image(systemName: "person.fill")
@@ -130,19 +130,19 @@ struct SpacecraftCameraButtonsView: View {
         
         print("cameraString: \(cameraString)")
         
-        if cameraString == spacecraft.spacecraftDistantCameraString {
-            self.spacecraft.spacecraftCurrentCamera = self.spacecraft.spacecraftDistantCamera
+        if cameraString == spacecraft.spacecraftChase360CameraString {
+            self.spacecraft.spacecraftCurrentCamera = self.spacecraft.spacecraftChase360Camera
             self.spacecraft.spacecraftCurrentCamera.camera?.fieldOfView = 45.0
-            self.spacecraftDelegate.setCurrentCameraName(name: spacecraft.spacecraftDistantCameraString)
-            self.spacecraftDelegate.setCurrentCameraNode(node: spacecraft.spacecraftDistantCameraNode)
+            self.spacecraftDelegate.setCurrentCameraName(name: spacecraft.spacecraftChase360CameraString)
+            self.spacecraftDelegate.setCurrentCameraNode(node: spacecraft.spacecraftChase360CameraNode)
         }
         
         
-        if cameraString == spacecraft.spacecraftInteriorCameraString {
-            self.spacecraft.spacecraftCurrentCamera = self.spacecraft.spacecraftInteriorCamera
+        if cameraString == spacecraft.spacecraftCommanderCameraString {
+            self.spacecraft.spacecraftCurrentCamera = self.spacecraft.spacecraftCommanderCamera
             self.spacecraft.spacecraftCurrentCamera.camera?.fieldOfView = 30.0
-            self.spacecraftDelegate.setCurrentCameraName(name: spacecraft.spacecraftInteriorCameraString)
-            self.spacecraftDelegate.setCurrentCameraNode(node: spacecraft.spacecraftInteriorCameraNode)
+            self.spacecraftDelegate.setCurrentCameraName(name: spacecraft.spacecraftCommanderCameraString)
+            self.spacecraftDelegate.setCurrentCameraNode(node: spacecraft.spacecraftCommanderCameraNode)
         }
         
     }
