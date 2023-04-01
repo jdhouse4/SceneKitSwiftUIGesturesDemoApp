@@ -21,7 +21,6 @@ import SceneKit
  */
 class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, ObservableObject {
     
-    // This no longer works because,
     //
     // "Main actor-isolated static property 'shared' can not be referenced from a non-isolated context"
     //
@@ -37,26 +36,12 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     @Published var spacecraftNode: SCNNode          = SCNNode()
     @Published var spacecraftNodeString: String     = "Orion_CSM_Node"
     
-    @Published var sceneIsRendering: Bool           = false
-    
-    //
-    // Orientation properties
-    //
-    //@Published var spacecraftDeltaQuaternion: simd_quatf    = simd_quatf()
-    @Published var spacecraftOrientation: simd_quatf        = simd_quatf()
-    @Published var spacecraftEulerAngles: SIMD3<Float>      = simd_float3()
-    var spacecraftPreviousEulerAngles: SIMD3<Float>         = simd_float3()
-    var spacecraftCurrentEulerAngles: SIMD3<Float>          = simd_float3()
-    @Published var deltaRollRate:Float                      = 0.0
-    @Published var deltaPitchRate: Float                    = 0.0
-    @Published var deltaYawRate: Float                      = 0.0
-    
+
     //
     // For switching cameras in the scene.
     //
     @Published var spacecraftCurrentCamera: String          = SpacecraftCamera.spacecraftChase360Camera.rawValue
     @Published var spacecraftCurrentCameraNode: SCNNode     = SCNNode()
-    @Published var spacecraftEngineNode: SCNNode            = SCNNode()
     
     var changeCamera: Bool                          = false
     
@@ -67,6 +52,7 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     
     //
     // Time, oh time...
+    //
     var _previousUpdateTime: TimeInterval       = 0.0
     var _deltaTime: TimeInterval                = 0.0
     var inertialElapsedTime: TimeInterval       = 0.0
@@ -75,19 +61,10 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     
     
     override init() {
-        print("\n\(#function) SpacecraftSceneRendererDelegate override initialized\n")
+        //print("\n\(#function) SpacecraftSceneRendererDelegate override initialized\n")
         
-        //
-        // This call has been moved to the App protocol, SwiftUISceneKitCoreMotionDemoApp.swift.
-        //
-        //self.motionManager.setupDeviceMotion()
-        
-        //self.sceneQuaternion    = self.motionManager.motionQuaternion
-        
-        //self.spacecraftScene      = SpacecraftSceneKitScene.shared
         self.spacecraftSceneNode    = SpacecraftSceneKitScene.shared.spacecraftSceneNode
         
-        //self.spacecraftNode       = SpacecraftSceneKitScene.shared.spacecraftNode
         
         super.init()
         
@@ -96,7 +73,6 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
         ///
         print("SpacecraftSceneRendererDelegate \(#function) spacecraftScene: \(spacecraftScene)")
         print("SpacecraftSceneRendererDelegate \(#function) spacecraftSceneNode: \(String(describing: spacecraftSceneNode.name))")
-        print("SpacecraftSceneRendererDelegate \(#function) spacecraftNode: \(String(describing: spacecraftNode.name))")
         
     }
     
@@ -109,39 +85,7 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
         
         //print("\(#function) running...running...running...")
         
-        
-        // This is to ensure that the time is initialized properly for the simulator.
-        if _previousUpdateTime == 0.0
-        {
-            _previousUpdateTime     = time
-            //print("\(#function) setting _previousUpdateTime to time: \(time)\n")
-            
-        }
-        
-        _deltaTime          = time - _previousUpdateTime
-        
-        //print("\(time)")
-        //print("\(#function) _deltaTime: \(_deltaTime)")
-        
-        
-        
-        // MARK: Calculate attitude changes and rates, and loading of assets.
-        if _deltaTime > 0.2 {
-            //
-            // Calculating euler angles and roll rates
-            //
-            //print("\n\(#function) Time to calculate eulers and roll rates.")
-            //print("\(#function) _deltaTime: \(_deltaTime)")
-            
-            
-            // MARK: _deltaTime is reset to zero.
-            _previousUpdateTime         = time
-            //print("\(#function) _previousTime: \(_previousUpdateTime)")
-            
-            
-        }
-        
-        
+        // MARK: This is where the the inertial effects on the camera are rendered.
         if SpacecraftCameraState.shared.chase360CameraEulersInertiallyDampen == true {
             
             inertialCameraRotation()
