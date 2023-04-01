@@ -31,7 +31,7 @@ struct SpacecraftSceneView: View {
     @EnvironmentObject var spacecraftDelegate: SpacecraftSceneRendererDelegate
     
     
-    // SceneView.Options for affecting the SceneView.
+    // MARK: SceneView.Options for affecting the SceneView.
     // Uncomment if you would like to have Apple do all of the camera control
     //private var sceneViewCameraOptions      = SceneView.Options.allowsCameraControl
     //private var sceneViewRenderContinuously = SceneView.Options.rendersContinuously
@@ -43,9 +43,6 @@ struct SpacecraftSceneView: View {
             .onChanged { value in
                 self.isDragging = true
                 
-                //let dragValue = value.startLocation
-                
-                    
                     if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
                         
                         spacecraftCameraState.changeExteriorCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode, with: value)
@@ -62,8 +59,6 @@ struct SpacecraftSceneView: View {
             .onEnded { value in
                 
                 self.isDragging = false
-                
-                
                     
                     if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
                         
@@ -144,7 +139,6 @@ struct SpacecraftSceneView: View {
         
         //}
         .onAppear {
-            //print("\n\(#function) SpacecraftSceneView should have just popped-up!\n")
             spacecraftDelegate.spacecraftCurrentCameraNode = spacecraft.spacecraftChase360CameraNode
             spacecraftCameraState.resetCurrentCameraFOV(of: spacecraft.spacecraftCurrentCamera.camera!, screenWdith: sizeClass!)
         }
