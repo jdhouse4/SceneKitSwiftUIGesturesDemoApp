@@ -1,8 +1,8 @@
 //
 //  SpacecraftSceneRendererDelegate.swift
-//  SceneKitSwiftUIGesturesDemoApp
+//  MissionOrion2
 //
-//  Created by James Hillhouse IV on 12/01/22.
+//  Created by James Hillhouse IV on 10/17/20.
 //
 import SceneKit
 
@@ -21,45 +21,78 @@ import SceneKit
  */
 class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, ObservableObject {
     
-    var spacecraftScene: SCNScene               = SpacecraftSceneKitScene.shared
+    // This no longer works because,
+    //
+    // "Main actor-isolated static property 'shared' can not be referenced from a non-isolated context"
+    //
+    // So, go direct! Use, SpacecraftCameraState.shared.(some @Published property of the singleton).
+    //
+    // And the same with SpacecraftState.shared.
+    //
+    var spacecraftScene: SCNScene                   = SpacecraftSceneKitScene.shared
     
+    var spacecraftSceneNode: SCNNode                = SCNNode()
+    var spacecraftSceneNodeString: String           = "Orion_CSM_Scene_Node"
     
-    var spacecraftSceneNode: SCNNode            = SCNNode()
-    var spacecraftSceneNodeString: String       = "Orion_CSM_Scene_Node"
+    @Published var spacecraftNode: SCNNode          = SCNNode()
+    @Published var spacecraftNodeString: String     = "Orion_CSM_Node"
     
-    @Published var spacecraftNode: SCNNode      = SCNNode()
-    @Published var spacecraftNodeString: String = "Orion_CSM_Node"
+    @Published var sceneIsRendering: Bool           = false
     
+    //
+    // Orientation properties
+    //
+    @Published var spacecraftDeltaQuaternion: simd_quatf    = simd_quatf()
+    @Published var spacecraftOrientation: simd_quatf        = simd_quatf()
+    @Published var spacecraftEulerAngles: SIMD3<Float>      = simd_float3()
+    var spacecraftPreviousEulerAngles: SIMD3<Float>         = simd_float3()
+    var spacecraftCurrentEulerAngles: SIMD3<Float>          = simd_float3()
+    @Published var deltaRollRate:Float                      = 0.0
+    @Published var deltaPitchRate: Float                    = 0.0
+    @Published var deltaYawRate: Float                      = 0.0
     
     //
     // For switching cameras in the scene.
     //
-    @Published var spacecraftCurrentCamera: String        = SpacecraftCamera.spacecraftChase360Camera.rawValue
-    @Published var spacecraftCurrentCameraNode: SCNNode   = SCNNode()
-    
+    @Published var spacecraftCurrentCamera: String          = SpacecraftCamera.spacecraftChase360Camera.rawValue
+    @Published var spacecraftCurrentCameraNode: SCNNode     = SCNNode()
+    @Published var spacecraftEngineNode: SCNNode            = SCNNode()
     
     // TODO: Prepare to DELETE
-    //@Published var nearPoint: SCNVector3    = SCNVector3()
-    //@Published var farPoint: SCNVector3     = SCNVector3()
+    //@Published var nearPoint: SCNVector3            = SCNVector3()
+    //@Published var farPoint: SCNVector3             = SCNVector3()
     
     
-    var changeCamera: Bool      = false
+    var changeCamera: Bool                          = false
     
-    var showsStatistics: Bool   = false
+    var engineThrottle: Double?
+    
+    var showsStatistics: Bool                       = false
     
     
     //
     // Time, oh time...
-    var _previousUpdateTime: TimeInterval   = 0.0
-    var _deltaTime: TimeInterval            = 0.0
-    var inertialElapsedTime: TimeInterval   = 0.0
-
+    var _previousUpdateTime: TimeInterval       = 0.0
+    var _deltaTime: TimeInterval                = 0.0
+    var inertialElapsedTime: TimeInterval       = 0.0
+    
+    
     
     
     override init() {
-        print("SpacecraftSceneRendererDelegate override initialized")
+        print("\n\(#function) SpacecraftSceneRendererDelegate override initialized\n")
         
+        //
+        // This call has been moved to the App protocol, SwiftUISceneKitCoreMotionDemoApp.swift.
+        //
+        //self.motionManager.setupDeviceMotion()
+        
+        //self.sceneQuaternion    = self.motionManager.motionQuaternion
+        
+        //self.spacecraftScene      = SpacecraftSceneKitScene.shared
         self.spacecraftSceneNode    = SpacecraftSceneKitScene.shared.spacecraftSceneNode
+        
+        //self.spacecraftNode       = SpacecraftSceneKitScene.shared.spacecraftNode
         
         super.init()
         
@@ -73,36 +106,48 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     }
     
     
+    
     @MainActor
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval)
     {
         renderer.showsStatistics = showsStatistics
+        
+        //print("\(#function) running...running...running...")
         
         
         // This is to ensure that the time is initialized properly for the simulator.
         if _previousUpdateTime == 0.0
         {
             _previousUpdateTime     = time
+            //print("\(#function) setting _previousUpdateTime to time: \(time)\n")
             
         }
         
         _deltaTime          = time - _previousUpdateTime
+        
+        //print("\(time)")
         //print("\(#function) _deltaTime: \(_deltaTime)")
         
         
+        
+        // MARK: Calculate attitude changes and rates, and loading of assets.
         if _deltaTime > 0.2 {
-            
+            //
+            // Calculating euler angles and roll rates
+            //
+            //print("\n\(#function) Time to calculate eulers and roll rates.")
             //print("\(#function) _deltaTime: \(_deltaTime)")
             
+            
+            // MARK: _deltaTime is reset to zero.
             _previousUpdateTime         = time
-            //print("_previousTime: \(_previousUpdateTime)")
-
+            //print("\(#function) _previousTime: \(_previousUpdateTime)")
+            
+            
         }
         
-        //print("\(#function) chase360CameraEulersInertiallyDampen = \(SpacecraftCameraState.shared.chase360CameraEulersInertiallyDampen)")
+        
         if SpacecraftCameraState.shared.chase360CameraEulersInertiallyDampen == true {
-            
-            print("\(#function) Need to add inertia to camera.")
             
             inertialCameraRotation()
             
@@ -111,31 +156,41 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
             inertialElapsedTime = 0.0
             
         }
+        
+     }
+    
+    
+    
+    func setCurrentCameraName(name: String) {
+
+        spacecraftCurrentCamera = name
 
     }
     
     
     
-    func setCurrentCameraName(name: String) {
-        spacecraftCurrentCamera = name
-    }
-    
-    
-    
     func setCurrentCameraNode(node: SCNNode) {
+
         spacecraftCurrentCameraNode = node
+
+    }
+    
+    
+    func updateSpacecraftSceneNodeOrientation() -> Void {
+        
+        // MARK: This is where the spacecraft's orientation changes are realized
+        self.spacecraftSceneNode.simdOrientation   = simd_mul(spacecraftSceneNode.simdOrientation, spacecraftDeltaQuaternion).normalized
     }
     
     
     
-    func setSpacecraftNode(node: SCNNode) {
-        spacecraftNode = node
+    func radians2Degrees(_ number: Float) -> Float {
+        return number * 180.0 / .pi
     }
     
     
     
     func inertialCameraRotation() {
-        print("\(#function) Inertially dampening camera motion")
         
         Task {
             
@@ -145,7 +200,7 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
                 
                 inertialElapsedTime += 1.0/60.0
                 
-
+                
                 if abs(SpacecraftCameraState.shared.cameraInertialEulerX) > 0.01 || abs(SpacecraftCameraState.shared.cameraInertialEulerY) > 0.01 {
                     
                     //
@@ -188,7 +243,7 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
                             //print("\(#function) decreasing updatedCameraInertialEulerX \(updatedCameraInertialEulerX) by \(updatedCameraInertialEulerX + 0.009)")
                             
                         }
-                                                
+                        
                     }
                     
                     if updatedCameraInertialEulerY > 0.0 {
@@ -220,7 +275,7 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
                             //print("\(#function) decreasing updatedCameraInertialEulerY \(updatedCameraInertialEulerY) by \(updatedCameraInertialEulerY + 0.005)")
                             
                         }
-                                                
+                        
                     }
                     
                     print("\(#function) updatedCameraInertialEulerX = \(updatedCameraInertialEulerX)")
@@ -251,5 +306,5 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
             
         }
     }
-      
+    
 }
