@@ -21,8 +21,6 @@ final class SpacecraftSceneKitScene: SCNScene, ObservableObject {
     var spacecraftScene                             = SCNScene(named: "art.scnassets/Spacecraft/Orion_CSM_Assets/Orion_CSM.scn")!
     var spacecraftSceneNode: SCNNode
     
-    //var spacecraftNode                              = SCNNode()
-
     /// Aircraft camera strings (This should be an enum)
     @Published var spacecraftNodeString             = "Orion_CSM_Node"
     @Published var spacecraftChase360CameraString   = SpacecraftCamera.spacecraftChase360Camera.rawValue
@@ -39,14 +37,6 @@ final class SpacecraftSceneKitScene: SCNScene, ObservableObject {
     
     @Published var spacecraftChase360CameraNode: SCNNode
     @Published var spacecraftCommanderCameraNode: SCNNode
-    
-
-    /// Orientation
-    @Published var spacecraftQuaternion: simd_quatf = simd_quatf(ix: 0.0, iy: 0.0, iz: 0.0, r: 1.0)
-    @Published var deltaQuaternion: simd_quatf      = simd_quatf(ix: 0.0, iy: 0.0, iz: 0.0, r: 1.0)
-    
-    let deltaOrientationAngle: Float                = 0.0078125 * .pi / 180.0 // This results in a 0.5°/s attitude change. 0.015625 = 1°/s
-
     
 
     private override init() {
