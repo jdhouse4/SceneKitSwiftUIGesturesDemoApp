@@ -137,10 +137,8 @@ class SpacecraftCameraState: ObservableObject {
         
         //print("\n")
         
-        
         let translationX = Float(value.translation.width)
         let translationY = Float(-value.translation.height)
-        
         
         //
         // Using Euler Angles
@@ -161,6 +159,7 @@ class SpacecraftCameraState: ObservableObject {
         //print("\(#function) End of DragGesture .onChanged of \(currentCameraNode.name!) Total simdEulerAngles: \(totalCommanderCameraEulerAngles)")
         
     }
+    
     
     
     // MARK: Calculate delta between initial and final translation from touch
@@ -188,6 +187,7 @@ class SpacecraftCameraState: ObservableObject {
         
         deltaTranslationLength      = simd_length(deltaTranslation)
         //print("\(#function) predicted - actual translation: \(deltaTranslationLength)")
+        
     }
     
     
@@ -203,7 +203,7 @@ class SpacecraftCameraState: ObservableObject {
         
         //print("\(#function) deltaTranslationLength: \(deltaTranslationLength)")
         
-        print("\(#function) deltaTranslationLength > 50: \(deltaTranslationLength > 50 ? "true" : "false")")
+        //print("\(#function) deltaTranslationLength > 50: \(deltaTranslationLength > 50 ? "true" : "false")")
         
         
         //
@@ -232,12 +232,14 @@ class SpacecraftCameraState: ObservableObject {
             print("\(#function) chase360CameraEulersInertiallyDampen = \(chase360CameraEulersInertiallyDampen)")
             
         }
+        
     }
     
     
     // MARK: Calculate current camera euler angles
     // This will be needed in determining the dampening.
     fileprivate func calculateCameraEulerAngles() {
+        
         //print("\(#function) Calculating the Chase360CameraInertia.")
         
         
@@ -266,6 +268,7 @@ class SpacecraftCameraState: ObservableObject {
     
     // MARK: Update the camera for the euler angles instilled from inertia.
     func updateChase360CameraForInertia(of currentCameraNode: SCNNode, with cameraInertialEulerX: Float, and cameraInertialEulerY: Float) {
+        
         print("\(#function)")
         
         //
@@ -306,6 +309,7 @@ class SpacecraftCameraState: ObservableObject {
     
     // MARK: Update the final camera orientation.
     func updateCameraOrientation(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
+        
         //print("\n")
         
         //print("\(#function)")
@@ -329,6 +333,7 @@ class SpacecraftCameraState: ObservableObject {
             //print("\(#function) Total Interior Eulers after adding: \(String(describing: totalCommanderCameraEulerAngles))")
             
         }
+        
         if currentCameraNode.name! == SpacecraftCamera.spacecraftChase360Camera.rawValue {
             
             //print("\(#function) Current Camera Node is: \(currentCameraNode.name!)")
@@ -377,20 +382,27 @@ class SpacecraftCameraState: ObservableObject {
             totalChase360CameraEulerAngles          *= 0.0
             currentCameraNode.pivot                 = SCNMatrix4Identity
             currentCameraNode.simdEulerAngles       *= 0.0
+            
         }
         
         // Don't forget to reset the gyro so that as one swaps between cameras in gyro mode, the user isn't exposed to some unexpected orientation.
         //motionManager.resetReferenceFrame()
+        
     }
     
     
     
     func changeCurrentCameraFOV(of camera: SCNCamera, value: CGFloat) {
         if currentCameraMagnification >= 1.025 {
+            
             currentCameraMagnification  = 1.025
+            
         }
+        
         if currentCameraMagnification <= 0.97 {
+            
             currentCameraMagnification  = 0.97
+            
         }
         
         //let maximumFOV: CGFloat = 25 // Zoom-in.
@@ -399,42 +411,65 @@ class SpacecraftCameraState: ObservableObject {
         camera.fieldOfView /= currentCameraMagnification
         
         if camera.fieldOfView <= maximumCurrentCameraFOV {
+            
             camera.fieldOfView          = maximumCurrentCameraFOV
             currentCameraMagnification  = 1.0
+            
         }
+        
         if camera.fieldOfView >= minimumCurrentCameraFOV {
+            
             camera.fieldOfView          = minimumCurrentCameraFOV
             currentCameraMagnification  = 1.0
+            
         }
+        
     }
     
     
     
     func resetCurrentCameraFOV(of currentCamera: SCNCamera, screenWdith: UserInterfaceSizeClass) {
-        print("\(#function) resetting cameraFOV")
-        print("\(#function) current camera: \(String(describing: currentCamera.name)) FOV: \(currentCamera.fieldOfView)")
-        print("\(#function) current screenWidth size class: \(screenWidth)")
+        //print("\(#function) resetting cameraFOV")
+        //print("\(#function) current camera: \(String(describing: currentCamera.name)) FOV: \(currentCamera.fieldOfView)")
+        //print("\(#function) current screenWidth size class: \(screenWidth)")
         
         
         if currentCamera.name == SpacecraftCamera.spacecraftChase360Camera.rawValue {
+            
             if screenWdith == .compact {
+                
                 currentCamera.fieldOfView = 45
+                
             }
+            
             if screenWdith == .regular {
+                
                 currentCamera.fieldOfView = 50
+                
             }
+            
             print("spacecraftChase360Camera FOV: \(currentCamera.fieldOfView)")
+            
         }
         
         if currentCamera.name == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
+            
             if screenWdith == .compact {
+                
                 currentCamera.fieldOfView = 35
+                
             }
+            
             if screenWdith == .regular {
+                
                 currentCamera.fieldOfView = 45
+                
             }
+            
         }
+        
         print("spacecraftCommanderCamera FOV: \(currentCamera.fieldOfView)")
+        
     }
     
 }

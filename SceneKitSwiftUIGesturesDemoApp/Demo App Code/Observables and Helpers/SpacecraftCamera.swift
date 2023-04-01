@@ -17,8 +17,10 @@ CameraType enum member.
 */
 enum SpacecraftCamera: String
 {
+    
     case spacecraftCommanderCamera  = "OrionCommanderCameraNode"
     case spacecraftChase360Camera   = "OrionChase360CameraNode"
+    
 }
 
 

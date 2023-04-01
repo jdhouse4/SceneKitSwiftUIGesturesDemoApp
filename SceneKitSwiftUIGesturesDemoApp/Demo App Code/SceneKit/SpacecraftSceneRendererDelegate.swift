@@ -124,13 +124,13 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     */
     
     
-    func radians2Degrees(_ number: Float) -> Float {
+    fileprivate func radians2Degrees(_ number: Float) -> Float {
         return number * 180.0 / .pi
     }
     
     
     
-    func inertialCameraRotation() {
+    fileprivate func inertialCameraRotation() {
         
         Task {
             

@@ -112,7 +112,7 @@ struct SpacecraftSceneView: View {
     
     
     var body: some View {
-        //ZStack {
+
         SceneView (
             scene: spacecraft.spacecraftScene,
             pointOfView: spacecraft.spacecraftCurrentCamera,
@@ -137,7 +137,6 @@ struct SpacecraftSceneView: View {
             
         })
         
-        //}
         .onAppear {
             spacecraftDelegate.spacecraftCurrentCameraNode = spacecraft.spacecraftChase360CameraNode
             spacecraftCameraState.resetCurrentCameraFOV(of: spacecraft.spacecraftCurrentCamera.camera!, screenWdith: sizeClass!)

@@ -11,22 +11,26 @@ import CoreGraphics
 
 
 struct CircleButtonFlexible: ButtonStyle {
+    
     @Environment(\.horizontalSizeClass) var sizeClass
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(width: sizeClass == .compact ? CircleButtonSize.diameterCompact.rawValue : CircleButtonSize.diameter.rawValue,
                    height: sizeClass == .compact ? CircleButtonSize.diameterCompact.rawValue : CircleButtonSize.diameter.rawValue)
-            //.padding()
-            //.background(Color.secondary)
-            //.foregroundColor(Color.white)
+        //.padding()
+        //.background(Color.secondary)
+        //.foregroundColor(Color.white)
+        
     }
+    
 }
 
 
 
 
 enum CircleButtonSize: CGFloat {
+    
     // Regular Screen
     case center                             = 90
     case diameter                           = 60
@@ -38,7 +42,7 @@ enum CircleButtonSize: CGFloat {
     case cornerRadius                       = 28
     case spacer                             = 2
     case radialSpacer                       = 4
-
+    
     // Compact Screen
     case diameterCompact                    = 50
     case diameterWithSpacingCompact         = 52
@@ -47,22 +51,22 @@ enum CircleButtonSize: CGFloat {
     case radiusWithSpacingCompact           = 27
     case spacerCompact                      = 1
     case radiusWithRadialSpacingCompact     = 29
-
+    
     // Colors
     case primaryOpacity                     = 0.5
     case secondaryOpacity                   = 0.3
-
+    
     // Animation Speed
     case animationDebug                     = 1.5
     case animationSlow                      = 0.4
     case animationFast                      = 0.25
-
+    
     // Regular Screen
     case extendedHeight                     = 250
     case widthHeight                        = 200
     case halfWidthHeight                    = 100
     case buttonBottonPosition               = 170
-
+    
     // Compact Screen
     case extendedHeightCompact              = 190
     case innerExtendedHeightCompact         = 95
@@ -71,11 +75,13 @@ enum CircleButtonSize: CGFloat {
     case quarterExtendedHeightCompact       = 85
     case centerButtonTopPositionCompact     = -20 //53
     case centerButtonBottomPositionCompact  = 155 //165
+    
 }
 
 
 
 enum CircleButtonView: CGFloat {
+    
     // Regular Screen
     case extendedHeight                     = 250
     case widthHeight                        = 200
@@ -90,6 +96,7 @@ enum CircleButtonView: CGFloat {
     case quarterExtendedHeightCompact       = 85
     case centerButtonTopPositionCompact     = 53
     case centerButtonBottomPositionCompact  = 165
+    
 }
 
 
@@ -105,6 +112,7 @@ enum CircleButtonView: CGFloat {
  for this hack.
  */
 enum CircleButtonColor {
+    
     case background
     case main
     case selected
@@ -113,15 +121,18 @@ enum CircleButtonColor {
     case mainWithoutBackground
     case onWithoutBackground
     case offWithoutBackground
+    
 }
 
 
 
 
 extension CircleButtonColor: RawRepresentable {
+    
     typealias RawValue = Color
 
     init?(rawValue: RawValue) {
+        
         switch rawValue {
             case Color(#colorLiteral(red: 0.75, green: 0.75, blue: 0.75, alpha: 0.5)):
                 self = .background
@@ -142,10 +153,12 @@ extension CircleButtonColor: RawRepresentable {
             default:
                 return nil
         }
+        
     }
 
 
     var rawValue: RawValue {
+        
         switch self {
             case .background:
                 return Color(#colorLiteral(red: 0.75, green: 0.75, blue: 0.75, alpha: 0.5))
@@ -165,4 +178,5 @@ extension CircleButtonColor: RawRepresentable {
                 return Color(#colorLiteral(red: 0.9, green: 0.9, blue: 0.9, alpha: 0.75))
         }
     }
+    
 }
