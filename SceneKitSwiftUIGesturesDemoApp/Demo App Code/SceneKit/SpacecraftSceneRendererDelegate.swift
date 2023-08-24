@@ -40,14 +40,21 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     //
     // For switching cameras in the scene.
     //
-    @Published var spacecraftCurrentCamera: String          = SpacecraftCamera.spacecraftChase360Camera.rawValue
-    @Published var spacecraftCurrentCameraNode: SCNNode     = SCNNode()
+    //@Published var spacecraftCurrentCamera: String      = SpacecraftCamera.spacecraftChase360Camera.rawValue
+    @Published var spacecraftCurrentCamera: SCNNode     = SCNNode()
+    @Published var spacecraftCurrentCameraNode: SCNNode = SCNNode()
+
+    var spacecraftChase360CameraNode: SCNNode           = SCNNode()
+    var spacecraftChase360Camera: SCNNode               = SCNNode()
     
-    var changeCamera: Bool                          = false
+    var spacecraftCommanderCameraNode: SCNNode          = SCNNode()
+    var spacecraftCommanderCamera: SCNNode              = SCNNode()
+
+    var changeCamera: Bool                              = false
     
     var engineThrottle: Double?
     
-    var showsStatistics: Bool                       = false
+    var showsStatistics: Bool                           = false
     
     
     //
@@ -76,6 +83,11 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
         print("SpacecraftSceneRendererDelegate \(#function) spacecraftScene: \(spacecraftScene)")
         print("SpacecraftSceneRendererDelegate \(#function) spacecraftSceneNode: \(String(describing: spacecraftSceneNode.name))")
         
+        self.spacecraftCurrentCamera                = SpacecraftSceneKitScene.shared.spacecraftChase360Camera
+        self.spacecraftChase360Camera               = SpacecraftSceneKitScene.shared.spacecraftChase360Camera
+        self.spacecraftCommanderCameraNode          = SpacecraftSceneKitScene.shared.spacecraftCurrentCameraNode
+        self.spacecraftCommanderCamera              = SpacecraftSceneKitScene.shared.spacecraftCommanderCamera
+
     }
     
     
@@ -138,18 +150,22 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     
     
     func setCurrentCameraName(name: String) {
-
-        spacecraftCurrentCamera = name
-
+        
+        spacecraftCurrentCamera.name = name
+        print("\(#function) spacecraftCurrentCamera: \(spacecraftCurrentCamera)")
+        
     }
     
     
     
     func setCurrentCameraNode(node: SCNNode) {
-
+        
         spacecraftCurrentCameraNode = node
-
+        print("\(#function) spacecraftCurrentCameraNode: \(spacecraftCurrentCameraNode)")
+                
     }
+
+    
     
     /*
     func updateSpacecraftSceneNodeOrientation() -> Void {
@@ -166,7 +182,7 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     
     
     
-    fileprivate func inertialCameraRotation() {
+    func inertialCameraRotation() {
         
         Task {
             
@@ -185,13 +201,13 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
                     
                     var updatedCameraInertialEulerX = SpacecraftCameraState.shared.cameraInertialEulerX
                     var updatedCameraInertialEulerY = SpacecraftCameraState.shared.cameraInertialEulerY
-                    print("\(#function) Dampening updatedCameraInertialEulerX from cameraInertialEulerX = \(updatedCameraInertialEulerX)")
+                    //print("\(#function) Dampening updatedCameraInertialEulerX from cameraInertialEulerX = \(updatedCameraInertialEulerX)")
                     
                     if updatedCameraInertialEulerX > 0.0 {
                         //
                         // For updatedCameraInertialEulerX, swiping left is positive.
                         //
-                        print("\(#function) updatedCameraInertialEulerX is > 0.0")
+                        //print("\(#function) updatedCameraInertialEulerX is > 0.0")
                         
                         updatedCameraInertialEulerX     = updatedCameraInertialEulerX - updatedCameraInertialEulerX * 0.05
                         //print("\(#function) decreasing updatedCameraInertialEulerX \(updatedCameraInertialEulerX) by \(updatedCameraInertialEulerX - updatedCameraInertialEulerX * 0.05)")
@@ -224,7 +240,7 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
                     
                     if updatedCameraInertialEulerY > 0.0 {
                         
-                        print("\(#function) updatedCameraInertialEulerY is > 0.0")
+                        //print("\(#function) updatedCameraInertialEulerY is > 0.0")
                         
                         updatedCameraInertialEulerY     = updatedCameraInertialEulerY - updatedCameraInertialEulerY * 0.075
                         //print("\(#function) decreasing updatedCameraInertialEulerY \(updatedCameraInertialEulerY) by \(updatedCameraInertialEulerY - updatedCameraInertialEulerY * 0.025)")
@@ -239,23 +255,21 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
                         
                     } else {
                         
-                        print("\(#function) updatedCameraInertialEulerY is < 0.0")
+                        //print("\(#function) updatedCameraInertialEulerY is < 0.0")
                         
                         // Never forget that to subtract a negative from a negative, in this case the scaler needs to be...NEGATIVE!
                         updatedCameraInertialEulerY     = updatedCameraInertialEulerY + updatedCameraInertialEulerY * -0.075
-                        //print("\(#function) decreasing updatedCameraInertialEulerY \(updatedCameraInertialEulerY) by \(updatedCameraInertialEulerY + updatedCameraInertialEulerY * 0.025)")
                         
                         if updatedCameraInertialEulerY > -0.001 && updatedCameraInertialEulerY < 0.0 {
                             
                             updatedCameraInertialEulerY     = updatedCameraInertialEulerY + 0.0005
-                            //print("\(#function) decreasing updatedCameraInertialEulerY \(updatedCameraInertialEulerY) by \(updatedCameraInertialEulerY + 0.005)")
                             
                         }
                         
                     }
                     
-                    print("\(#function) updatedCameraInertialEulerX = \(updatedCameraInertialEulerX)")
-                    print("\(#function) updatedCameraInertialEulerY = \(updatedCameraInertialEulerY)")
+                    //print("\(#function) updatedCameraInertialEulerX = \(updatedCameraInertialEulerX)")
+                    //print("\(#function) updatedCameraInertialEulerY = \(updatedCameraInertialEulerY)")
                     
                     SpacecraftCameraState.shared.cameraInertialEulerX   = updatedCameraInertialEulerX
                     SpacecraftCameraState.shared.cameraInertialEulerY   = updatedCameraInertialEulerY
@@ -272,15 +286,15 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
                     // chase360CameraEulersInteriallyDampen to cease these operations.
                     //
                     SpacecraftCameraState.shared.chase360CameraEulersInertiallyDampen.toggle()
-                    print("\(#function) SpacecraftCameraState.shared.chase360CameraInertia = \(SpacecraftCameraState.shared.chase360CameraEulersInertiallyDampen)")
+                    //print("\(#function) SpacecraftCameraState.shared.chase360CameraInertia = \(SpacecraftCameraState.shared.chase360CameraEulersInertiallyDampen)")
                     
                 }
                 
-                print("\(#function) inertialElapsedTime: \(inertialElapsedTime)")
+                //print("\(#function) inertialElapsedTime: \(inertialElapsedTime)")
                 
             }
             
         }
     }
-    
+
 }

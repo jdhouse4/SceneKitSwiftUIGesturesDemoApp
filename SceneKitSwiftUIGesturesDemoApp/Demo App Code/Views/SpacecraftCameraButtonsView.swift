@@ -19,6 +19,7 @@ struct SpacecraftCameraButtonsView: View {
     @EnvironmentObject var spacecraft: SpacecraftSceneKitScene
     @EnvironmentObject var spacecraftDelegate: SpacecraftSceneRendererDelegate
     @EnvironmentObject var spacecraftCameraButton: SpacecraftCameraButton
+    @EnvironmentObject var spacecraftCameraState: SpacecraftCameraState
 
     @State private var spacecraftExteriorCamera = true
     @State private var spacecraftInteriorCamera = false
@@ -155,7 +156,8 @@ struct SpacecraftCameraButtonsView: View {
             self.spacecraft.spacecraftCurrentCamera.camera?.fieldOfView = 45.0
             self.spacecraftDelegate.setCurrentCameraName(name: spacecraft.spacecraftChase360CameraString)
             self.spacecraftDelegate.setCurrentCameraNode(node: spacecraft.spacecraftChase360CameraNode)
-            
+            spacecraftCameraState.resetCurrentCameraDistance(of: spacecraft.spacecraftCurrentCamera, screenWdith: sizeClass!)
+
         }
         
         

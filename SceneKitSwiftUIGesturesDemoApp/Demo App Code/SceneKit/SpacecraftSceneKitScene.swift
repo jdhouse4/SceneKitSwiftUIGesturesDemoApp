@@ -22,40 +22,42 @@ final class SpacecraftSceneKitScene: SCNScene, ObservableObject {
     var spacecraftSceneNode: SCNNode
     
     /// Aircraft camera strings (This should be an enum)
-    @Published var spacecraftNodeString             = "Orion_CSM_Node"
-    @Published var spacecraftChase360CameraString   = SpacecraftCamera.spacecraftChase360Camera.rawValue
-    @Published var spacecraftCommanderCameraString  = SpacecraftCamera.spacecraftCommanderCamera.rawValue
+    @Published var spacecraftNodeString                 = "Orion_CSM_Node"
+    @Published var spacecraftChase360CameraString       = SpacecraftCamera.spacecraftChase360Camera.rawValue
+    @Published var spacecraftCommanderCameraString      = SpacecraftCamera.spacecraftCommanderCamera.rawValue
 
     /// Spacecraft cameras
     @Published var spacecraftCurrentCamera: SCNNode
     
     @Published var spacecraftChase360Camera: SCNNode
     @Published var spacecraftCommanderCamera: SCNNode
+
     
     /// Spacecraft camera nodes
+    // Thses are published so that they are exposed to the Camera Buttons View for switching cameras.
     @Published var spacecraftCurrentCameraNode: SCNNode
     
     @Published var spacecraftChase360CameraNode: SCNNode
     @Published var spacecraftCommanderCameraNode: SCNNode
-    
+
 
     private override init() {
         print("SpacecraftScenekitScene private override initialized")
-        self.spacecraftSceneNode          = spacecraftScene.rootNode.childNode(withName: "Orion_CSM_Scene_Node", recursively: true)!
+        self.spacecraftSceneNode            = spacecraftScene.rootNode.childNode(withName: "Orion_CSM_Scene_Node", recursively: true)!
         
         //self.spacecraftNode               = spacecraftScene.rootNode.childNode(withName: "Orion_CSM_Node", recursively: true)!
         
-        self.spacecraftCurrentCamera        = spacecraftScene.rootNode.childNode(withName: "OrionChase360Camera", recursively: true)!
+        self.spacecraftCurrentCamera            = spacecraftScene.rootNode.childNode(withName: "OrionChase360Camera", recursively: true)!
         
-        self.spacecraftChase360Camera       = spacecraftScene.rootNode.childNode(withName: "OrionChase360Camera", recursively: true)!
+        self.spacecraftChase360Camera           = spacecraftScene.rootNode.childNode(withName: "OrionChase360Camera", recursively: true)!
         
-        self.spacecraftCommanderCamera      = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCamera", recursively: true)!
+        self.spacecraftCommanderCamera          = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCamera", recursively: true)!
         
-        self.spacecraftCurrentCameraNode    = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
+        self.spacecraftCurrentCameraNode        = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
         
-        self.spacecraftChase360CameraNode   = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
+        self.spacecraftChase360CameraNode       = spacecraftScene.rootNode.childNode(withName: "OrionChase360CameraNode", recursively: true)!
         
-        self.spacecraftCommanderCameraNode  = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCameraNode", recursively: true)!
+        self.spacecraftCommanderCameraNode      = spacecraftScene.rootNode.childNode(withName: "OrionCommanderCameraNode", recursively: true)!
 
         
         super.init()

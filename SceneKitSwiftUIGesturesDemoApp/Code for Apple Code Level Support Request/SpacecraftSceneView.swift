@@ -43,61 +43,67 @@ struct SpacecraftSceneView: View {
             .onChanged { value in
                 self.isDragging = true
                 
-                    if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
-                        
-                        spacecraftCameraState.changeChase360CameraOrientation(of: spacecraft.spacecraftCurrentCameraNode, with: value)
-                        
-                    }
+                //let dragValue = value.startLocation
+                
+                if spacecraftDelegate.spacecraftCurrentCamera.name == SpacecraftCamera.spacecraftChase360Camera.rawValue {
                     
-                    if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
-                        
-                        spacecraftCameraState.changeCommanderCameraOrientation(of: spacecraft.spacecraftCurrentCamera, with: value)
-                        
-                    }
+                    // This uses the spacecraft camera's node to change orientation, which is located at the point of the spacecraft.
+                    // In this way, we pivot, or reorient, around the spacecraft. Otherwise, as with the code below, the orientation would
+                    // be about the camera's node, which is the action we get for the interior camera.
+                    spacecraftCameraState.changeExteriorCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode, with: value)
+                    
+                }
+                
+                if spacecraftDelegate.spacecraftCurrentCamera.name == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
+                    
+                    spacecraftCameraState.changeInteriorCameraOrientation(of: spacecraft.spacecraftCurrentCamera, with: value)
+                    
+                }
                     
             }
             .onEnded { value in
                 
                 self.isDragging = false
+                
+                
+                if spacecraftDelegate.spacecraftCurrentCamera.name == SpacecraftCamera.spacecraftChase360Camera.rawValue {
                     
-                    if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
-                        
-                        // This sets Chase360Camera's euler angles to SpacecraftCameraState's @Published var to totalChase360CameraEulerAngles.
-                        spacecraftCameraState.updateCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode, with: value)
-                        
-                        // This tests whether the DragGesture was enough to cause inertia, and if so, sets chase360CameraEulersInertiallyDampen: Bool = true.
-                        spacecraftCameraState.chase360CameraInertia(of: spacecraft.spacecraftCurrentCameraNode, with: value)
-                        
-                    }
+                    // This sets Chase360Camera's euler angles to SpacecraftCameraState's @Published var to totalChase360CameraEulerAngles.
+                    spacecraftCameraState.updateCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode, with: value)
                     
-                    if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
-                        
-                        spacecraftCameraState.updateCameraOrientation(of: spacecraft.spacecraftCurrentCamera, with: value)
-                        
-                    }
+                    // This tests whether the DragGesture was enough to cause inertia, and if so, sets chase360CameraEulersInertiallyDampen: Bool = true.
+                    spacecraftCameraState.chase360CameraInertia(of: spacecraft.spacecraftCurrentCamera, with: value)
                     
+                }
+                
+                if spacecraftDelegate.spacecraftCurrentCamera.name == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
+                    
+                    spacecraftCameraState.updateCameraOrientation(of: spacecraft.spacecraftCurrentCamera, with: value)
+                    
+                }
+                
             }
     }
-    
+
     
     // Need a @State Bool to allow toggling when .allowsCameraControl is an option.
     var magnify: some Gesture {
         MagnificationGesture()
-            .onChanged{ (magnificationValue) in
+            .onChanged{ (distanceValue) in
                 
                 //
                 // Only zoom in/out in the external cameras, at least for now.
                 //
-                if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
+                if spacecraftDelegate.spacecraftCurrentCamera.name == SpacecraftCamera.spacecraftChase360Camera.rawValue {
                     
-                    spacecraftCameraState.currentCameraMagnification = magnificationValue
-                    //print("magnify = \(spacecraftCameraState.currentCameraMagnification)")
+                    print("\(#function) distanceValue: \(distanceValue)")
                     
-                    spacecraftCameraState.changeCurrentCameraFOV(of: spacecraft.spacecraftCurrentCamera.camera!, value: spacecraftCameraState.currentCameraMagnification)
-                    
+                    // This function tests the above value and, if out of bounds, sets it within, otherwise adjusting the value.
+                    spacecraftCameraState.changeCurrentCameraDistance(of: spacecraft.spacecraftCurrentCamera, value: Float(distanceValue))
+
                 }
             }
-            .onEnded{ magnificationValue in
+            .onEnded{ distanceValue in
                 
                 //print("Ended pinch with value \(magnificationValue)\n")
                 
@@ -121,15 +127,15 @@ struct SpacecraftSceneView: View {
         .gesture(exclusiveGesture)
         .onTapGesture(count: 2, perform: {
             
-            spacecraftCameraState.resetCurrentCameraFOV(of: spacecraft.spacecraftCurrentCamera.camera!, screenWdith: sizeClass!)
-            
-            if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftChase360Camera.rawValue {
+            spacecraftCameraState.resetCurrentCameraDistance(of: spacecraft.spacecraftCurrentCamera, screenWdith: sizeClass!)
+
+            if spacecraftDelegate.spacecraftCurrentCamera.name == SpacecraftCamera.spacecraftChase360Camera.rawValue {
                 
                 spacecraftCameraState.resetCameraOrientation(of: spacecraft.spacecraftCurrentCameraNode)
                 
             }
             
-            if spacecraftDelegate.spacecraftCurrentCamera == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
+            if spacecraftDelegate.spacecraftCurrentCamera.name == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
                 
                 spacecraftCameraState.resetCameraOrientation(of: spacecraft.spacecraftCurrentCamera)
                 
@@ -139,7 +145,7 @@ struct SpacecraftSceneView: View {
         
         .onAppear {
             spacecraftDelegate.spacecraftCurrentCameraNode = spacecraft.spacecraftChase360CameraNode
-            spacecraftCameraState.resetCurrentCameraFOV(of: spacecraft.spacecraftCurrentCamera.camera!, screenWdith: sizeClass!)
+            spacecraftCameraState.resetCurrentCameraDistance(of: spacecraft.spacecraftCurrentCamera, screenWdith: sizeClass!)
         }
     }
 }
