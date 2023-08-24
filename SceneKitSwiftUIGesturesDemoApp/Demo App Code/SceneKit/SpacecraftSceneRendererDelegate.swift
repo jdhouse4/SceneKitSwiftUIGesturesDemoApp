@@ -57,6 +57,8 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     var _deltaTime: TimeInterval                = 0.0
     var inertialElapsedTime: TimeInterval       = 0.0
     
+    var renderStep:UInt                         = 0
+    
     
     
     
@@ -83,7 +85,41 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     {
         renderer.showsStatistics = showsStatistics
         
-        //print("\(#function) running...running...running...")
+        //let fps     = _deltaTime / 60.0
+        
+        
+        //print("\(time)")
+        //print("\(#function) _deltaTime: \(_deltaTime)")
+        //print("\(#function) fps: \(1.0/fps)")
+        
+        renderStep += 1
+        
+        
+        // This is to ensure that the time is initialized properly for the simulator.
+        if _previousUpdateTime == 0.0
+        {
+            _previousUpdateTime     = time
+            //print("\(#function) setting _previousUpdateTime to time: \(time)\n")
+            
+        }
+        
+        _deltaTime  = time - _previousUpdateTime
+
+        if _deltaTime > 1.0 {
+            //
+            // Calculating if _deltaTime > 1.0 since last time _previousTime has been set to time and _deltaTime = 0.
+            //
+            //print("\n\(#function) Time to calculate eulers and roll rates.")
+            print("\(#function) _deltaTime: \(_deltaTime)")
+            
+            
+            // MARK: _deltaTime is reset to zero.
+            _previousUpdateTime = time
+            //print("\(#function) _previousTime: \(_previousUpdateTime)")
+            
+            print("\(#function) renderStep = \(renderStep)")
+            renderStep          = 0
+        }
         
         // MARK: This is where the the inertial effects on the camera are rendered.
         if SpacecraftCameraState.shared.chase360CameraEulersInertiallyDampen == true {
