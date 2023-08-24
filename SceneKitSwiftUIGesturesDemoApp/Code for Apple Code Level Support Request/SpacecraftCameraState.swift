@@ -20,7 +20,9 @@ class SpacecraftCameraState: ObservableObject {
     static var shared                                           = SpacecraftCameraState()
     
     private let screenWidth                                     = UIScreen.main.bounds.width
-        
+    
+    //private var motionManager: MotionManager                    = MotionManager.shared
+    
     @Published var currentCamera: SCNNode                       = SCNNode()
     @Published var updateCameraAttitude: Bool                   = false
     
@@ -200,6 +202,7 @@ class SpacecraftCameraState: ObservableObject {
         
         deltaTranslationLength      = simd_length(deltaTranslation)
         //print("\(#function) deltaTranslationLength: \(deltaTranslationLength)")
+        
     }
     
     
@@ -241,9 +244,10 @@ class SpacecraftCameraState: ObservableObject {
             // cameraInertialEulerX and cameraInertialEulerY are small enough to zero-out and cease Chase360Camera's euler angle changes.
             //
             chase360CameraEulersInertiallyDampen    = true
-            print("\(#function) chase360CameraEulersInertiallyDampen = \(chase360CameraEulersInertiallyDampen)")
+            //print("\(#function) chase360CameraEulersInertiallyDampen = \(chase360CameraEulersInertiallyDampen)")
             
         }
+        
     }
     
     
@@ -270,8 +274,8 @@ class SpacecraftCameraState: ObservableObject {
         
         cameraInertialEulerX        = Float(-2 * Double.pi) * translationWidthRatio // Yaw
         cameraInertialEulerY        = Float(Double.pi) * translationHeightRatio // Pitch
-        print("\(#function) cameraInertialEulerX: \(cameraInertialEulerX)")
-        print("\(#function) cameraInertialEulerY: \(cameraInertialEulerY)")
+        //print("\(#function) cameraInertialEulerX: \(cameraInertialEulerX)")
+        //print("\(#function) cameraInertialEulerY: \(cameraInertialEulerY)")
         
     }
     
@@ -332,7 +336,7 @@ class SpacecraftCameraState: ObservableObject {
         //
         // Determine the camera node for which to set the total euler angles.
         //
-        if currentCameraNode.name! + "Node" == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
+        if currentCameraNode.name! == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
             
             //print("\(#function) Current Camera Node is: \(currentCameraNode.name!)")
             
@@ -341,12 +345,12 @@ class SpacecraftCameraState: ObservableObject {
             //print("\(#function) totalCommanderCameraEulerAngles: \(String(describing: totalCommanderCameraEulerAngles))")
             
         }
-        if currentCameraNode.name! == SpacecraftCamera.spacecraftChase360Camera.rawValue {
+        if currentCameraNode.name! == SpacecraftCamera.spacecraftChase360Camera.rawValue + "Node" {
             
             print("\(#function) Current Camera Node is: \(currentCameraNode.name!)")
             
             totalChase360CameraEulerAngles      = currentCameraNode.simdEulerAngles
-            print("\(#function) totalChase360CameraEulerAngles: \(totalChase360CameraEulerAngles)")
+            //print("\(#function) totalChase360CameraEulerAngles: \(totalChase360CameraEulerAngles)")
             
             calculatePredictedAndEndTranslationDelta(value)
             
