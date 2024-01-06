@@ -20,9 +20,7 @@ class SpacecraftCameraState: ObservableObject {
     static var shared                                           = SpacecraftCameraState()
     
     private let screenWidth                                     = UIScreen.main.bounds.width
-    
-    //private var motionManager: MotionManager                    = MotionManager.shared
-    
+        
     @Published var currentCamera: SCNNode                       = SCNNode()
     @Published var updateCameraAttitude: Bool                   = false
     
