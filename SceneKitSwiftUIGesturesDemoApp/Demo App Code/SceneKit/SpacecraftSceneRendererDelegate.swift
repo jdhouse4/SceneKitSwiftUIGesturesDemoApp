@@ -182,6 +182,10 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     
     
     
+    //
+    // This function is in the render loop bc I can't think of a better place for calculating camera inertia and having that inertia
+    // displayed as the scene is rendered. Maybe I'll have an epiphany and think of a better way to do this. But...I wouldn't count on it.
+    //
     func inertialCameraRotation() {
         
         Task {
@@ -203,6 +207,11 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
                     var updatedCameraInertialEulerY = SpacecraftCameraState.shared.cameraInertialEulerY
                     //print("\(#function) Dampening updatedCameraInertialEulerX from cameraInertialEulerX = \(updatedCameraInertialEulerX)")
                     
+                    
+                    //
+                    // The rate at which inertia is dampened is crude here, but it works. But as inertial gets to a certain
+                    // rate, the dampening rate drops so that one doesn't overshoot the dampending and end-up with a spring-effect.
+                    //
                     if updatedCameraInertialEulerX > 0.0 {
                         //
                         // For updatedCameraInertialEulerX, swiping left is positive.
@@ -238,6 +247,14 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
                         
                     }
                     
+                    
+                    //
+                    // The rate at which inertia is dampened in the vertical direction is higher than horizontally because there's less
+                    // space on the screen vertically than horizontally. Granted, the height-width ratio isn't constant throughout the
+                    // Apple device world, so perhaps this rates should be related based on the actual ratio of a given device.
+                    //
+                    // Hey, I'm trying to ship an app, not be Archimedes.
+                    //
                     if updatedCameraInertialEulerY > 0.0 {
                         
                         //print("\(#function) updatedCameraInertialEulerY is > 0.0")

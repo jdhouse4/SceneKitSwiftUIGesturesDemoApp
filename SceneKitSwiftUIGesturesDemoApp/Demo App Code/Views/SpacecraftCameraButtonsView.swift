@@ -39,7 +39,7 @@ struct SpacecraftCameraButtonsView: View {
                     }
                 }) {
                     
-                    Image(systemName: spacecraftCameraButton.showCameraButtons ? "camera.fill" : "camera")
+                    Image("orion.cameras.fill")
                         .imageScale(.large)
                         .accessibility(label: Text("Cameras"))
                     
@@ -74,7 +74,7 @@ struct SpacecraftCameraButtonsView: View {
                             
                         }) {
                             
-                            Image(systemName: "airplane")
+                            Image("orion.360view.fill")
                                 .imageScale(.large)
                                 .opacity(self.spacecraftExteriorCamera == true ? 1.0 : 0.4)
                                 .accessibility(label: Text("Show Exterior Camera"))
@@ -111,7 +111,7 @@ struct SpacecraftCameraButtonsView: View {
                             
                         }) {
                             
-                            Image(systemName: "person.fill")
+                            Image("orionCmdrButton")
                                 .imageScale(.large)
                                 .opacity(spacecraftInteriorCamera == true ? 1.0 : 0.4)
                                 .accessibility(label: Text("Interior Camera"))
@@ -139,7 +139,8 @@ struct SpacecraftCameraButtonsView: View {
             .padding(.init(top: 5, leading: 5, bottom: 5, trailing: 5))
             
         }
-        
+        .tint(.white)
+
     }
 
 

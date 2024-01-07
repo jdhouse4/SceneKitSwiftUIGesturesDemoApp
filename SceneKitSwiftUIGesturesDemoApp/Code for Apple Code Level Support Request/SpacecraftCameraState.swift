@@ -21,36 +21,35 @@ class SpacecraftCameraState: ObservableObject {
     
     private let screenWidth                                     = UIScreen.main.bounds.width
         
+    // The current camera
     @Published var currentCamera: SCNNode                       = SCNNode()
-    @Published var updateCameraAttitude: Bool                   = false
     
+
     //
-    // These have to do with the camera's orientation, etc.
+    // These published properties have to do with the camera's orientation.
     //
-    //@Published var currentEulerAngles: simd_float3              = simd_float3()
+    @Published var cameraInertialEulerX: Float                  = Float()
+    @Published var cameraInertialEulerY: Float                  = Float()
     @Published var totalCommanderCameraEulerAngles: simd_float3 = simd_float3()
     @Published var totalChase360CameraEulerAngles: simd_float3  = simd_float3()
-    //@Published var currentCameraTransform: SCNMatrix4           = SCNMatrix4()
     
     
-    //
-    // This has to do with the camera's magnification, really FOV.
-    //
-    let maximumCurrentCameraFOV: CGFloat                        = 15 // Zoom-in. Was 25.
-    let minimumCurrentCameraFOV: CGFloat                        = 90 // Zoom-out.
-    @Published var currentCameraMagnification: CGFloat          = CGFloat(1.0)
+    // A published property for determining whether the camera's motion should be dampened.
+    @Published var chase360CameraEulersInertiallyDampen: Bool   = false
+
     
+    @Published var currentCameraDistance: Float                 = 14.0
+
+
     
     //
     // These parameters are for the camera distance.
     //
     let maximumCurrentCameraDistance: Float                     = 40.0
     let minimumCurrentCameraDistance: Float                     = 2.0
-    @Published var currentCameraDistance: Float                 = 14.0
+
     
     
-    
-    @Published var chase360CameraEulersInertiallyDampen: Bool   = false
     let decelerationRate: Float                                 = 1.0
     var endLocationX: Float                                     = Float()
     var endLocationY: Float                                     = Float()
@@ -60,29 +59,20 @@ class SpacecraftCameraState: ObservableObject {
     var deltaTranslationLength: Float                           = 0.0
     var decelerationTimeSteps: Float                            = 0.0
     
-    @Published var cameraInertialEulerX: Float                  = Float()
-    @Published var cameraInertialEulerY: Float                  = Float()
     
-    
+
     private init() { }
     
     
-    // MARK: -Change Camera Orientation
+    // MARK: -Change The Exterior Camera Orientation
     func changeExteriorCameraOrientation(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
         
         print("\n\(#function) currentCameraNode: \(currentCameraNode)")
         
-        //print("\(#function) currentCameraNode: \(currentCameraNode) Beginning Drag Locations: \(value.startLocation)")
-        
-        //print("\n")
-        
+
         //
-        // Exterior cameras have different needs than interior cameras in tracking translation changes.
+        // The translation on the screen for the drag gesture.
         //
-        //inertialStartLocation  = simd_float2(x: Float(value.location.x), y: Float(value.location.y))
-        //print("\(#function) inertialStartLocation: \(inertialStartLocation)")
-        
-        
         let translationX = Float( value.translation.width )
         let translationY = Float( value.translation.height )
         //print("\(#function) translationX: \(translationX)")
@@ -90,25 +80,34 @@ class SpacecraftCameraState: ObservableObject {
         
         
         //
-        // Using Euler Angles
+        // The ratio of the drag distance to the x and y width parameters of the screen.
         //
-        //print("\(#function) Beginning of DragGesture .onChanged of \(currentCameraNode.name!) simdEulerAngles: \(currentCameraNode.simdEulerAngles)")
-        //print("\(#function) Beginning of DragGesture .onChanged of \(currentCameraNode.name!) Total simdEulerAngles: \(totalChase360CameraEulerAngles)")
-        
         let translationWidthRatio   = translationX / Float(UIScreen.main.bounds.width)
         let translationHeightRatio  = translationY / (Float(UIScreen.main.bounds.height) * 2.0 ) // This is to slow-down pitch, which can be a pain when also yawing.
         //print("\(#function) translationWidthRatio: \(translationWidthRatio)")
         //print("\(#function) translationHeightRatio: \(translationHeightRatio)")
         
+        
+        //
+        // The Euler angle change in the x and y components of the screen from the resulting drag gesture.
+        //
         let cameraEulerX    = Float(-2 * Double.pi) * translationWidthRatio
         let cameraEulerY    = Float(Double.pi) * translationHeightRatio
         //print("\(#function) cameraEulerX: \(cameraEulerX)")
         //print("\(#function) cameraEulerY: \(cameraEulerY)")
         
         
+        //
+        // There is a mapping that the user needs to be aware of. The x-axis drag gesture corresponds to a rotation
+        // about the y-axis of the camera node in SceneKit.
+        //
         currentCameraNode.eulerAngles.y = cameraEulerX + totalChase360CameraEulerAngles.y
         //print("\(#function) \(currentCameraNode) euler.y: \(currentCameraNode.eulerAngles.y)")
         
+        
+        //
+        // The y-axis drag gesture corresponds to a rotation about the z-axis of the camera node in SceneKit.
+        //
         if abs(cameraEulerY + totalChase360CameraEulerAngles.z) > abs(Float(Double.pi / 2.0)) {
             
             //print("\(#function) Ooopsie! Angle too high.")
@@ -128,22 +127,17 @@ class SpacecraftCameraState: ObservableObject {
             currentCameraNode.eulerAngles.z = cameraEulerY + totalChase360CameraEulerAngles.z
             
         }
-        
-        
-        
-        
-        //print("\n\(#function) End of DragGesture .onChanged end translation \(value.translation)")
-        //print("\(#function) End of DragGesture .onChanged predicted end translation \(value.predictedEndTranslation)")
-        
-        //print("\n\(#function) End of DragGesture .onChanged end location \(value.location)")
-        //print("\(#function) End of DragGesture .onChanged predicted end location \(value.predictedEndLocation)")
-        //print("\(#function) End of DragGesture .onChanged simdEulerAngles: \(currentCameraNode.simdEulerAngles)")
+
         print("\(#function) End of DragGesture .onChanged of \(currentCameraNode.name!) Total simdEulerAngles: \(totalChase360CameraEulerAngles)")
         
     }
     
     
     
+    // MARK: -Change The Interior Camera Orientation
+    //
+    // This function is for changing the orientation of the interior camera that is inside the spacecraft.
+    //
     func changeInteriorCameraOrientation(of currentCameraNode: SCNNode, with value: DragGesture.Value) {
         
         //print("\n")
@@ -151,13 +145,6 @@ class SpacecraftCameraState: ObservableObject {
         
         let translationX = Float(value.translation.width)
         let translationY = Float(-value.translation.height)
-        
-        
-        //
-        // Using Euler Angles
-        //
-        //print("\(#function) Beginning of DragGesture .onChanged simdEulerAngles: \(currentCameraNode.simdEulerAngles)")
-        //print("\(#function) Beginning of DragGesture .onChanged of \(currentCameraNode.name!) Total simdEulerAngles: \(totalCommanderCameraEulerAngles)")
         
         let translationWidthRatio   = translationX / Float(UIScreen.main.bounds.width)
         let translationHeightRatio  = translationY / Float(UIScreen.main.bounds.height)
@@ -175,9 +162,10 @@ class SpacecraftCameraState: ObservableObject {
     
     
     
-    // MARK: Calculate delta between initial and final translation from touch
-    // Determine if the user's gesture was sufficient to indicate that there should be some camera inertia
-    // after the user lifts their finger.
+    // MARK: Calculate delta between actual and predicted translation from touch
+    // Determines the distance between the end of the drag gesture and the predicted end of the drag gesture
+    // when the user lifts their finger.
+    //
     fileprivate func calculatePredictedAndEndTranslationDelta(_ value: DragGesture.Value) {
         //
         // Record the DragGesture.Value parameters at the end of the swipe.
@@ -215,9 +203,7 @@ class SpacecraftCameraState: ObservableObject {
         //print("\n\(#function) currentCameraNode: \(currentCameraNode)")
         
         //print("\(#function) deltaTranslationLength: \(deltaTranslationLength)")
-        
-        //print("\(#function) deltaTranslationLength > 50: \(deltaTranslationLength > 50 ? "true" : "false")")
-        
+                
         
         //
         // If deltaTranslationLength is above a certain amount, then there needs to be inertial dampening of the
@@ -226,20 +212,19 @@ class SpacecraftCameraState: ObservableObject {
         if deltaTranslationLength > 50 {
             
             //
-            // We need to do some preliminary work here.
-            //
-            //calculateTimeSteps()
-            
-            //
-            // This calculates the values for cameraInertialEulerX and cameraInertialEulerY, which will be used in the SCNRendererDelegate
-            // to affect an inertially dampening of the change of the camera's euler angles.
+            // This calculates the values for cameraInertialEulerX and cameraInertialEulerY, which will be used 
+            // in the SCNRendererDelegate to affect an inertially dampening of the change of the camera's
+            // euler angles.
             //
             calculateCameraEulerAngles()
             
             //
             // Now that the preliminary work is done calculating cameraInertialEulerX and cameraInertialEulerY, setting
-            // chase360CameraEulersInertiallyDampen = true will trigger SCNRendererDelegate to call updateChase360CameraForInertia until
-            // cameraInertialEulerX and cameraInertialEulerY are small enough to zero-out and cease Chase360Camera's euler angle changes.
+            //
+            // chase360CameraEulersInertiallyDampen = true
+            //
+            // will trigger SCNRendererDelegate to call updateChase360CameraForInertia until cameraInertialEulerX
+            // and cameraInertialEulerY are small enough to zero-out and cease Chase360Camera's euler angle changes.
             //
             chase360CameraEulersInertiallyDampen    = true
             //print("\(#function) chase360CameraEulersInertiallyDampen = \(chase360CameraEulersInertiallyDampen)")
@@ -249,12 +234,17 @@ class SpacecraftCameraState: ObservableObject {
     }
     
     
+    
     // MARK: Calculate current camera euler angles
     // This will be needed in determining the dampening.
     fileprivate func calculateCameraEulerAngles() {
         //print("\(#function) Calculating the Chase360CameraInertia.")
         
         
+        //
+        // Currently fixed deceleration time steps are used since it was easiest to use. Perhaps someday, when I'm smarter, I'll create
+        // a more exotic second or third order function for deceleration.
+        //
         let deltaTranslationXStep   = Float( deltaTranslation.x) / 25.0 //decelerationTimeSteps
         let deltaTranslationYStep   = Float( deltaTranslation.y) / 25.0 //decelerationTimeSteps
         //print("\(#function) deltaTranslationXStep: \(deltaTranslationXStep)")
@@ -278,7 +268,8 @@ class SpacecraftCameraState: ObservableObject {
     }
     
     
-    // MARK: Update the camera for the euler angles instilled from inertia.
+    
+    // MARK: Update the exterior camera for the euler angles resulting from inertia.
     func updateChase360CameraForInertia(of currentCameraNode: SCNNode, with cameraInertialEulerX: Float, and cameraInertialEulerY: Float) {
         //print("\n\(#function) currentCameraNode: \(currentCameraNode)")
         
@@ -316,6 +307,7 @@ class SpacecraftCameraState: ObservableObject {
         totalChase360CameraEulerAngles      = currentCameraNode.simdEulerAngles
         
     }
+    
     
     
     // MARK: Update the final camera orientation.
@@ -360,8 +352,7 @@ class SpacecraftCameraState: ObservableObject {
     
     
     
-    // MARK: -Change Camera FOV (for magnification)
-    
+    // MARK: -Change Camera Distance (for zooming in and out)
     func resetCameraOrientation(of currentCameraNode: SCNNode) {
         //print("\n")
         //
@@ -397,63 +388,6 @@ class SpacecraftCameraState: ObservableObject {
     
     
     
-    func changeCurrentCameraFOV(of camera: SCNCamera, value: CGFloat) {
-        print("\(#function) camera: \(camera)")
-        
-        
-        if currentCameraMagnification >= 1.025 {
-            currentCameraMagnification  = 1.025
-        }
-        
-        if currentCameraMagnification <= 0.97 {
-            currentCameraMagnification  = 0.97
-        }
-        
-        camera.fieldOfView /= currentCameraMagnification
-        
-        if camera.fieldOfView <= maximumCurrentCameraFOV {
-            camera.fieldOfView          = maximumCurrentCameraFOV
-            currentCameraMagnification  = 1.0
-        }
-        
-        if camera.fieldOfView >= minimumCurrentCameraFOV {
-            camera.fieldOfView          = minimumCurrentCameraFOV
-            currentCameraMagnification  = 1.0
-        }
-        
-    }
-    
-    
-    
-    func resetCurrentCameraFOV(of currentCamera: SCNCamera, screenWdith: UserInterfaceSizeClass) {
-        //print("\(#function) resetting cameraFOV")
-        print("\n\(#function) currentCamera: \(String(describing: currentCamera)) FOV: \(currentCamera.fieldOfView)\n")
-        //print("\(#function) current screenWidth size class: \(screenWidth)")
-        
-        
-        if currentCamera.name == SpacecraftCamera.spacecraftChase360Camera.rawValue {
-            if screenWdith == .compact {
-                currentCamera.fieldOfView = 45
-            }
-            if screenWdith == .regular {
-                currentCamera.fieldOfView = 50
-            }
-            print("\(currentCamera) FOV: \(currentCamera.fieldOfView)")
-        }
-        
-        if currentCamera.name == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
-            if screenWdith == .compact {
-                currentCamera.fieldOfView = 35
-            }
-            if screenWdith == .regular {
-                currentCamera.fieldOfView = 45
-            }
-        }
-        print("\(currentCamera) FOV: \(currentCamera.fieldOfView)")
-    }
-    
-    
-    
     func changeCurrentCameraDistance(of camera: SCNNode, value: Float) {
         
         //
@@ -467,6 +401,10 @@ class SpacecraftCameraState: ObservableObject {
         //print("\(#function) currentCamera: \(currentCamera)")
         
         
+        //
+        // I will at some point create a more improved rate of change for camera distance relative to the object. This could be a first-order
+        // linear function for calculating a deltaCameraDistanceRateChange, which would be in place of the pow(blah, blah) I'm currently using.
+        //
         if value < 1.0 {
             
             // Moving the camera out
@@ -500,6 +438,10 @@ class SpacecraftCameraState: ObservableObject {
         
         print("\(#function) currentCameraDistance: \(currentCameraDistance)")
         
+        
+        //
+        // Max and min camera distance from the object.
+        //
         if currentCameraDistance >= 40.0 {
             
             currentCameraDistance  = 40.0
@@ -530,7 +472,6 @@ class SpacecraftCameraState: ObservableObject {
     
     
     func resetCurrentCameraDistance(of currentCamera: SCNNode, screenWdith: UserInterfaceSizeClass) {
-        //print("\(#function) resetting cameraFOV")
         print("\n\(#function) currentCamera: \(String(describing: currentCamera)).simdPosition: \(currentCamera.simdPosition.z)\n")
         //print("\(#function) current screenWidth size class: \(screenWidth)")
         
@@ -554,25 +495,7 @@ class SpacecraftCameraState: ObservableObject {
             
             print("\(currentCamera).simdPosition.z: \(currentCamera.simdPosition.z)")
         }
-        
-        /*
-         if currentCamera.name == SpacecraftCamera.spacecraftCommanderCamera.rawValue {
-         
-         if screenWdith == .compact {
-         
-         currentCamera.fieldOfView = 35
-         
-         }
-         
-         if screenWdith == .regular {
-         
-         currentCamera.fieldOfView = 45
-         
-         }
-         
-         }
-         print("\(currentCamera).simdPosition.z: \(currentCamera.fieldOfView)")
-         */
+
     }
     
 }
