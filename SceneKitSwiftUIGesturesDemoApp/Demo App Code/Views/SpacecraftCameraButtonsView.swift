@@ -111,7 +111,7 @@ struct SpacecraftCameraButtonsView: View {
                             
                         }) {
                             
-                            Image("orionCmdrButton")
+                            Image("orion.commander.fill")
                                 .imageScale(.large)
                                 .opacity(spacecraftInteriorCamera == true ? 1.0 : 0.4)
                                 .accessibility(label: Text("Interior Camera"))
