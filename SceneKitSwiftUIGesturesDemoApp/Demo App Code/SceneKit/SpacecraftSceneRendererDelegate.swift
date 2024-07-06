@@ -19,7 +19,7 @@ import SceneKit
  that allows for changes of the Scene to be rendereed on a reglar time interval. For our purposes, this will allow for the physics-based motion
  say due to firing of the spacecraft's RCS, to be displayed. Another would be to update the position after Runge-Kutta45 integration the state vector.
  */
-class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, ObservableObject {
+final class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, ObservableObject {
     
     //
     // "Main actor-isolated static property 'shared' can not be referenced from a non-isolated context"
@@ -93,7 +93,7 @@ class SpacecraftSceneRendererDelegate: NSObject, SCNSceneRendererDelegate, Obser
     
     
     @MainActor
-    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval)
+    func renderer(_ renderer: any SCNSceneRenderer, updateAtTime time: TimeInterval)
     {
         renderer.showsStatistics = showsStatistics
         
